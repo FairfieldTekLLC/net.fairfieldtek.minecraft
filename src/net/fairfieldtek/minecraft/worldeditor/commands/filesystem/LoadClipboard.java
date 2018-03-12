@@ -17,10 +17,33 @@
  */
 package net.fairfieldtek.minecraft.worldeditor.commands.filesystem;
 
+import net.fairfieldtek.minecraft.Initialization;
+import net.fairfieldtek.minecraft.worldeditor.commands.tasks.LoadClipboardTaskRequest;
+import net.fairfieldtek.minecraft.worldeditor.container.PlayerInfo;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
 /**
  *
  * @author geev
  */
-public class LoadClipboard {
+public class LoadClipboard implements CommandExecutor {
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (sender instanceof Player) {
+            Player player = (Player)sender;
+            if (args.length != 1) {
+                player.sendMessage("Usage: /fft.load <Schematic Name>");
+                return true;
+            }
+            PlayerInfo pi = Initialization.PlayerInfoList.get(player);
+            player.sendMessage(ChatColor.RED + "Requesting schematic load...");
+            new LoadClipboardTaskRequest(player.getUniqueId().toString(), pi.getLastAuth(), pi.getCurrentPath(), args[0]).runTaskAsynchronously((org.bukkit.plugin.Plugin)Initialization.Plugin);
+        }
+        return true;
+    } 
     
 }

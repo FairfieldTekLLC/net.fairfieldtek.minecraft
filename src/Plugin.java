@@ -1,5 +1,8 @@
 package net.fairfieldtek.minecraft;
 
+import net.fairfieldtek.minecraft.worldeditor.listeners.PlayerJoinListener;
+import org.bukkit.event.Listener;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 /*  Fairfield Tek L.L.C.
@@ -35,6 +38,7 @@ public class Plugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        this.getServer().getPluginManager().registerEvents((Listener) new PlayerJoinListener(), (org.bukkit.plugin.Plugin) this);
         Initialization.Initialize(this);
     }
 

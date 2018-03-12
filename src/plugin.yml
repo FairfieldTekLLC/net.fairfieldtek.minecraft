@@ -48,9 +48,6 @@ commands:
   fft.we.chunkregen:
     description: Regenerate Chunk
     usage: /fft.we.chunk.regen
-  fft.test:
-    description: Test
-    usage: /fft.test
   fft.reg:
     description: Register Email to Minecraft Account
     usage: /fft.reg 
@@ -60,4 +57,21 @@ commands:
   fft.login:
     description: Logs in the minecraft account into their repository
     usage: /fft.login
-  
+  fft.ls:
+    description:
+    usage: /fft.ls
+  fft.cd:
+    description:
+    usage: /fft.cd
+  fft.rm:
+    description:
+    usage: /fft.rm
+  fft.mk:
+    description:
+    usage: /fft.mk
+  fft.save:
+    description:
+    usage: /fft.save
+  fft.load:
+    description:
+    usage: /fft.load        

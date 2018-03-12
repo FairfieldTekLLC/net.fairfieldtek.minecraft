@@ -19,6 +19,7 @@ import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.MK;
 import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.RM;
 import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.Register;
 import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.SaveClipboard;
+import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.LoadClipboard;
 import net.fairfieldtek.minecraft.worldeditor.container.PlayerInfo;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
@@ -51,6 +52,7 @@ public class Initialization {
         plugin.getCommand("fft.rm").setExecutor((CommandExecutor) new RM());
         plugin.getCommand("fft.mk").setExecutor((CommandExecutor) new MK());
         plugin.getCommand("fft.save").setExecutor((CommandExecutor) new SaveClipboard());
+        plugin.getCommand("fft.load").setExecutor((CommandExecutor) new LoadClipboard());
     }
 
     public static void ShutDown() {
