@@ -1,0 +1,63 @@
+name: FairfieldTekMineCraft
+version: 1.0
+description: Test!
+author: TouchBar
+webite: http://www.fairfieldtek.com
+load: POSTWORLD
+
+softdepend:
+
+main: net.fairfieldtek.minecraft.Plugin
+
+commands:
+   # Replace "kit" with the name of your command.
+commands:
+  fft.we.select:
+    description: Sets a selection point
+    usage: /fft.we.select
+  fft.we.print:
+    description: Prints your selection
+    usage: /fft.we.print
+  fft.we.clear:
+    description: Clears the buffers and selections
+    usage: /fft.we.clear
+  fft.we.paste:
+    description: Pastes your buffer
+    usage: /fft.we.paste
+  fft.we.copy:
+    description: Copies your selection to the buffer
+    usage: /fft.we.copy    
+  fft.we.undo:
+    description: Undoes your last paste
+    usage: /fft.we.undo        
+  fft.we.in:
+    description: Inspects the block
+    usage: /fft.we.in
+  fft.we.rot:
+    description: Rotates a block
+    usage: /fft.we.rot
+  fft.we.rotate:
+    description: Rotates a block
+    usage: /fft.we.rotate
+  fft.we.del:
+    description: deletes selection
+    usage: /fft.we.del    
+  fft.we.delete:
+    description: Deletes Selection
+    usage: /fft.we.delete
+  fft.we.chunkregen:
+    description: Regenerate Chunk
+    usage: /fft.we.chunk.regen
+  fft.test:
+    description: Test
+    usage: /fft.test
+  fft.reg:
+    description: Register Email to Minecraft Account
+    usage: /fft.reg 
+  fft.auth:
+    description: Send Authentication Code to Email
+    usage: /fft.auth
+  fft.login:
+    description: Logs in the minecraft account into their repository
+    usage: /fft.login
+  
