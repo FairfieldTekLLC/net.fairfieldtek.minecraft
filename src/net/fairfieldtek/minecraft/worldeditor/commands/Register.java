@@ -8,17 +8,22 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class Register
-implements CommandExecutor {
+        implements CommandExecutor {
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
-            Player player = (Player)sender;
+            Player player = (Player) sender;
+            if (Initialization.PlayerInfoList.get(player).getIsProcessing()) {
+                player.sendMessage("Please wait for last command to finish.");
+                return true;
+            }
             if (args.length != 1) {
                 player.sendMessage("Usage: /fft.reg <EmailAddress>");
             }
-            new RegisterTaskRequest(player, args[0]).runTaskAsynchronously((org.bukkit.plugin.Plugin)Initialization.Plugin);
+            Initialization.PlayerInfoList.get(player).setIsProcessing(true,"Register");
+            new RegisterTaskRequest(player, args[0]).runTaskAsynchronously((org.bukkit.plugin.Plugin) Initialization.Plugin);
         }
         return true;
     }
 }
-

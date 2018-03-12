@@ -9,12 +9,19 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class Delete
-implements CommandExecutor {
+        implements CommandExecutor {
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        Player player = (Player)sender;
+        Player player = (Player) sender;
         if (player.hasPermission("fft.we.editor") || player.isOp()) {
             try {
+                if (Initialization.PlayerInfoList.get(player).getIsProcessing()) {
+                    player.sendMessage("Please wait for last command to finish.");
+                    return true;
+                }
+                Initialization.PlayerInfoList.get(player).setIsProcessing(true,"Delete");
+                
                 if (!Initialization.PlayerInfoList.containsKey(player)) {
                     player.sendMessage("Select something first!");
                 }
@@ -23,13 +30,13 @@ implements CommandExecutor {
                 }
                 player.sendMessage(ChatColor.RED + "Starting Delete Procedure...");
                 DeleteTask ut = new DeleteTask(player);
-                ut.runTaskTimer((org.bukkit.plugin.Plugin)Initialization.Plugin, 1, 15);
-            }
-            catch (Exception ut) {
+
+                ut.runTaskTimer((org.bukkit.plugin.Plugin) Initialization.Plugin, 1, 15);
+
+            } catch (Exception ut) {
                 // empty catch block
             }
         }
         return true;
     }
 }
-

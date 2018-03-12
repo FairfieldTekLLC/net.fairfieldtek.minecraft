@@ -39,11 +39,13 @@ public class LoadClipBoardTaskResponse
 
     @Override
     public void run() {
+        
         Player player = Initialization.Plugin.getServer().getPlayer(UUID.fromString(this.Response.getUuid()));
+        
         if (player == null) {
             return;
         }
-        
+        Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Load Clipboard");
         PlayerInfo pi =  Initialization.PlayerInfoList.get(player);
         pi.setLastAuth(this.Response.getLastAuth());
         pi.SelectEnd=null;

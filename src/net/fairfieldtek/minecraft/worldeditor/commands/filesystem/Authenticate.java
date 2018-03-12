@@ -9,15 +9,24 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class Authenticate
-implements CommandExecutor {
+        implements CommandExecutor {
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
-            Player player = (Player)sender;
-            new AuthenticateTaskRequest(player).runTaskAsynchronously((org.bukkit.plugin.Plugin)Initialization.Plugin);
-            player.sendMessage(ChatColor.RED + "Authenticating against Library...");
+            Player player = (Player) sender;
+            
+            if (Initialization.PlayerInfoList.get(player).getIsProcessing())
+            {
+                player.sendMessage("Please wait for last command to finish.");
+                return true;
+            }
+            Initialization.PlayerInfoList.get(player).setIsProcessing(true, "Authenticate");
+            
+            new AuthenticateTaskRequest(player).runTaskAsynchronously((org.bukkit.plugin.Plugin) Initialization.Plugin);
+            
+            player.sendMessage("Authenticating against Library...");
         }
         return true;
     }
 }
-

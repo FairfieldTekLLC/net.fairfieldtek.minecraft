@@ -39,6 +39,12 @@ public class LoadClipboard implements CommandExecutor {
                 player.sendMessage("Usage: /fft.load <Schematic Name>");
                 return true;
             }
+             if (Initialization.PlayerInfoList.get(player).getIsProcessing())
+            {
+                player.sendMessage("Please wait for last command to finish.");
+                return true;
+            }
+            Initialization.PlayerInfoList.get(player).setIsProcessing(true, "LoadClipboard");
             PlayerInfo pi = Initialization.PlayerInfoList.get(player);
             player.sendMessage(ChatColor.RED + "Requesting schematic load...");
             new LoadClipboardTaskRequest(player.getUniqueId().toString(), pi.getLastAuth(), pi.getCurrentPath(), args[0]).runTaskAsynchronously((org.bukkit.plugin.Plugin)Initialization.Plugin);

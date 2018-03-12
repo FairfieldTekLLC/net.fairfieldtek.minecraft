@@ -23,6 +23,7 @@ public class LoginTaskResponse
         }
         Player player = Initialization.Plugin.getServer().getPlayer(UUID.fromString(this.LoginResponse.getUuid()));
         if (player != null) {
+            Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Login");
             PlayerInfo pi = Initialization.PlayerInfoList.get(player);
             if (this.LoginResponse.getIsAuthorized()) {
                 pi.setLastAuth(this.LoginResponse.getLastAuth());

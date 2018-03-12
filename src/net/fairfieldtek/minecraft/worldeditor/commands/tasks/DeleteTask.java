@@ -103,6 +103,7 @@ public class DeleteTask
                 this.X = this.sx;
                 --this.Y;
             }
+            Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Delete");
             player.sendMessage("Finished Deleting Blocks.");
         } catch (Exception player) {
             // empty catch block

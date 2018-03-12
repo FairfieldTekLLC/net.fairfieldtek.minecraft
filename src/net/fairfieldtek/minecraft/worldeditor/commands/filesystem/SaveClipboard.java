@@ -19,6 +19,12 @@ implements CommandExecutor {
                 player.sendMessage("Usage: /fft.Save <Schematic Name>");
                 return true;
             }
+             if (Initialization.PlayerInfoList.get(player).getIsProcessing())
+            {
+                player.sendMessage("Please wait for last command to finish.");
+                return true;
+            }
+            Initialization.PlayerInfoList.get(player).setIsProcessing(true, "SaveClipboard");
             PlayerInfo pi = Initialization.PlayerInfoList.get(player);
             player.sendMessage(ChatColor.RED + "Requesting schematic save...");
             new SaveClipboardTaskRequest(player.getUniqueId().toString(), pi.getLastAuth(), pi.getCurrentPath(), pi.ClipBoard, args[0]).runTaskAsynchronously((org.bukkit.plugin.Plugin)Initialization.Plugin);

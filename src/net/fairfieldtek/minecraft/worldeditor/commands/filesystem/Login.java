@@ -17,6 +17,12 @@ implements CommandExecutor {
             if (args.length != 1) {
                 player.sendMessage("Usage: /fft.login <Auth Token>");
             }
+             if (Initialization.PlayerInfoList.get(player).getIsProcessing())
+            {
+                player.sendMessage("Please wait for last command to finish.");
+                return true;
+            }
+            Initialization.PlayerInfoList.get(player).setIsProcessing(true, "Login");
             player.sendMessage(ChatColor.RED + "Requesting Authentication....");
             new LoginTaskRequest(player, args[0]).runTaskAsynchronously((org.bukkit.plugin.Plugin)Initialization.Plugin);
         }

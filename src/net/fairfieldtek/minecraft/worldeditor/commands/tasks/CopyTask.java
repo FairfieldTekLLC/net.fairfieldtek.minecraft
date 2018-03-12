@@ -74,6 +74,7 @@ public class CopyTask
             }
             pi.ClipBoard = this.ClipBoard;
             player.sendMessage("Blocks Copied (" + pi.ClipBoard.size() + " blocks copied.)");
+            Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Copy");
             this.cancel();
         } catch (Exception e) {
             this.cancel();

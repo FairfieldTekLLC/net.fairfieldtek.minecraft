@@ -11,11 +11,16 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class Select
-implements CommandExecutor {
+        implements CommandExecutor {
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player;
-        if (sender instanceof Player && ((player = (Player)sender).hasPermission("fft.we.editor") || player.isOp())) {
+        if (sender instanceof Player && ((player = (Player) sender).hasPermission("fft.we.editor") || player.isOp())) {
+            if (Initialization.PlayerInfoList.get(player).getIsProcessing()) {
+                player.sendMessage("Please wait for last command to finish.");
+                return true;
+            }
             int x = 0;
             int y = 0;
             int z = 0;
@@ -31,22 +36,19 @@ implements CommandExecutor {
                 }
                 try {
                     x = Integer.parseInt(args[0]);
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     player.sendMessage("X value '" + args[0] + "' is not valid.");
                     return true;
                 }
                 try {
                     y = Integer.parseInt(args[1]);
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     player.sendMessage("Y value '" + args[1] + "' is not valid.");
                     return true;
                 }
                 try {
                     z = Integer.parseInt(args[2]);
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     player.sendMessage("Z value '" + args[2] + "' is not valid.");
                     return true;
                 }
@@ -71,4 +73,3 @@ implements CommandExecutor {
         return true;
     }
 }
-

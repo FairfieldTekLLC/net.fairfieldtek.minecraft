@@ -15,16 +15,19 @@ public class Clear
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player;
         if (sender instanceof Player && ((player = (Player) sender).hasPermission("fft.we.editor") || player.isOp())) {
-            if (Initialization.PlayerInfoList.containsKey(player)) {
-                PlayerInfo pi = Initialization.PlayerInfoList.get(player);
-                pi.SelectStart = null;
-                pi.SelectEnd = null;
-                pi.ClipBoard.clear();
-                player.sendMessage(ChatColor.RED + "Cleared Selection.");
+            if (Initialization.PlayerInfoList.get(player).getIsProcessing()) {
+                player.sendMessage("Please wait for last command to finish.");
                 return true;
             }
+            
+            PlayerInfo pi = Initialization.PlayerInfoList.get(player);
+            pi.SelectStart = null;
+            pi.SelectEnd = null;
+            pi.ClipBoard.clear();
+            player.sendMessage(ChatColor.RED + "Cleared Selection.");
             return true;
         }
-        return false;
+        return true;
+
     }
 }

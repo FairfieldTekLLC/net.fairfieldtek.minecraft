@@ -1,5 +1,6 @@
 package net.fairfieldtek.minecraft.worldeditor.commands;
 
+import net.fairfieldtek.minecraft.Initialization;
 import net.fairfieldtek.minecraft.Util.BlockUtil;
 import net.fairfieldtek.minecraft.Util.PlayerUtils;
 import net.fairfieldtek.minecraft.worldeditor.container.BlockDef;
@@ -12,25 +13,32 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class Rotate
-implements CommandExecutor {
+        implements CommandExecutor {
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player;
-        if (sender instanceof Player && ((player = (Player)sender).hasPermission("fft.we.editor") || player.isOp())) {
+        if (sender instanceof Player && ((player = (Player) sender).hasPermission("fft.we.editor") || player.isOp())) {
+            if (Initialization.PlayerInfoList.get(player).getIsProcessing()) {
+                player.sendMessage("Please wait for last command to finish.");
+                return true;
+            }
             int degrees;
             int z;
             Axis axis;
             int y;
             int x;
             Block block;
-            block28 : {
+            block28:
+            {
                 axis = Axis.N;
                 x = 0;
                 y = 0;
                 z = 0;
                 degrees = 0;
                 try {
-                    block29 : {
+                    block29:
+                    {
                         if (args[0].equals("X") || args[0].equals("x") || args[0].equals("Y") || args[0].equals("y") || args[0].equals("Z") || args[0].equals("z")) {
                             block = PlayerUtils.getTargetBlock(player, 10);
                             x = block.getX();
@@ -48,8 +56,7 @@ implements CommandExecutor {
                             try {
                                 degrees = Integer.parseInt(args[1]);
                                 break block28;
-                            }
-                            catch (Exception e) {
+                            } catch (Exception e) {
                                 player.sendMessage("valid formats: ");
                                 player.sendMessage("               /fft.we.rotate {Axis} {Degrees}");
                                 player.sendMessage("               /fft.we.rotate x y z {Axis} {degrees}");
@@ -58,8 +65,7 @@ implements CommandExecutor {
                         }
                         try {
                             x = Integer.parseInt(args[0]);
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             player.sendMessage("valid formats: ");
                             player.sendMessage("               /fft.we.rotate {Axis} {Degrees}");
                             player.sendMessage("               /fft.we.rotate x y z {Axis} {degrees}");
@@ -67,8 +73,7 @@ implements CommandExecutor {
                         }
                         try {
                             y = Integer.parseInt(args[1]);
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             player.sendMessage("valid formats: ");
                             player.sendMessage("               /fft.we.rotate {Axis} {Degrees}");
                             player.sendMessage("               /fft.we.rotate x y z {Axis} {degrees}");
@@ -76,8 +81,7 @@ implements CommandExecutor {
                         }
                         try {
                             z = Integer.parseInt(args[2]);
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             player.sendMessage("valid formats: ");
                             player.sendMessage("               /fft.we.rotate {Axis} {Degrees}");
                             player.sendMessage("               /fft.we.rotate x y z {Axis} {degrees}");
@@ -100,8 +104,7 @@ implements CommandExecutor {
                             player.sendMessage("               /fft.we.rotate {Axis} {Degrees}");
                             player.sendMessage("               /fft.we.rotate x y z {Axis} {degrees}");
                             return true;
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             player.sendMessage("valid formats: ");
                             player.sendMessage("               /fft.we.rotate {Axis} {Degrees}");
                             player.sendMessage("               /fft.we.rotate x y z {Axis} {degrees}");
@@ -110,15 +113,13 @@ implements CommandExecutor {
                     }
                     try {
                         degrees = Integer.parseInt(args[4]);
-                    }
-                    catch (Exception e) {
+                    } catch (Exception e) {
                         player.sendMessage("valid formats: ");
                         player.sendMessage("               /fft.we.rotate {Axis} {Degrees}");
                         player.sendMessage("               /fft.we.rotate x y z {Axis} {degrees}");
                         return true;
                     }
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     player.sendMessage("valid formats: ");
                     player.sendMessage("               /fft.we.rotate {Axis} {Degrees}");
                     player.sendMessage("               /fft.we.rotate x y z {Axis} {degrees}");
@@ -150,4 +151,3 @@ implements CommandExecutor {
     }
 
 }
-

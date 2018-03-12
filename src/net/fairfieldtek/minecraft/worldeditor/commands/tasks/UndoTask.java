@@ -56,6 +56,7 @@ public class UndoTask
         }
         try {
             player.sendMessage("Blocks undone (" + this.ClipBoardCount + ")");
+            Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Undo");
         } catch (Exception itm) {
             // empty catch block
         }

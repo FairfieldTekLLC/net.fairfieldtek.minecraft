@@ -10,11 +10,20 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class Copy
-implements CommandExecutor {
+        implements CommandExecutor {
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player;
-        if (sender instanceof Player && ((player = (Player)sender).hasPermission("fft.we.editor") || player.isOp())) {
+        if (sender instanceof Player && ((player = (Player) sender).hasPermission("fft.we.editor") || player.isOp())) {
+
+            if (Initialization.PlayerInfoList.get(player).getIsProcessing()) {
+                player.sendMessage("Please wait for last command to finish.");
+                return true;
+            }
+            
+            Initialization.PlayerInfoList.get(player).setIsProcessing(true,"Copy");
+
             if (Initialization.PlayerInfoList.containsKey(player)) {
                 int sbx;
                 int sez;
@@ -49,12 +58,14 @@ implements CommandExecutor {
                     sbz = pi.SelectStart.Z;
                 }
                 player.sendMessage(ChatColor.RED + "Starting Copy Procedure...");
+
                 CopyTask ct = new CopyTask(sbx, sex, sby, sey, sbz, sez, player.getUniqueId());
-                ct.runTaskTimer((org.bukkit.plugin.Plugin)Initialization.Plugin, 1, 15);
+                
+                ct.runTaskTimer((org.bukkit.plugin.Plugin) Initialization.Plugin, 1, 15);
+                
             }
             return true;
         }
         return false;
     }
 }
-

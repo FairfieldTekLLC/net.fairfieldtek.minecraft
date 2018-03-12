@@ -22,8 +22,10 @@ public class RmTaskResponse
         if (player == null) {
             return;
         }
+        
         Initialization.PlayerInfoList.get(player).setLastAuth(this.RmResponse.getLastAuth());
         Initialization.PlayerInfoList.get(player).setCurrentPath(this.RmResponse.getDirectoryPath());
+        Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Rm");
         if (!this.RmResponse.getWasSuccessful()) {
             player.sendMessage(ChatColor.RED + this.RmResponse.getMessage());
         } else {

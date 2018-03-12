@@ -12,6 +12,18 @@ public class PlayerInfo {
     public ArrayList<BlockDef> UndoBuffer = new ArrayList();
     public String Token;
     public boolean CancelLastAction = false;
+    
+    private boolean IsProcessing;
+    
+    public boolean getIsProcessing(){
+        System.out.println("Checking Busy? " + IsProcessing);
+        return this.IsProcessing;
+    }
+    public void setIsProcessing(boolean flag,String caller){
+        IsProcessing = flag;
+        System.out.println(caller + " is setting Busy: " + flag);
+    }
+    
 
     public String getCurrentPath() {
         return this.CurrentPath;

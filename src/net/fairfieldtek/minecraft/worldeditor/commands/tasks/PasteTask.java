@@ -102,6 +102,7 @@ public class PasteTask
         }
         pi.UndoBuffer = this.UndoBuffer;
         try {
+            Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Paste");
             player.sendMessage("Blocks Pasted (" + this.UndoBuffer.size() + ")");
         } catch (Exception itm) {
             // empty catch block

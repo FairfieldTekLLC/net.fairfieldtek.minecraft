@@ -19,6 +19,7 @@ public class AuthenticateTaskResponse
     public void run() {
         Player player = Initialization.Plugin.getServer().getPlayer(UUID.fromString(this.AuthenticateResponse.getUuid()));
         if (player != null) {
+            Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Authenticate");
             player.sendMessage("Registration: Message: " + this.AuthenticateResponse.getMessage());
         }
         this.cancel();

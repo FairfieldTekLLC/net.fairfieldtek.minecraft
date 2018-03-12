@@ -19,6 +19,12 @@ implements CommandExecutor {
                 player.sendMessage("Usage: /fft.rm <Directory>");
                 return true;
             }
+             if (Initialization.PlayerInfoList.get(player).getIsProcessing())
+            {
+                player.sendMessage("Please wait for last command to finish.");
+                return true;
+            }
+            Initialization.PlayerInfoList.get(player).setIsProcessing(true, "Rm");
             PlayerInfo pi = Initialization.PlayerInfoList.get(player);
             player.sendMessage(ChatColor.RED + "Requesting directory removal.");
             new RmTaskRequest(player.getUniqueId().toString(), pi.getLastAuth(), pi.getCurrentPath(), args[0]).runTaskAsynchronously((org.bukkit.plugin.Plugin)Initialization.Plugin);

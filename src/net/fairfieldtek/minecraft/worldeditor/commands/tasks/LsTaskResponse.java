@@ -24,6 +24,7 @@ public class LsTaskResponse
         if (player == null) {
             return;
         }
+        Initialization.PlayerInfoList.get(player).setIsProcessing(false,"LS");
         Initialization.PlayerInfoList.get(player).setLastAuth(this.LsResponse.getLastAuth());
         player.sendMessage(ChatColor.WHITE + "Displaying Directory Contents");
         

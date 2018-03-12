@@ -22,6 +22,7 @@ public class CdTaskResponse
         if (player == null) {
             return;
         }
+        Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Cd");
         Initialization.PlayerInfoList.get(player).setLastAuth(this.CdResponse.getLastAuth());
         Initialization.PlayerInfoList.get(player).setCurrentPath(this.CdResponse.getDirectoryPath());
         if (!this.CdResponse.getWasSuccessful()) {

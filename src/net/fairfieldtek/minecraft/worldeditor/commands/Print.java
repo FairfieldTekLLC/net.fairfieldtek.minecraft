@@ -8,12 +8,19 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class Print
-implements CommandExecutor {
+        implements CommandExecutor {
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player;
-        if (sender instanceof Player && ((player = (Player)sender).hasPermission("fft.we.editor") || player.isOp()) && Initialization.PlayerInfoList.containsKey(player)) {
+        if (sender instanceof Player && ((player = (Player) sender).hasPermission("fft.we.editor") || player.isOp()) && Initialization.PlayerInfoList.containsKey(player)) {
             PlayerInfo info = Initialization.PlayerInfoList.get(player);
+            if (Initialization.PlayerInfoList.get(player).getIsProcessing()) {
+                player.sendMessage("Please wait for last command to finish.");
+                return true;
+            }
+            
+            
             if (info.SelectStart != null) {
                 player.sendMessage("Start Position : " + info.SelectStart.toString());
             } else {
@@ -28,4 +35,3 @@ implements CommandExecutor {
         return true;
     }
 }
-

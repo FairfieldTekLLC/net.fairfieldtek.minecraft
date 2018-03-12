@@ -15,7 +15,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class Paste
-implements CommandExecutor {
+        implements CommandExecutor {
+
     private Block GetBlockByArgs(String[] args, Player player) {
         int z;
         int y;
@@ -25,22 +26,19 @@ implements CommandExecutor {
         }
         try {
             x = Integer.parseInt(args[0]);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             player.sendMessage("X value '" + args[0] + "' is not valid.");
             return null;
         }
         try {
             y = Integer.parseInt(args[1]);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             player.sendMessage("Y value '" + args[1] + "' is not valid.");
             return null;
         }
         try {
             z = Integer.parseInt(args[2]);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             player.sendMessage("Z value '" + args[2] + "' is not valid.");
             return null;
         }
@@ -95,11 +93,18 @@ implements CommandExecutor {
         }
         return Axis.N;
     }
-@Override
+
+    @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player;
-        if (sender instanceof Player && ((player = (Player)sender).hasPermission("fft.we.editor") || player.isOp())) {
+        if (sender instanceof Player && ((player = (Player) sender).hasPermission("fft.we.editor") || player.isOp())) {
             try {
+                if (Initialization.PlayerInfoList.get(player).getIsProcessing()) {
+                    player.sendMessage("Please wait for last command to finish.");
+                    return true;
+                }
+                Initialization.PlayerInfoList.get(player).setIsProcessing(true,"Paste");
+                
                 Axis axis = Axis.N;
                 double degrees = 0.0;
                 Block targetBlock = null;
@@ -148,9 +153,11 @@ implements CommandExecutor {
                 }
                 player.sendMessage(ChatColor.RED + "Starting Paste Procedure...");
                 PasteTask pt = new PasteTask(player, tLoc.getBlockX(), tLoc.getBlockY(), tLoc.getBlockZ(), axis, degrees);
-                pt.runTaskTimer((org.bukkit.plugin.Plugin)Initialization.Plugin, 1, 15);
-            }
-            catch (Exception e) {
+                
+                
+                pt.runTaskTimer((org.bukkit.plugin.Plugin) Initialization.Plugin, 1, 15);
+                
+            } catch (Exception e) {
                 player.sendMessage("Valid Formats for Paste are:");
                 player.sendMessage("                             /fft.we.paste");
                 player.sendMessage("                             /fft.we.paste {Rotation} {Degrees}");
@@ -161,4 +168,3 @@ implements CommandExecutor {
         return true;
     }
 }
-
