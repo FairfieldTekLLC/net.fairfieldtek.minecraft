@@ -37,7 +37,11 @@ public class PasteTask
 
     @Override
     public void run() {
+        
         Player player = Initialization.Plugin.getServer().getPlayer(this.PlayerId);
+        
+        try
+        {
         PlayerInfo pi = Initialization.PlayerInfoList.get(player);
         if (pi.CancelLastAction) {
             pi.CancelLastAction = false;
@@ -100,13 +104,17 @@ public class PasteTask
             BlockUtil.SetBlock(changeBlock, itm, player, false);
             iter.remove();
         }
+        
+        
         pi.UndoBuffer = this.UndoBuffer;
-        try {
-            Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Paste");
+        
             player.sendMessage("Blocks Pasted (" + this.UndoBuffer.size() + ")");
-        } catch (Exception itm) {
-            // empty catch block
+        } catch (Exception e) {
+            System.out.println(e.getLocalizedMessage());
+            System.out.println(e.getMessage());
+            
         }
+        Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Paste");
         this.cancel();
     }
 

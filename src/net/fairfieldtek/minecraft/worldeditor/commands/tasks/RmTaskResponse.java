@@ -29,7 +29,7 @@ public class RmTaskResponse
         if (!this.RmResponse.getWasSuccessful()) {
             player.sendMessage(ChatColor.RED + this.RmResponse.getMessage());
         } else {
-            player.sendMessage(ChatColor.YELLOW + "Folder Removed.");
+            player.sendMessage(ChatColor.YELLOW + this.RmResponse.getMessage());
         }
         player.sendMessage("Current Directory: " + this.RmResponse.getDirectoryPath());
         this.cancel();

@@ -22,7 +22,12 @@ public class SaveClipboardTaskResponse
         if (player == null) {
             return;
         }
-        Initialization.PlayerInfoList.get(player).setIsProcessing(false,"SaveClipboard");
+        
+        if (Response.getFinal()){
+        Initialization.PlayerInfoList.get(player).setIsProcessing(false,"SaveClipboard");    
+        }
+        
+        
         Initialization.PlayerInfoList.get(player).setLastAuth(this.Response.getLastAuth());
         if (!this.Response.getWasSuccessful()) {
             player.sendMessage(ChatColor.YELLOW + "File not saved.");

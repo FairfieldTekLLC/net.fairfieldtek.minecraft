@@ -36,7 +36,7 @@ public class AuthenticateTaskRequest
             StringEntity params = new StringEntity(body);
             request.addHeader("content-type", "application/json");
             request.setEntity(params);
-            RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(60000).setConnectTimeout(60000).setConnectionRequestTimeout(60000).build();
+            RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(120000).setConnectTimeout(120000).setConnectionRequestTimeout(120000).build();
             request.setConfig(requestConfig);
             CloseableHttpResponse result = httpClient.execute(request);
             String json = EntityUtils.toString(result.getEntity(), "UTF-8");

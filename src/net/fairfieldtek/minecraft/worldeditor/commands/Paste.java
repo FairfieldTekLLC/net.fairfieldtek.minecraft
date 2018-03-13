@@ -103,6 +103,12 @@ public class Paste
                     player.sendMessage("Please wait for last command to finish.");
                     return true;
                 }
+                if (Initialization.PlayerInfoList.get(player).ClipBoard.size()==0)
+                {
+                     player.sendMessage("Nothing in clipboard.");
+                     Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Paste");
+                     return true;
+                }
                 Initialization.PlayerInfoList.get(player).setIsProcessing(true,"Paste");
                 
                 Axis axis = Axis.N;
