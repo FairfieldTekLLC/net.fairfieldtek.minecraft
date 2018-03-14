@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.material.Bed;
+
 import org.bukkit.material.Directional;
 import org.bukkit.material.Ladder;
 import org.bukkit.material.MaterialData;
@@ -615,10 +616,10 @@ public class BlockDef {
         }
 
         try {
-            MaterialData d = sourceBlock.getState().getData();
-            DyeColor dye =  ((Colorable)((Bed)d)).getColor();
 
-            //  DyeColor d = ((Colorable)((Bed)sourceBlock.getState())).getColor();
+            
+
+              DyeColor dye = ((org.bukkit.block.Bed)sourceBlock.getState()).getColor();
             System.out.println("---------------> Color " + dye.name());
         } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
