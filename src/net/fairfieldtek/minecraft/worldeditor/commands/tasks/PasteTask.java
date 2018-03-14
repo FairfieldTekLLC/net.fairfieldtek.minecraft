@@ -15,6 +15,15 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class PasteTask
         extends BukkitRunnable {
 
+    
+    /*
+    Todo:  Need to make this two pass,
+    First Pass: render everything but Beds,
+    Second Pass: render beds
+    Need to research if any other objects use two blocks to represent itself.
+    */
+    
+    
     ArrayList<BlockDef> ClipBoard = new ArrayList();
     ArrayList<BlockDef> UndoBuffer = new ArrayList();
     UUID PlayerId;
@@ -74,7 +83,9 @@ public class PasteTask
                         if (itm.getBlockFaceCode().equals("")) {
                             break;
                         }
-                        itm = BlockUtil.GetRotX(itm, (int) this.Degrees);
+                        
+                        itm.GetRotX((int) this.Degrees);
+                        
                         break;
                     }
                     case Y: {
@@ -83,7 +94,8 @@ public class PasteTask
                         if (itm.getBlockFaceCode().equals("")) {
                             break;
                         }
-                        itm = BlockUtil.GetRotY(itm, (int) this.Degrees);
+                        itm.GetRotY((int) this.Degrees);
+                        //itm = BlockUtil.GetRotY(itm, (int) this.Degrees);
                         break;
                     }
                     case Z: {
@@ -92,7 +104,9 @@ public class PasteTask
                         if (itm.getBlockFaceCode().equals("")) {
                             break;
                         }
-                        itm = BlockUtil.GetRotZ(itm, (int) this.Degrees);
+                        itm.GetRotZ((int) this.Degrees);
+                        
+                        //itm = BlockUtil.GetRotZ(itm, (int) this.Degrees);
                     }
                 }
             }

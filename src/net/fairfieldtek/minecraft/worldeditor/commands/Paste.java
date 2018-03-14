@@ -153,6 +153,7 @@ public class Paste
                 }
                 Location tLoc = targetBlock.getLocation();
                 if (!(axis != Axis.X && axis != Axis.Z || force)) {
+                    Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Paste");
                     player.sendMessage("WARNING!!! The ONLY SAFE rotation is on the Y axis, put an 'f' at the end to force the rotation.");
                     player.sendMessage("ABORTING COPY");
                     return true;

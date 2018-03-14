@@ -133,15 +133,15 @@ public class Rotate
             BlockDef blockDef = BlockUtil.GetBlockDef(block, 0, 0, 0, player);
             switch (axis) {
                 case X: {
-                    blockDef = BlockUtil.GetRotX(blockDef, degrees);
+                    blockDef.GetRotX( degrees);
                     break;
                 }
                 case Y: {
-                    blockDef = BlockUtil.GetRotY(blockDef, degrees);
+                     blockDef.GetRotY( degrees);
                     break;
                 }
                 case Z: {
-                    blockDef = BlockUtil.GetRotZ(blockDef, degrees);
+                     blockDef.GetRotZ( degrees);
                 }
             }
             BlockUtil.SetBlock(block, blockDef, player, false);

@@ -56,6 +56,7 @@ public class CopyTask
                 while (this.cx <= this.sex) {
                     while (this.cz <= this.sez) {
                         this.ClipBoard.add(BlockUtil.GetBlockDef(world.getBlockAt(this.cx, this.cy, this.cz), this.sbx, this.sby, this.sbz, player));
+                        ++this.cz;
                         if (++counter > 32000) {
                             try {
                                 player.sendMessage("Copied " + this.ClipBoard.size() + " blocks so far.. waiting..");
@@ -64,7 +65,7 @@ public class CopyTask
                             }
                             return;
                         }
-                        ++this.cz;
+                        
                     }
                     ++this.cx;
                     this.cz = this.sbz;

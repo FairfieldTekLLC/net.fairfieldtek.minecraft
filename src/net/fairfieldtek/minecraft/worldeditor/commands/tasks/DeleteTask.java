@@ -73,10 +73,9 @@ public class DeleteTask
                 this.cancel();
             }
             PlayerInfo pi = Initialization.PlayerInfoList.get(player);
-            if (pi.CancelLastAction) {
-                pi.CancelLastAction = false;
-                this.cancel();
-            }
+            
+            pi.ClipBoard.clear();
+            
             World world = player.getWorld();
             int counter = 0;
             while (this.Y >= this.ey) {
@@ -94,6 +93,9 @@ public class DeleteTask
                         this.EmptyDef.setY(this.Y);
                         this.EmptyDef.setZ(this.Z);
                         Block changeBlock = world.getBlockAt(this.X, this.Y, this.Z);
+                        
+                        pi.ClipBoard.add(BlockUtil.GetBlockDef(changeBlock, this.X, this.Y, this.Z, player));
+                        
                         BlockUtil.SetBlock(changeBlock, this.EmptyDef, player, true);
                         --this.Z;
                     }
