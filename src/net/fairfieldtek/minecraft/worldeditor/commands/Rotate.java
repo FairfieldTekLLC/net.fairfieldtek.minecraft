@@ -3,8 +3,9 @@ package net.fairfieldtek.minecraft.worldeditor.commands;
 import net.fairfieldtek.minecraft.Initialization;
 import net.fairfieldtek.minecraft.Util.BlockUtil;
 import net.fairfieldtek.minecraft.Util.PlayerUtils;
-import net.fairfieldtek.minecraft.worldeditor.container.BlockDef;
+import net.fairfieldtek.minecraft.worldeditor.container.*;
 import net.fairfieldtek.minecraft.worldeditor.enumeration.Axis;
+
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -130,7 +131,14 @@ public class Rotate
                 y = player.getWorld().getMaxHeight();
             }
             block = player.getWorld().getBlockAt(x, y, z);
-            BlockDef blockDef = BlockUtil.GetBlockDef(block, 0, 0, 0, player);
+            
+            SchematicDef def = new SchematicDef();
+            BlockDef blockDef = def.AddBlock(block, 0,0,0, player);
+            
+            
+            //BlockDef blockDef = BlockUtil.GetBlockDef(block, 0, 0, 0, player);
+            
+            
             switch (axis) {
                 case X: {
                     blockDef.GetRotX( degrees);
@@ -144,7 +152,8 @@ public class Rotate
                      blockDef.GetRotZ( degrees);
                 }
             }
-            BlockUtil.SetBlock(block, blockDef, player, false);
+            blockDef.SetBlock(block, player, false);
+            //BlockUtil.SetBlock(block, blockDef, player, false);
             player.sendMessage(ChatColor.RED + "Rotation Complete.");
         }
         return true;

@@ -11,19 +11,22 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import net.fairfieldtek.minecraft.worldeditor.container.SchematicDef;
 
 public class UndoTask
         extends BukkitRunnable {
 
-    ArrayList<BlockDef> ClipBoard = new ArrayList();
+    SchematicDef SchematicClip;
+    
+    //ArrayList<BlockDef> ClipBoard = new ArrayList();
     UUID PlayerId;
     int ClipBoardCount = 0;
 
     public UndoTask(Player player) {
         this.PlayerId = player.getUniqueId();
         PlayerInfo pi = Initialization.PlayerInfoList.get(player);
-        this.ClipBoard = pi.UndoBuffer;
-        this.ClipBoardCount = this.ClipBoard.size();
+        this.SchematicClip = pi.UndoSchematic;
+        this.ClipBoardCount = this.SchematicClip.Size();
     }
 
     @Override
@@ -39,11 +42,11 @@ public class UndoTask
         }
         World world = player.getWorld();
         int counter = 0;
-        ListIterator<BlockDef> iter = this.ClipBoard.listIterator();
+        ListIterator<BlockDef> iter = this.SchematicClip.getBlocks().listIterator();
         while (iter.hasNext()) {
             if (++counter > 4000) {
                 try {
-                    player.sendMessage("Buffering... " + this.ClipBoard.size() + " left.");
+                    player.sendMessage("Buffering... " + this.SchematicClip.Size() + " left.");
                 } catch (Exception e) {
                     this.cancel();
                 }
@@ -51,7 +54,10 @@ public class UndoTask
             }
             BlockDef itm = iter.next();
             Block changeBlock = world.getBlockAt(itm.getX(), itm.getY(), itm.getZ());
-            BlockUtil.SetBlock(changeBlock, itm, player, true);
+            //BlockUtil.SetBlock(changeBlock, itm, player, true);
+            
+            itm.SetBlock(changeBlock, player, true);
+            
             iter.remove();
         }
         try {

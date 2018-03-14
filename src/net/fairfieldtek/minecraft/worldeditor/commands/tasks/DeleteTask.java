@@ -10,6 +10,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import net.fairfieldtek.minecraft.worldeditor.container.SchematicDef;
 
 public class DeleteTask
         extends BukkitRunnable {
@@ -26,6 +27,7 @@ public class DeleteTask
     boolean Cancel = false;
     UUID PlayerId;
     BlockDef EmptyDef;
+    SchematicDef EmptySchematic=new SchematicDef();
 
     public DeleteTask(Player player) {
         this.PlayerId = player.getUniqueId();
@@ -62,7 +64,13 @@ public class DeleteTask
         this.EmptyDef.setInverted(false);
         this.EmptyDef.setIsStairs(false);
         this.EmptyDef.setMaterialData((byte) 0);
-        this.EmptyDef.setMaterialType(Material.AIR.name());
+        
+        int airIdx = EmptySchematic.AddBlockTypeToPalette(Material.AIR);
+        
+        
+        //this.EmptyDef.
+        this.EmptyDef.setBlockTypeIndex(EmptySchematic.AddBlockTypeToPalette(Material.AIR));
+        EmptySchematic.getBlocks().add(EmptyDef);
     }
 
     @Override
@@ -74,7 +82,8 @@ public class DeleteTask
             }
             PlayerInfo pi = Initialization.PlayerInfoList.get(player);
             
-            pi.ClipBoard.clear();
+            //pi.ClipBoard.clear();
+            pi.UndoSchematic.Clear();
             
             World world = player.getWorld();
             int counter = 0;
@@ -94,9 +103,12 @@ public class DeleteTask
                         this.EmptyDef.setZ(this.Z);
                         Block changeBlock = world.getBlockAt(this.X, this.Y, this.Z);
                         
-                        pi.ClipBoard.add(BlockUtil.GetBlockDef(changeBlock, this.X, this.Y, this.Z, player));
+                        pi.UndoSchematic.AddBlock(changeBlock, this.X, this.Y, this.Z, player);
                         
-                        BlockUtil.SetBlock(changeBlock, this.EmptyDef, player, true);
+                        //pi.ClipBoard.add(BlockUtil.GetBlockDef(changeBlock, this.X, this.Y, this.Z, player));
+                        EmptyDef.SetBlock(changeBlock, player, true);
+                        
+                        //BlockUtil.SetBlock(changeBlock, this.EmptyDef, player, true);
                         --this.Z;
                     }
                     this.Z = this.sz;

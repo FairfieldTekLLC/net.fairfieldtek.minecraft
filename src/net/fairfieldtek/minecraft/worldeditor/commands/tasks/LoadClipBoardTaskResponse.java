@@ -46,21 +46,21 @@ public class LoadClipBoardTaskResponse
             return;
         }
         Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Load Clipboard");
-        PlayerInfo pi =  Initialization.PlayerInfoList.get(player);
-        pi.setLastAuth(this.Response.getLastAuth());
-        pi.SelectEnd=null;
-        pi.SelectStart=null;
-        pi.ClipBoard.clear();
-        Collections.addAll(pi.ClipBoard, Response.getBlocks());
-        
-        
-        
-        if (!this.Response.getWasSuccessful()) {
-            player.sendMessage(ChatColor.YELLOW + "File not loaded.");
-            player.sendMessage(ChatColor.RED + this.Response.getMessage());
-        } else {
-            player.sendMessage(ChatColor.GREEN + this.Response.getMessage());
-        }
+//        PlayerInfo pi =  Initialization.PlayerInfoList.get(player);
+//        pi.setLastAuth(this.Response.getLastAuth());
+//        pi.SelectEnd=null;
+//        pi.SelectStart=null;
+//        pi.ClipBoard.clear();
+//        Collections.addAll(pi.ClipBoard, Response.getBlocks());
+//        
+//        
+//        
+//        if (!this.Response.getWasSuccessful()) {
+//            player.sendMessage(ChatColor.YELLOW + "File not loaded.");
+//            player.sendMessage(ChatColor.RED + this.Response.getMessage());
+//        } else {
+//            player.sendMessage(ChatColor.GREEN + this.Response.getMessage());
+//        }
         this.cancel();
     }
 }

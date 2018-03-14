@@ -8,8 +8,13 @@ public class PlayerInfo {
     private String CurrentPath = "";
     public IPoint SelectStart = null;
     public IPoint SelectEnd = null;
-    public ArrayList<BlockDef> ClipBoard = new ArrayList();
-    public ArrayList<BlockDef> UndoBuffer = new ArrayList();
+    //public ArrayList<BlockDef> ClipBoard = new ArrayList();
+    //public ArrayList<BlockDef> UndoBuffer = new ArrayList();
+    
+    public SchematicDef ClipSchematic = new SchematicDef();
+    public SchematicDef UndoSchematic = new SchematicDef();
+    
+    
     public String Token;
     public boolean CancelLastAction = false;
     

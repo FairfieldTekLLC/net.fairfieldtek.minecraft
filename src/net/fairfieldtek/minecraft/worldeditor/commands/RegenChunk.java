@@ -64,7 +64,10 @@ public class RegenChunk
             Block block = world.getBlockAt(point.X, point.Y, point.Z);
             Chunk chunk = world.getChunkAt(block);
             PlayerInfo pi = Initialization.PlayerInfoList.get(player);
-            pi.UndoBuffer.clear();
+            
+            pi.UndoSchematic.Clear();
+            
+            //pi.UndoBuffer.clear();
             player.sendMessage(ChatColor.RED + "Making everything right in the world again...");
             player.sendMessage(ChatColor.RED + "Putting existing chunk blocks into Undo Buffer...");
             int ix = 0;
@@ -72,8 +75,9 @@ public class RegenChunk
                 for (int iz = 0; iz <= 15; ++iz) {
                     for (int iy = 255; iy >= 0; --iy) {
                         block = chunk.getBlock(ix, iy, iz);
-                        BlockDef blockDef = BlockUtil.GetBlockDef(block, 0, 0, 0, player);
-                        pi.UndoBuffer.add(blockDef);
+                        //BlockDef blockDef = BlockUtil.GetBlockDef(block, 0, 0, 0, player);
+                        pi.UndoSchematic.AddBlock(block, 0, 0, 0, player);
+                        //pi.UndoBuffer.add(blockDef);
                     }
                 }
                 ++x;

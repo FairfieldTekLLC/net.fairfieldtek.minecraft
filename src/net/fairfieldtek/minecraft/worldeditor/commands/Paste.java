@@ -56,7 +56,7 @@ public class Paste
 
     private boolean CheckClipBoard(Player player) {
         PlayerInfo pi = Initialization.PlayerInfoList.get(player);
-        if (pi.ClipBoard.isEmpty()) {
+        if (pi.ClipSchematic.IsEmpty()) {
             player.sendMessage("Clipboard is empty.");
             return false;
         }
@@ -103,7 +103,7 @@ public class Paste
                     player.sendMessage("Please wait for last command to finish.");
                     return true;
                 }
-                if (Initialization.PlayerInfoList.get(player).ClipBoard.size()==0)
+                if (Initialization.PlayerInfoList.get(player).ClipSchematic.IsEmpty())
                 {
                      player.sendMessage("Nothing in clipboard.");
                      Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Paste");
@@ -170,6 +170,8 @@ public class Paste
                 player.sendMessage("                             /fft.we.paste {Rotation} {Degrees}");
                 player.sendMessage("                             /fft.we.paste x y z");
                 player.sendMessage("                             /fft.we.paste x y z {Rotation} {Degrees}");
+                System.out.println(e.getLocalizedMessage());
+                System.out.println(e.getMessage());
             }
         }
         return true;

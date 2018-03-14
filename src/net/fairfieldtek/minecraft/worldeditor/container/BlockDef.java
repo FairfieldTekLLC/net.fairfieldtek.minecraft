@@ -15,10 +15,14 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.material.Stairs;
 import org.bukkit.DyeColor;
 import org.bukkit.material.*;
+import net.fairfieldtek.minecraft.worldeditor.container.SchematicDef;
+import org.bukkit.Chunk;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
 
 public class BlockDef {
 
-    private String MaterialType;
+    //private String MaterialType;
     private byte MaterialData;
     private int X;
     private int Y;
@@ -26,14 +30,69 @@ public class BlockDef {
     private boolean Inverted;
     private boolean IsStairs;
     private String BlockFaceCode;
-    private String DyeColor;
 
-    public String getDyeColor() {
-        return DyeColor;
+    private int BlockTypeIndex;
+    private int BlockColorIndex;
+
+    public SchematicDef SchematicOwner;
+
+    private static void erase(Block changeBlock) {
+        Block s1 = changeBlock.getRelative(BlockFace.UP, 1);
+        if (s1.isLiquid()) {
+            s1.setType(Material.AIR, true);
+        }
+        if ((s1 = changeBlock.getRelative(BlockFace.DOWN, 1)).isLiquid()) {
+            s1.setType(Material.AIR, true);
+        }
+        if ((s1 = changeBlock.getRelative(BlockFace.EAST, 1)).isLiquid()) {
+            s1.setType(Material.AIR, true);
+        }
+        if ((s1 = changeBlock.getRelative(BlockFace.WEST, 1)).isLiquid()) {
+            s1.setType(Material.AIR, true);
+        }
+        if ((s1 = changeBlock.getRelative(BlockFace.NORTH, 1)).isLiquid()) {
+            s1.setType(Material.AIR, true);
+        }
+        if ((s1 = changeBlock.getRelative(BlockFace.SOUTH, 1)).isLiquid()) {
+            s1.setType(Material.AIR, true);
+        }
     }
 
-    public void setDyeColor(String color) {
-        this.DyeColor = color;
+    public void SetBlock(Block changeBlock, Player player, boolean erase) {
+        Chunk chunk;
+        World world = player.getWorld();
+
+        if (!world.isChunkLoaded(chunk = world.getChunkAt(changeBlock))) {
+            world.loadChunk(chunk);
+        }
+        if (erase) {
+            erase(changeBlock);
+        }
+
+        if (!BedCreate(changeBlock)) {
+            if (!StairsCreate(changeBlock)) {
+                GeneralCreate(changeBlock);
+            }
+        }
+
+    }
+
+    public int getBlockTypeIndex() {
+        return this.BlockTypeIndex;
+    }
+
+    ;
+    
+    public void setBlockTypeIndex(int idx) {
+        this.BlockTypeIndex = idx;
+    }
+
+    public int getBlockColorIndex() {
+        return this.BlockColorIndex;
+    }
+
+    public void setBlockColorIndex(int idx) {
+        this.BlockColorIndex = idx;
     }
 
     public int getX() {
@@ -92,14 +151,13 @@ public class BlockDef {
         this.IsStairs = isStairs;
     }
 
-    public String getMaterialType() {
-        return this.MaterialType;
-    }
-
-    public void setMaterialType(String materialType) {
-        this.MaterialType = materialType;
-    }
-
+//    public String getMaterialType() {
+//        return this.MaterialType;
+//    }
+//
+//    public void setMaterialType(String materialType) {
+//        this.MaterialType = materialType;
+//    }
     public byte getMaterialData() {
         return this.MaterialData;
     }
@@ -110,7 +168,10 @@ public class BlockDef {
 
     @Override
     public String toString() {
-        return Integer.toString(this.X) + " " + Integer.toString(this.Y) + " " + Integer.toString(this.Z) + " " + this.MaterialType + " " + this.BlockFaceCode;
+        return Integer.toString(this.X) + " " + Integer.toString(this.Y) + " " + Integer.toString(this.Z) + " "
+                + ((SchematicOwner.getBlockTypePalette()).get(this.getBlockTypeIndex()))
+                //this.MaterialType 
+                + " " + this.BlockFaceCode;
     }
 
     public void GetRotZ(int degrees) {
@@ -609,21 +670,13 @@ public class BlockDef {
         }
 
         Bed bed = (Bed) sMat;
+
         if (!bed.isHeadOfBed()) {
-            setMaterialType(Material.AIR.name());
+            this.BlockTypeIndex = SchematicOwner.AddBlockTypeToPalette(Material.AIR);
         } else {
             FromBlockFace(bed.getFacing());
-        }
-
-        try {
-
-            
-
-              DyeColor dye = ((org.bukkit.block.Bed)sourceBlock.getState()).getColor();
-            System.out.println("---------------> Color " + dye.name());
-        } catch (Exception e) {
-            System.out.println(e.getLocalizedMessage());
-            System.out.println(e.getMessage());
+            DyeColor dye = ((org.bukkit.block.Bed) sourceBlock.getState()).getColor();
+            this.BlockColorIndex = SchematicOwner.AddBlockColorToPalette(dye);
         }
 
         return true;
@@ -642,31 +695,33 @@ public class BlockDef {
     }
 
     public boolean BedCreate(Block changeBlock) {
-        if (!(Material.getMaterial((String) getMaterialType()) == Material.BED_BLOCK)) {
+
+        if (this.BlockTypeIndex != SchematicOwner.AddBlockTypeToPalette(Material.BED_BLOCK)) {
             return false;
         }
         Block bedHeadBlock = changeBlock;
-
         BlockFace bedFacing = EnumHelper.ToBlockFaceFromCode(getBlockFaceCode());
         Block bedFootBlock = bedHeadBlock.getRelative(bedFacing.getOppositeFace());
-
         BlockState bedFootState = bedFootBlock.getState();
         bedFootState.setType(Material.BED_BLOCK);
         Bed bedFootData = new Bed(Material.BED_BLOCK);
         bedFootData.setHeadOfBed(false);
         bedFootData.setFacingDirection(bedFacing);
         bedFootState.setData(bedFootData);
-
         bedFootState.update(true);
-
+        DyeColor dye = this.SchematicOwner.GetColorPaletteEntry(this.BlockColorIndex);
+        bedFootState = bedFootBlock.getState();
+        ((org.bukkit.block.Bed) bedFootState).setColor(dye);
+        bedFootState.update(true);
         BlockState bedHeadState = bedHeadBlock.getState();
         bedHeadState.setType(Material.BED_BLOCK);
         Bed bedHeadData = new Bed(Material.BED_BLOCK);
         bedHeadData.setHeadOfBed(true);
         bedHeadData.setFacingDirection(bedFacing);
         bedHeadState.setData(bedHeadData);
-
-        //((Colorable) bedHeadBlock).setColor(GetDyeColor(def.getDyeColor()));
+        bedHeadState.update(true);
+        bedHeadState = bedHeadBlock.getState();
+        ((org.bukkit.block.Bed) bedHeadState).setColor(dye);
         bedHeadState.update(true);
         return true;
     }
@@ -678,7 +733,8 @@ public class BlockDef {
             return false;
         }
 
-        changeBlock.setType(Material.getMaterial((String) getMaterialType()), true);
+        changeBlock.setType(Material.getMaterial(SchematicOwner.getBlockTypePalette().get(this.BlockTypeIndex)));
+        //Material.getMaterial((String) getMaterialType()), true);
         BlockState state = changeBlock.getState();
         state.setRawData(getMaterialData());
         state.update(true);
@@ -719,7 +775,8 @@ public class BlockDef {
     }
 
     public boolean GeneralCreate(Block changeBlock) {
-        changeBlock.setType(Material.getMaterial((String) getMaterialType()), true);
+        //changeBlock.setType(Material.getMaterial((String) getMaterialType()), true);
+        changeBlock.setType(Material.getMaterial(SchematicOwner.getBlockTypePalette().get(this.BlockTypeIndex)));
         BlockState state = changeBlock.getState();
         state.setRawData(getMaterialData());
         state.update(true);

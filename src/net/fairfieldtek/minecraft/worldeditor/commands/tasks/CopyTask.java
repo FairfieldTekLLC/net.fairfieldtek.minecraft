@@ -9,6 +9,7 @@ import net.fairfieldtek.minecraft.worldeditor.container.PlayerInfo;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import net.fairfieldtek.minecraft.worldeditor.container.SchematicDef;
 
 public class CopyTask
         extends BukkitRunnable {
@@ -23,7 +24,8 @@ public class CopyTask
     int cy = 0;
     int cz = 0;
     UUID PlayerId;
-    ArrayList<BlockDef> ClipBoard = new ArrayList();
+    //ArrayList<BlockDef> ClipBoard = new ArrayList();
+    SchematicDef SchematicToPaste = new SchematicDef();
 
     public CopyTask(int bx, int ex, int by, int ey, int bz, int ez, UUID playerId) {
         this.sbx = bx;
@@ -43,29 +45,32 @@ public class CopyTask
         try {
             Player player = Initialization.Plugin.getServer().getPlayer(this.PlayerId);
             PlayerInfo pi = Initialization.PlayerInfoList.get(player);
-            if (pi.CancelLastAction) {
-                pi.CancelLastAction = false;
-                this.cancel();
-            }
+
             if (player == null) {
+                Initialization.PlayerInfoList.get(player).setIsProcessing(false, "Copy");
                 this.cancel();
             }
+
             int counter = 0;
             World world = player.getWorld();
             while (this.cy <= this.sey) {
                 while (this.cx <= this.sex) {
                     while (this.cz <= this.sez) {
-                        this.ClipBoard.add(BlockUtil.GetBlockDef(world.getBlockAt(this.cx, this.cy, this.cz), this.sbx, this.sby, this.sbz, player));
+
+                        this.SchematicToPaste.AddBlock(world.getBlockAt(this.cx, this.cy, this.cz), this.sbx, this.sby, this.sbz, player);
+
+                        //this.ClipBoard.add(BlockUtil.GetBlockDef(world.getBlockAt(this.cx, this.cy, this.cz), this.sbx, this.sby, this.sbz, player));
                         ++this.cz;
                         if (++counter > 32000) {
                             try {
-                                player.sendMessage("Copied " + this.ClipBoard.size() + " blocks so far.. waiting..");
-                            } catch (Exception exception) {
-                                // empty catch block
+                                player.sendMessage("Copied " + this.SchematicToPaste.Size() + " blocks so far.. waiting..");
+                            } catch (Exception e) {
+                                System.out.println(e.getLocalizedMessage());
+                                System.out.println(e.getMessage());
                             }
                             return;
                         }
-                        
+
                     }
                     ++this.cx;
                     this.cz = this.sbz;
@@ -73,11 +78,16 @@ public class CopyTask
                 ++this.cy;
                 this.cx = this.sbx;
             }
-            pi.ClipBoard = this.ClipBoard;
-            player.sendMessage("Blocks Copied (" + pi.ClipBoard.size() + " blocks copied.)");
-            Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Copy");
+            pi.ClipSchematic = this.SchematicToPaste;
+
+            //pi.ClipBoard = this.ClipBoard;
+            player.sendMessage("Blocks Copied (" + pi.ClipSchematic.Size() + " blocks copied.)");
+            Initialization.PlayerInfoList.get(player).setIsProcessing(false, "Copy");
             this.cancel();
         } catch (Exception e) {
+            System.out.println(e.getLocalizedMessage());
+            System.out.println(e.getMessage());
+
             this.cancel();
         }
     }

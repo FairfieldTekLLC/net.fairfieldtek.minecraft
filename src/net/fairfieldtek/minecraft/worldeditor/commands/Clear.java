@@ -23,7 +23,13 @@ public class Clear
             PlayerInfo pi = Initialization.PlayerInfoList.get(player);
             pi.SelectStart = null;
             pi.SelectEnd = null;
-            pi.ClipBoard.clear();
+            //pi.ClipBoard.clear();
+            
+            
+            pi.ClipSchematic.Clear();
+            pi.UndoSchematic.Clear();
+            
+            
             player.sendMessage(ChatColor.RED + "Cleared Selection.");
             return true;
         }
