@@ -19,6 +19,7 @@ package net.fairfieldtek.minecraft.worldeditor.container;
 
 import java.util.ArrayList;
 import net.fairfieldtek.minecraft.Util.MaterialUtil;
+import net.fairfieldtek.minecraft.worldeditor.http.SchematicDataDownloadResponse;
 import org.bukkit.Chunk;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -40,10 +41,44 @@ public class SchematicDef {
     private ArrayList<String> BlockTypePalette = new ArrayList<>();
     private ArrayList<String> BlockColorPalette = new ArrayList<>();
     
+    public SchematicDef(){
+        BlockColorPalette.add("");
+    }
+    
+    
+    public void LoadResponse(SchematicDataDownloadResponse response)
+    {
+        Blocks.clear();
+        BlockTypePalette.clear();
+        BlockColorPalette.clear();
+        
+        Name = response.getFileName();
+        
+        for (BlockDef def : response.getBlocks())
+        {
+            def.SchematicOwner=this;
+            Blocks.add(def);
+        }
+        for (String blockType: response.getBlockTypePalette())
+        {
+            BlockTypePalette.add(blockType);
+        }
+        for (String color: response.getColorPalette()){
+            System.out.println("Adding color - " + color);
+            BlockColorPalette.add(color);
+        }
+    }
     
     public DyeColor GetColorPaletteEntry(int i)
     {
         return MaterialUtil.getDyeColor(BlockColorPalette.get(i));
+        
+    }
+    
+    public Material GetBlockTypePaletteEntry(int i)
+    {
+        return Material.getMaterial(BlockTypePalette.get(i));
+        
         
     }
 
@@ -84,7 +119,7 @@ public class SchematicDef {
             world.loadChunk(chunk);
         }
         BlockDef def = new BlockDef();
-        def.setBlockColorIndex(-1);
+        def.setBlockColorIndex(0);
         
         def.SchematicOwner=this;
 
@@ -98,8 +133,7 @@ public class SchematicDef {
         def.setBlockFaceCode("");
         BlockState blockState = sourceBlock.getState();
         def.setMaterialData(blockState.getRawData());
-        def.setIsStairs(false);
-
+       
         MaterialData sMat = sourceBlock.getState().getData();
         
         if (sMat instanceof Bed) {

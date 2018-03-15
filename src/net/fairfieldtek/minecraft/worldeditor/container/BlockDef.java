@@ -26,7 +26,7 @@ public class BlockDef {
     private int Y;
     private int Z;
     private boolean Inverted;
-    private boolean IsStairs;
+    //private boolean IsStairs;
     private String BlockFaceCode;
     private int BlockTypeIndex;
     private int BlockColorIndex;
@@ -38,7 +38,6 @@ public class BlockDef {
                Integer.toString(Y) + "|" + 
                Integer.toString(Z) +"|" + 
                (Inverted?"1":"0") + "|" + 
-               (IsStairs?"1":"0") + "|" +
                BlockFaceCode + "|" +
                Integer.toString(BlockTypeIndex) + "|" +
                Integer.toString(BlockColorIndex);
@@ -152,12 +151,16 @@ public class BlockDef {
     }
 
     public boolean getIsStairs() {
-        return this.IsStairs;
+        
+        if (SchematicOwner.GetBlockTypePaletteEntry(this.BlockTypeIndex).name().endsWith("_STAIRS"))
+            return true;
+        return false;
+        
     }
 
-    public void setIsStairs(boolean isStairs) {
-        this.IsStairs = isStairs;
-    }
+//    public void setIsStairs(boolean isStairs) {
+//        this.IsStairs = isStairs;
+//    }
 
     public byte getMaterialData() {
         return this.MaterialData;
@@ -647,7 +650,6 @@ public class BlockDef {
         if (!(sMat instanceof Stairs)) {
             return false;
         }
-        setIsStairs(true);
         Stairs stairs = (Stairs) sMat;
         FromBlockFace(stairs.getDescendingDirection());
         setInverted(stairs.isInverted());

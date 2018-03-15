@@ -23,19 +23,39 @@ import net.fairfieldtek.minecraft.worldeditor.container.BlockDef;
  *
  * @author geev
  */
-public class SchematicDataDownloadResponse 
-extends BaseResponse
-{
-    private String FileName;
-    public String getFileName(){
+public class SchematicDataDownloadResponse
+        extends BaseResponse {
+
+    private String FileName = "";
+    private String[] ColorPalette = null;
+    private String[] BlockTypePalette =null;
+    private BlockDef[] Blocks = null;
+
+    public String[] getColorPalette() {
+        return ColorPalette;
+    }
+
+    public void setColorPalette(String[] palette) {
+        ColorPalette = palette;
+    }
+
+    public String[] getBlockTypePalette() {
+        return BlockTypePalette;
+    }
+
+    public void setBlockTypePalette(String[] palette) {
+        BlockTypePalette = palette;
+    }
+
+    public String getFileName() {
         return this.FileName;
     }
-    public void setFileName(String name)
-    {
-        this.FileName=name;
+
+    public void setFileName(String name) {
+        this.FileName = name;
     }
-     private BlockDef[] Blocks;
-        public BlockDef[] getBlocks() {
+
+    public BlockDef[] getBlocks() {
         return this.Blocks;
     }
 
