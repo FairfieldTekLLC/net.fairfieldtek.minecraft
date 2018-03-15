@@ -22,11 +22,13 @@ public class RegenChunk
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player;
         if (sender instanceof Player && ((player = (Player) sender).hasPermission("fft.we.editor") || player.isOp())) {
+            try{
+                
             if (Initialization.PlayerInfoList.get(player).getIsProcessing()) {
                 player.sendMessage("Please wait for last command to finish.");
                 return true;
             }
-           
+           Initialization.PlayerInfoList.get(player).setIsProcessing(true,"REGEN");
             int x = 0;
             int y = 0;
             int z = 0;
@@ -87,7 +89,13 @@ public class RegenChunk
             player.sendMessage("Regenerating Chunk for location " + point.X + " " + point.Y + " " + point.Z);
             world.regenerateChunk(cx, cy);
             player.sendMessage("Finished Regenerating Chunk for location " + point.X + " " + point.Y + " " + point.Z);
-            
+            Initialization.PlayerInfoList.get(player).setIsProcessing(false,"REGEN");
+        }
+        catch (Exception e){
+                Initialization.PlayerInfoList.get(player).setIsProcessing(false,"REGEN");
+                System.out.println(e.getLocalizedMessage());
+                System.out.println(e.getMessage());
+                }
         }
         return true;
     }

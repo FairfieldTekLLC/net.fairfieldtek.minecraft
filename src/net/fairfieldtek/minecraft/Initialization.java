@@ -15,7 +15,6 @@ import net.fairfieldtek.minecraft.worldeditor.commands.Undo;
 import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.Authenticate;
 import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.CD;
 import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.LS;
-import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.Login;
 import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.MK;
 import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.RM;
 import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.Register;
@@ -47,7 +46,7 @@ public class Initialization {
         plugin.getCommand("fft.we.chunkregen").setExecutor((CommandExecutor) new RegenChunk());
         plugin.getCommand("fft.reg").setExecutor((CommandExecutor) new Register());
         plugin.getCommand("fft.auth").setExecutor((CommandExecutor) new Authenticate());
-        plugin.getCommand("fft.login").setExecutor((CommandExecutor) new Login());
+        //plugin.getCommand("fft.login").setExecutor((CommandExecutor) new Login());
         plugin.getCommand("fft.ls").setExecutor((CommandExecutor) new LS());
         plugin.getCommand("fft.cd").setExecutor((CommandExecutor) new CD());
         plugin.getCommand("fft.rm").setExecutor((CommandExecutor) new RM());
@@ -61,8 +60,8 @@ public class Initialization {
     }
 
     static {
-        BaseUri = "http://localhost:31312/api/worldeditor/v1/";
-        //BaseUri="http://mc.fairfieldtek.com/api/worldeditor/v1/";
+        //BaseUri = "http://localhost:31312/api/worldeditor/v1/";
+        BaseUri="http://mc.fairfieldtek.com/api/worldeditor/v1/";
         PlayerInfoList = new HashMap<>();
     }
 }

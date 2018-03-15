@@ -33,9 +33,12 @@ public class Delete
 
                 ut.runTaskTimer((org.bukkit.plugin.Plugin) Initialization.Plugin, 1, 15);
 
-            } catch (Exception ut) {
-                // empty catch block
-            }
+             }catch (Exception e){
+             Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Delete");
+                System.out.println(e.getLocalizedMessage());
+                System.out.println(e.getMessage());
+                }
+        
         }
         return true;
     }

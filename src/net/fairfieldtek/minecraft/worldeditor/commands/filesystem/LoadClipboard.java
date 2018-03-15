@@ -31,25 +31,32 @@ import org.bukkit.entity.Player;
  * @author geev
  */
 public class LoadClipboard implements CommandExecutor {
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
-            Player player = (Player)sender;
-            if (args.length != 1) {
-                player.sendMessage("Usage: /fft.load <Schematic Name>");
-                return true;
+            Player player = (Player) sender;
+
+            try {
+                if (args.length != 1) {
+                    player.sendMessage("Usage: /fft.load <Schematic Name>");
+                    return true;
+                }
+                if (Initialization.PlayerInfoList.get(player).getIsProcessing()) {
+                    player.sendMessage("Please wait for last command to finish.");
+                    return true;
+                }
+                Initialization.PlayerInfoList.get(player).setIsProcessing(true, "LoadClipboard");
+                PlayerInfo pi = Initialization.PlayerInfoList.get(player);
+                player.sendMessage(ChatColor.RED + "Requesting schematic load...");
+                new LoadClipboardTaskRequest(player.getUniqueId().toString(), pi.getLastAuth(), pi.getCurrentPath(), args[0]).runTaskAsynchronously((org.bukkit.plugin.Plugin) Initialization.Plugin);
+            } catch (Exception e) {
+                Initialization.PlayerInfoList.get(player).setIsProcessing(false, "LoadClipboard");
+                System.out.println(e.getLocalizedMessage());
+                System.out.println(e.getMessage());
             }
-             if (Initialization.PlayerInfoList.get(player).getIsProcessing())
-            {
-                player.sendMessage("Please wait for last command to finish.");
-                return true;
-            }
-            Initialization.PlayerInfoList.get(player).setIsProcessing(true, "LoadClipboard");
-            PlayerInfo pi = Initialization.PlayerInfoList.get(player);
-            player.sendMessage(ChatColor.RED + "Requesting schematic load...");
-            new LoadClipboardTaskRequest(player.getUniqueId().toString(), pi.getLastAuth(), pi.getCurrentPath(), args[0]).runTaskAsynchronously((org.bukkit.plugin.Plugin)Initialization.Plugin);
         }
         return true;
-    } 
-    
+    }
+
 }

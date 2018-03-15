@@ -172,6 +172,12 @@ public class Paste
                 player.sendMessage("                             /fft.we.paste x y z {Rotation} {Degrees}");
                 System.out.println(e.getLocalizedMessage());
                 System.out.println(e.getMessage());
+                
+                Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Paste");
+                System.out.println(e.getLocalizedMessage());
+                System.out.println(e.getMessage());
+                
+                
             }
         }
         return true;

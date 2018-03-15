@@ -15,6 +15,7 @@ implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player)sender;
+            
              if (Initialization.PlayerInfoList.get(player).getIsProcessing())
             {
                 player.sendMessage("Please wait for last command to finish.");

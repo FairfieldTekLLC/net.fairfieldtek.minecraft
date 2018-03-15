@@ -17,6 +17,9 @@ public class Copy
         Player player;
         if (sender instanceof Player && ((player = (Player) sender).hasPermission("fft.we.editor") || player.isOp())) {
 
+            try{
+            
+            
             if (Initialization.PlayerInfoList.get(player).getIsProcessing()) {
                 player.sendMessage("Please wait for last command to finish.");
                 return true;
@@ -64,8 +67,14 @@ public class Copy
                 ct.runTaskTimer((org.bukkit.plugin.Plugin) Initialization.Plugin, 1, 15);
                 
             }
-            return true;
+            
+        }catch (Exception e){
+             Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Copy");
+                System.out.println(e.getLocalizedMessage());
+                System.out.println(e.getMessage());
+                }
         }
-        return false;
+        
+        return true;
     }
 }
