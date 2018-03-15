@@ -1,17 +1,17 @@
 package net.fairfieldtek.minecraft.worldeditor.http;
 
 public class DirectoryElement {
+
     private String Name;
     private int ElementType;
     private long BlockCount;
-    
-    public long getBlockCount(){
-    return this.BlockCount;
-}
-    
-    public void setBlockCount(long count)
-    {
-        this.BlockCount=count;
+
+    public long getBlockCount() {
+        return this.BlockCount;
+    }
+
+    public void setBlockCount(long count) {
+        this.BlockCount = count;
     }
 
     public int getElementType() {
@@ -38,4 +38,3 @@ public class DirectoryElement {
         this.Name = name;
     }
 }
-

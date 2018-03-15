@@ -24,18 +24,18 @@ public class LsTaskResponse
         if (player == null) {
             return;
         }
-        Initialization.PlayerInfoList.get(player).setIsProcessing(false,"LS");
+        Initialization.PlayerInfoList.get(player).setIsProcessing(false, "LS");
         Initialization.PlayerInfoList.get(player).setLastAuth(this.LsResponse.getLastAuth());
         player.sendMessage(ChatColor.WHITE + "Displaying Directory Contents");
-        
+
         for (DirectoryElement element : this.LsResponse.getContents()) {
             switch (element.getElementType()) {
                 case 0: {
-                    player.sendMessage(ChatColor.WHITE + "-> ( " + ChatColor.BLUE + "D" + ChatColor.WHITE + " ) " + element.getName() );
-                    continue ;
+                    player.sendMessage(ChatColor.WHITE + "-> ( " + ChatColor.BLUE + "D" + ChatColor.WHITE + " ) " + element.getName());
+                    continue;
                 }
                 case 1: {
-                    player.sendMessage(ChatColor.WHITE + "-> ( " + ChatColor.BLUE + "S" + ChatColor.WHITE + " ) " + MiscUtil.padRight(element.getName(),52) + "(" + element.getBlockCount() + ")");
+                    player.sendMessage(ChatColor.WHITE + "-> ( " + ChatColor.BLUE + "S" + ChatColor.WHITE + " ) " + MiscUtil.padRight(element.getName(), 52) + "(" + element.getBlockCount() + ")");
                 }
             }
         }

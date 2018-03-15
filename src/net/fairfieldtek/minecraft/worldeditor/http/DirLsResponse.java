@@ -3,7 +3,8 @@ package net.fairfieldtek.minecraft.worldeditor.http;
 import java.util.List;
 
 public class DirLsResponse
-extends BaseResponse {
+        extends BaseResponse {
+
     private String DirectoryPath;
     private List<DirectoryElement> Contents;
 
@@ -23,4 +24,3 @@ extends BaseResponse {
         this.DirectoryPath = path;
     }
 }
-

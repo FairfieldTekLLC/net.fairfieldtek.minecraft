@@ -1,7 +1,8 @@
 package net.fairfieldtek.minecraft.worldeditor.http;
 
 public class LsResponse
-extends BaseResponse {
+        extends BaseResponse {
+
     private String DirectoryPath;
     private DirectoryElement[] Contents;
 
@@ -21,4 +22,3 @@ extends BaseResponse {
         this.DirectoryPath = path;
     }
 }
-

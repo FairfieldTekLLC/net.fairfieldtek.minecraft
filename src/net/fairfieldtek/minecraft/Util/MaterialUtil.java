@@ -1,4 +1,5 @@
 package net.fairfieldtek.minecraft.Util;
+
 import org.bukkit.DyeColor;
 import org.bukkit.block.BlockFace;
 
@@ -23,7 +24,7 @@ public class MaterialUtil {
         }
         return null;
     }
-    
+
     public static DyeColor getDyeColor(String name) {
         for (DyeColor color : DyeColor.values()) {
             if (color.name().equals(name)) {

@@ -1,7 +1,8 @@
 package net.fairfieldtek.minecraft.worldeditor.http;
 
 public class SchematicDataResponse
-extends BaseResponse {
+        extends BaseResponse {
+
     private int SchematicId;
     private boolean Final;
 
@@ -21,4 +22,3 @@ extends BaseResponse {
         this.SchematicId = id;
     }
 }
-

@@ -131,25 +131,22 @@ public class Rotate
                 y = player.getWorld().getMaxHeight();
             }
             block = player.getWorld().getBlockAt(x, y, z);
-            
+
             SchematicDef def = new SchematicDef();
-            BlockDef blockDef = def.AddBlock(block, 0,0,0, player);
-            
-            
+            BlockDef blockDef = def.AddBlock(block, 0, 0, 0, player);
+
             //BlockDef blockDef = BlockUtil.GetBlockDef(block, 0, 0, 0, player);
-            
-            
             switch (axis) {
                 case X: {
-                    blockDef.GetRotX( degrees);
+                    blockDef.GetRotX(degrees);
                     break;
                 }
                 case Y: {
-                     blockDef.GetRotY( degrees);
+                    blockDef.GetRotY(degrees);
                     break;
                 }
                 case Z: {
-                     blockDef.GetRotZ( degrees);
+                    blockDef.GetRotZ(degrees);
                 }
             }
             blockDef.SetBlock(block, player, false);

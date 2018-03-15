@@ -5,9 +5,7 @@ public enum Axis {
     Y,
     Z,
     N;
-    
 
     private Axis() {
     }
 }
-

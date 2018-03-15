@@ -22,7 +22,7 @@ public class MkTaskResponse
         if (player == null) {
             return;
         }
-        Initialization.PlayerInfoList.get(player).setIsProcessing(false,"MK");
+        Initialization.PlayerInfoList.get(player).setIsProcessing(false, "MK");
         Initialization.PlayerInfoList.get(player).setLastAuth(this.MkResponse.getLastAuth());
         Initialization.PlayerInfoList.get(player).setCurrentPath(this.MkResponse.getDirectoryPath());
         if (!this.MkResponse.getWasSuccessful()) {

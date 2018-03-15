@@ -1,6 +1,7 @@
 package net.fairfieldtek.minecraft.worldeditor.http;
 
 public class AuthenticateRequest {
+
     private String Uuid;
 
     public String getUuid() {
@@ -11,4 +12,3 @@ public class AuthenticateRequest {
         this.Uuid = uuid;
     }
 }
-

@@ -44,7 +44,7 @@ public class PasteTask
         PlayerInfo pi = Initialization.PlayerInfoList.get(player);
         //this.ClipBoard = pi.ClipBoard;
         this.SchematicClipboard = pi.ClipSchematic;
-        this.SchematicUndo= pi.UndoSchematic;
+        this.SchematicUndo = pi.UndoSchematic;
         this.SchematicUndo.Clear();
     }
 
@@ -134,7 +134,7 @@ public class PasteTask
         }
         this.cancel();
         Initialization.PlayerInfoList.get(player).setIsProcessing(false, "Paste");
-        
+
     }
 
 }

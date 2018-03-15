@@ -3,29 +3,28 @@ package net.fairfieldtek.minecraft.worldeditor.http;
 import net.fairfieldtek.minecraft.worldeditor.container.BlockDef;
 
 public class SchematicDataRequest
-extends LsRequest {
+        extends LsRequest {
+
     private String[] Blocks;
     private String FileName;
     private int SchematicId;
     private String[] ColorPalette;
     private String[] BlockTypePalette;
-    
-    public String[] getColorPalette(){
+
+    public String[] getColorPalette() {
         return ColorPalette;
     }
-    
-    public void setColorPalette(String[] palette)
-    {
+
+    public void setColorPalette(String[] palette) {
         ColorPalette = palette;
     }
-    
-    public String[] getBlockTypePalette(){
+
+    public String[] getBlockTypePalette() {
         return BlockTypePalette;
     }
-    
-    public void setBlockTypePalette(String[] palette)
-    {
-     BlockTypePalette=palette;   
+
+    public void setBlockTypePalette(String[] palette) {
+        BlockTypePalette = palette;
     }
 
     public int getSchematicId() {
@@ -52,4 +51,3 @@ extends LsRequest {
         this.Blocks = blocks;
     }
 }
-

@@ -22,26 +22,27 @@ package net.fairfieldtek.minecraft.worldeditor.http;
  * @author geev
  */
 public class BlockDefXfer {
-     byte M;//MaterialData;
-     int X;
-     int Y;
-     int Z;
-     boolean I;//Inverted;
-     boolean S;//IsStairs;
-     String B;//BlockFaceCode;
-     int T;//BlockTypeIndex;
-     int C;//BlockColorIndex;
-     public BlockDefXfer(byte materialData,int x,int y,int z,boolean inverted,boolean isStairs,String blockFaceCode,int blockTypeIndex, int blockColorIndex)
-     {
-         M=materialData;
-         X=x;
-         Y=y;
-         Z=z;
-         I=inverted;
-         S=isStairs;
-         B=blockFaceCode;
-         T=blockTypeIndex;
-         C=blockColorIndex;
-         
-     }
+
+    byte M;//MaterialData;
+    int X;
+    int Y;
+    int Z;
+    boolean I;//Inverted;
+    boolean S;//IsStairs;
+    String B;//BlockFaceCode;
+    int T;//BlockTypeIndex;
+    int C;//BlockColorIndex;
+
+    public BlockDefXfer(byte materialData, int x, int y, int z, boolean inverted, boolean isStairs, String blockFaceCode, int blockTypeIndex, int blockColorIndex) {
+        M = materialData;
+        X = x;
+        Y = y;
+        Z = z;
+        I = inverted;
+        S = isStairs;
+        B = blockFaceCode;
+        T = blockTypeIndex;
+        C = blockColorIndex;
+
+    }
 }

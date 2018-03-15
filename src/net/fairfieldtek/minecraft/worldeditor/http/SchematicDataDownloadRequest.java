@@ -21,15 +21,17 @@ package net.fairfieldtek.minecraft.worldeditor.http;
  *
  * @author geev
  */
-public class SchematicDataDownloadRequest 
-extends LsRequest{
+public class SchematicDataDownloadRequest
+        extends LsRequest {
+
     private String FileName;
-    public String getFileName(){
+
+    public String getFileName() {
         return this.FileName;
     }
-    public void setFileName(String name)
-    {
-        this.FileName=name;
+
+    public void setFileName(String name) {
+        this.FileName = name;
     }
-    
+
 }

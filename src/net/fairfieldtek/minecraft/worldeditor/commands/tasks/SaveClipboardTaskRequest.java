@@ -72,19 +72,15 @@ public class SaveClipboardTaskRequest
                         String[] blockColorPalette = new String[ClipSchematic.getBlockColorPalette().size()];
                         ClipSchematic.getBlockColorPalette().toArray(blockColorPalette);
                         schematicDataRequest.setColorPalette(blockColorPalette);
-                    }
-                    else
-                    {
+                    } else {
                         schematicDataRequest.setColorPalette(new String[]{""});
                     }
-                    FirstPass=false;
-                }
-                else
-                {
+                    FirstPass = false;
+                } else {
                     schematicDataRequest.setColorPalette(new String[]{""});
                     schematicDataRequest.setBlockTypePalette(new String[]{""});
                 }
-                
+
                 CloseableHttpClient httpClient = HttpClientBuilder.create().build();
                 HttpPost request = new HttpPost(Initialization.BaseUri + "Save");
                 Gson gson = new Gson();

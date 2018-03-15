@@ -15,16 +15,15 @@ public class Undo
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player;
         if (sender instanceof Player && ((player = (Player) sender).hasPermission("fft.we.editor") || player.isOp())) {
-            
-            
+
             if (Initialization.PlayerInfoList.get(player).getIsProcessing()) {
                 player.sendMessage("Please wait for last command to finish.");
                 return true;
             }
-            Initialization.PlayerInfoList.get(player).setIsProcessing(true,"Undo");
+            Initialization.PlayerInfoList.get(player).setIsProcessing(true, "Undo");
             player.sendMessage(ChatColor.RED + "Starting Undo, guess you really messed up, eh?");
             UndoTask ut = new UndoTask(player);
-            
+
             ut.runTaskTimer((org.bukkit.plugin.Plugin) Initialization.Plugin, 1, 15);
         }
         return true;

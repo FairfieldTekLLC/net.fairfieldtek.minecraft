@@ -28,7 +28,7 @@ public class SchematicDataDownloadResponse
 
     private String FileName = "";
     private String[] ColorPalette = null;
-    private String[] BlockTypePalette =null;
+    private String[] BlockTypePalette = null;
     private BlockDef[] Blocks = null;
 
     public String[] getColorPalette() {

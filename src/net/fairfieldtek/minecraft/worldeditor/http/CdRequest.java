@@ -1,7 +1,8 @@
 package net.fairfieldtek.minecraft.worldeditor.http;
 
 public class CdRequest
-extends LsRequest {
+        extends LsRequest {
+
     private String TargetDirectory;
 
     public String getTargetDirectory() {
@@ -12,4 +13,3 @@ extends LsRequest {
         this.TargetDirectory = target;
     }
 }
-

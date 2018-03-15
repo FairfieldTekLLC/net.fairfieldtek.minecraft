@@ -1,50 +1,21 @@
 package net.fairfieldtek.minecraft.worldeditor.container;
 
-import net.fairfieldtek.minecraft.Util.BlockUtil;
-import net.fairfieldtek.minecraft.Util.MaterialUtil;
-import org.bukkit.block.BlockFace;
 import net.fairfieldtek.minecraft.Util.*;
+import org.bukkit.Chunk;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.entity.Player;
 import org.bukkit.material.Bed;
-
 import org.bukkit.material.Directional;
 import org.bukkit.material.Ladder;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Stairs;
-import org.bukkit.DyeColor;
-import org.bukkit.material.*;
-import net.fairfieldtek.minecraft.worldeditor.container.SchematicDef;
-import org.bukkit.Chunk;
-import org.bukkit.World;
-import org.bukkit.entity.Player;
 
 public class BlockDef {
-    private byte MaterialData;
-    private int X;
-    private int Y;
-    private int Z;
-    private boolean Inverted;
-    //private boolean IsStairs;
-    private String BlockFaceCode;
-    private int BlockTypeIndex;
-    private int BlockColorIndex;
-    
-   public String toXferString(){
-       return 
-               Byte.toString(MaterialData) + "|" + 
-               Integer.toString(X) + "|" + 
-               Integer.toString(Y) + "|" + 
-               Integer.toString(Z) +"|" + 
-               (Inverted?"1":"0") + "|" + 
-               BlockFaceCode + "|" +
-               Integer.toString(BlockTypeIndex) + "|" +
-               Integer.toString(BlockColorIndex);
-   }
-
-    public SchematicDef SchematicOwner;
-
     private static void erase(Block changeBlock) {
         Block s1 = changeBlock.getRelative(BlockFace.UP, 1);
         if (s1.isLiquid()) {
@@ -65,6 +36,29 @@ public class BlockDef {
         if ((s1 = changeBlock.getRelative(BlockFace.SOUTH, 1)).isLiquid()) {
             s1.setType(Material.AIR, true);
         }
+    }
+
+    private byte MaterialData;
+    private int X;
+    private int Y;
+    private int Z;
+    private boolean Inverted;
+    //private boolean IsStairs;
+    private String BlockFaceCode;
+    private int BlockTypeIndex;
+    private int BlockColorIndex;
+
+
+    public SchematicDef SchematicOwner;
+    public String toXferString() {
+        return Byte.toString(MaterialData) + "|"
+                + Integer.toString(X) + "|"
+                + Integer.toString(Y) + "|"
+                + Integer.toString(Z) + "|"
+                + (Inverted ? "1" : "0") + "|"
+                + BlockFaceCode + "|"
+                + Integer.toString(BlockTypeIndex) + "|"
+                + Integer.toString(BlockColorIndex);
     }
 
     public void SetBlock(Block changeBlock, Player player, boolean erase) {
@@ -89,7 +83,7 @@ public class BlockDef {
     public int getBlockTypeIndex() {
         return this.BlockTypeIndex;
     }
-    
+
     public void setBlockTypeIndex(int idx) {
         this.BlockTypeIndex = idx;
     }
@@ -152,19 +146,18 @@ public class BlockDef {
 
     public boolean getIsStairs() {
         //System.out.println("Stair Check! " + SchematicOwner.GetBlockTypePaletteEntry(this.BlockTypeIndex).name());
-        if (SchematicOwner.GetBlockTypePaletteEntry(this.BlockTypeIndex).name().endsWith("_STAIRS"))
-        {
+        if (SchematicOwner.GetBlockTypePaletteEntry(this.BlockTypeIndex).name().endsWith("_STAIRS")) {
             //System.out.println("TRUE!!!!");
-            return true;}
-            //System.out.println("FALSE!!!!");
+            return true;
+        }
+        //System.out.println("FALSE!!!!");
         return false;
-        
+
     }
 
 //    public void setIsStairs(boolean isStairs) {
 //        this.IsStairs = isStairs;
 //    }
-
     public byte getMaterialData() {
         return this.MaterialData;
     }
@@ -735,8 +728,9 @@ public class BlockDef {
     public boolean StairsCreate(Block changeBlock) {
         MaterialData tMat = changeBlock.getState().getData();
 
-        if (!getIsStairs())
+        if (!getIsStairs()) {
             return false;
+        }
 
         changeBlock.setType(Material.getMaterial(SchematicOwner.getBlockTypePalette().get(this.BlockTypeIndex)));
         //Material.getMaterial((String) getMaterialType()), true);

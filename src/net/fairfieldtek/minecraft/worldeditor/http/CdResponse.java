@@ -1,7 +1,8 @@
 package net.fairfieldtek.minecraft.worldeditor.http;
 
 public class CdResponse
-extends BaseResponse {
+        extends BaseResponse {
+
     private String DirectoryPath;
 
     public String getDirectoryPath() {
@@ -12,4 +13,3 @@ extends BaseResponse {
         this.DirectoryPath = path;
     }
 }
-

@@ -1,6 +1,7 @@
 package net.fairfieldtek.minecraft.worldeditor.http;
 
 public class LoginRequest {
+
     private String Uuid;
     private String AuthToken;
 
@@ -20,4 +21,3 @@ public class LoginRequest {
         this.AuthToken = authToken;
     }
 }
-

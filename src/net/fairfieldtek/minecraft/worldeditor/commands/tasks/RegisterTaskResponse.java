@@ -17,11 +17,11 @@ public class RegisterTaskResponse
 
     @Override
     public void run() {
-        
+
         Player player = Initialization.Plugin.getServer().getPlayer(UUID.fromString(this.RegisterResponse.getUuid()));
-        
+
         if (player != null) {
-            Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Register");
+            Initialization.PlayerInfoList.get(player).setIsProcessing(false, "Register");
             player.sendMessage("Registration: Message: " + this.RegisterResponse.getMessage());
         }
         this.cancel();

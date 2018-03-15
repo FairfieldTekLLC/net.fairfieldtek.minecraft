@@ -24,11 +24,11 @@ package net.fairfieldtek.minecraft.Util;
 public class MiscUtil {
 
     public static String padRight(String s, int n) {
-        
-        return String.format("%1$-" + n + "s", s).substring(0, n);        
+
+        return String.format("%1$-" + n + "s", s).substring(0, n);
     }
-    
+
     public static String padLeft(String s, int n) {
-        return String.format("%1$" + n + "s", s).substring(n - s.length());        
+        return String.format("%1$" + n + "s", s).substring(n - s.length());
     }
 }

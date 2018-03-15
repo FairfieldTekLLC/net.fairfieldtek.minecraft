@@ -27,7 +27,7 @@ public class DeleteTask
     boolean Cancel = false;
     UUID PlayerId;
     BlockDef EmptyDef;
-    SchematicDef EmptySchematic=new SchematicDef();
+    SchematicDef EmptySchematic = new SchematicDef();
 
     public DeleteTask(Player player) {
         this.PlayerId = player.getUniqueId();
@@ -62,12 +62,11 @@ public class DeleteTask
         this.EmptyDef = new BlockDef();
         this.EmptyDef.setBlockFaceCode("");
         this.EmptyDef.setInverted(false);
-       
+
         this.EmptyDef.setMaterialData((byte) 0);
-        
+
         int airIdx = EmptySchematic.AddBlockTypeToPalette(Material.AIR);
-        
-        
+
         //this.EmptyDef.
         this.EmptyDef.setBlockTypeIndex(EmptySchematic.AddBlockTypeToPalette(Material.AIR));
         EmptySchematic.getBlocks().add(EmptyDef);
@@ -81,10 +80,10 @@ public class DeleteTask
                 this.cancel();
             }
             PlayerInfo pi = Initialization.PlayerInfoList.get(player);
-            
+
             //pi.ClipBoard.clear();
             pi.UndoSchematic.Clear();
-            
+
             World world = player.getWorld();
             int counter = 0;
             while (this.Y >= this.ey) {
@@ -102,12 +101,12 @@ public class DeleteTask
                         this.EmptyDef.setY(this.Y);
                         this.EmptyDef.setZ(this.Z);
                         Block changeBlock = world.getBlockAt(this.X, this.Y, this.Z);
-                        
+
                         pi.UndoSchematic.AddBlock(changeBlock, this.X, this.Y, this.Z, player);
-                        
+
                         //pi.ClipBoard.add(BlockUtil.GetBlockDef(changeBlock, this.X, this.Y, this.Z, player));
                         EmptyDef.SetBlock(changeBlock, player, true);
-                        
+
                         //BlockUtil.SetBlock(changeBlock, this.EmptyDef, player, true);
                         --this.Z;
                     }
@@ -117,7 +116,7 @@ public class DeleteTask
                 this.X = this.sx;
                 --this.Y;
             }
-            Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Delete");
+            Initialization.PlayerInfoList.get(player).setIsProcessing(false, "Delete");
             player.sendMessage("Finished Deleting Blocks.");
         } catch (Exception player) {
             // empty catch block

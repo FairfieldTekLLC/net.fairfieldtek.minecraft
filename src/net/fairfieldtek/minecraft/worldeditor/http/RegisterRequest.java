@@ -1,6 +1,7 @@
 package net.fairfieldtek.minecraft.worldeditor.http;
 
 public class RegisterRequest {
+
     private String Uuid;
     private String EmailAddress;
 
@@ -20,4 +21,3 @@ public class RegisterRequest {
         this.Uuid = uuid;
     }
 }
-

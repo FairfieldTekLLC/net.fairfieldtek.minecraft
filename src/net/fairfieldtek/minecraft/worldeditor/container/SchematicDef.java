@@ -40,62 +40,55 @@ public class SchematicDef {
     private String Name;
     private ArrayList<String> BlockTypePalette = new ArrayList<>();
     private ArrayList<String> BlockColorPalette = new ArrayList<>();
-    
-    public SchematicDef(){
+
+    public SchematicDef() {
         BlockColorPalette.add("");
     }
-    
-    
-    public void LoadResponse(SchematicDataDownloadResponse response)
-    {
+
+    public void LoadResponse(SchematicDataDownloadResponse response) {
         Blocks.clear();
         BlockTypePalette.clear();
         BlockColorPalette.clear();
-        
+
         Name = response.getFileName();
-        
-        for (BlockDef def : response.getBlocks())
-        {
-            def.SchematicOwner=this;
+
+        for (BlockDef def : response.getBlocks()) {
+            def.SchematicOwner = this;
             Blocks.add(def);
         }
-        for (String blockType: response.getBlockTypePalette())
-        {
+        for (String blockType : response.getBlockTypePalette()) {
             BlockTypePalette.add(blockType);
         }
-        for (String color: response.getColorPalette()){
+        for (String color : response.getColorPalette()) {
             System.out.println("Adding color - " + color);
             BlockColorPalette.add(color);
         }
     }
-    
-    public DyeColor GetColorPaletteEntry(int i)
-    {
+
+    public DyeColor GetColorPaletteEntry(int i) {
         return MaterialUtil.getDyeColor(BlockColorPalette.get(i));
-        
-    }
-    
-    public Material GetBlockTypePaletteEntry(int i)
-    {
-        return Material.getMaterial(BlockTypePalette.get(i));
-        
-        
+
     }
 
-    public int Size(){
+    public Material GetBlockTypePaletteEntry(int i) {
+        return Material.getMaterial(BlockTypePalette.get(i));
+
+    }
+
+    public int Size() {
         return Blocks.size();
     }
-    
+
     public void Clear() {
         Blocks.clear();
         BlockTypePalette.clear();
         BlockColorPalette.clear();
     }
 
-    public boolean IsEmpty(){
+    public boolean IsEmpty() {
         return Blocks.isEmpty();
     }
-    
+
     public ArrayList<String> getBlockColorPalette() {
         return this.BlockColorPalette;
     }
@@ -120,11 +113,10 @@ public class SchematicDef {
         }
         BlockDef def = new BlockDef();
         def.setBlockColorIndex(0);
-        
-        def.SchematicOwner=this;
+
+        def.SchematicOwner = this;
 
         //def.setMaterialType(sourceBlock.getType().name());
-
         def.setBlockTypeIndex(AddBlockTypeToPalette(sourceBlock));
 
         def.setX(sourceBlock.getX() - offsetX);
@@ -133,9 +125,9 @@ public class SchematicDef {
         def.setBlockFaceCode("");
         BlockState blockState = sourceBlock.getState();
         def.setMaterialData(blockState.getRawData());
-       
+
         MaterialData sMat = sourceBlock.getState().getData();
-        
+
         if (sMat instanceof Bed) {
             this.AddBlockColorToPalette(((org.bukkit.block.Bed) sourceBlock.getState()).getColor());
         }
@@ -175,7 +167,7 @@ public class SchematicDef {
         }
         return BlockTypePalette.indexOf(sourceBlock.getType().name());
     }
-    
+
     public int AddBlockTypeToPalette(Material mat) {
         if (!BlockTypePalette.contains(mat.name())) {
             BlockTypePalette.add(mat.name());
@@ -184,7 +176,7 @@ public class SchematicDef {
     }
 
     public int AddBlockColorToPalette(DyeColor color) {
-        
+
         if (!BlockColorPalette.contains(color.name())) {
             BlockColorPalette.add(color.name());
         }

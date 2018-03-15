@@ -53,11 +53,11 @@ public class LoadClipBoardTaskResponse
         pi.setLastAuth(this.Response.getLastAuth());
         pi.SelectEnd = null;
         pi.SelectStart = null;
-        
+
         System.out.println("Loading Clip Schematic");
         pi.ClipSchematic.LoadResponse(Response);
         System.out.println("Done Loading Clip Schematic");
-        
+
         if (!this.Response.getWasSuccessful()) {
             player.sendMessage(ChatColor.YELLOW + "File not loaded.");
             player.sendMessage(ChatColor.RED + this.Response.getMessage());

@@ -20,8 +20,8 @@ public class Delete
                     player.sendMessage("Please wait for last command to finish.");
                     return true;
                 }
-                Initialization.PlayerInfoList.get(player).setIsProcessing(true,"Delete");
-                
+                Initialization.PlayerInfoList.get(player).setIsProcessing(true, "Delete");
+
                 if (!Initialization.PlayerInfoList.containsKey(player)) {
                     player.sendMessage("Select something first!");
                 }
@@ -33,12 +33,12 @@ public class Delete
 
                 ut.runTaskTimer((org.bukkit.plugin.Plugin) Initialization.Plugin, 1, 15);
 
-             }catch (Exception e){
-             Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Delete");
+            } catch (Exception e) {
+                Initialization.PlayerInfoList.get(player).setIsProcessing(false, "Delete");
                 System.out.println(e.getLocalizedMessage());
                 System.out.println(e.getMessage());
-                }
-        
+            }
+
         }
         return true;
     }

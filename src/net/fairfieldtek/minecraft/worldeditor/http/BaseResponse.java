@@ -23,7 +23,7 @@ package net.fairfieldtek.minecraft.worldeditor.http;
  */
 public class BaseResponse {
 
-  private String Uuid;
+    private String Uuid;
     private boolean IsAuthorized = false;
     private String LastAuth = "";
     private boolean WasSuccessful = false;

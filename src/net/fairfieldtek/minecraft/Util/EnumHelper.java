@@ -25,7 +25,8 @@ import org.bukkit.block.BlockFace;
  * @author geev
  */
 public class EnumHelper {
-      public static DyeColor GetDyeColor(String color) {
+
+    public static DyeColor GetDyeColor(String color) {
         for (DyeColor c : DyeColor.values()) {
             if (c.name().equals(color)) {
                 return c;

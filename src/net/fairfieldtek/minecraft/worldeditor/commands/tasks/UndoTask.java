@@ -17,7 +17,7 @@ public class UndoTask
         extends BukkitRunnable {
 
     SchematicDef SchematicClip;
-    
+
     //ArrayList<BlockDef> ClipBoard = new ArrayList();
     UUID PlayerId;
     int ClipBoardCount = 0;
@@ -55,14 +55,14 @@ public class UndoTask
             BlockDef itm = iter.next();
             Block changeBlock = world.getBlockAt(itm.getX(), itm.getY(), itm.getZ());
             //BlockUtil.SetBlock(changeBlock, itm, player, true);
-            
+
             itm.SetBlock(changeBlock, player, true);
-            
+
             iter.remove();
         }
         try {
             player.sendMessage("Blocks undone (" + this.ClipBoardCount + ")");
-            Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Undo");
+            Initialization.PlayerInfoList.get(player).setIsProcessing(false, "Undo");
         } catch (Exception itm) {
             // empty catch block
         }

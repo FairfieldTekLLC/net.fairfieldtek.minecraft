@@ -19,8 +19,7 @@ public class Print
                 player.sendMessage("Please wait for last command to finish.");
                 return true;
             }
-            
-            
+
             if (info.SelectStart != null) {
                 player.sendMessage("Start Position : " + info.SelectStart.toString());
             } else {

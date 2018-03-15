@@ -10,25 +10,24 @@ public class PlayerInfo {
     public IPoint SelectEnd = null;
     //public ArrayList<BlockDef> ClipBoard = new ArrayList();
     //public ArrayList<BlockDef> UndoBuffer = new ArrayList();
-    
+
     public SchematicDef ClipSchematic = new SchematicDef();
     public SchematicDef UndoSchematic = new SchematicDef();
-    
-    
+
     public String Token;
     public boolean CancelLastAction = false;
-    
+
     private boolean IsProcessing;
-    
-    public boolean getIsProcessing(){
+
+    public boolean getIsProcessing() {
         System.out.println("Checking Busy? " + IsProcessing);
         return this.IsProcessing;
     }
-    public void setIsProcessing(boolean flag,String caller){
+
+    public void setIsProcessing(boolean flag, String caller) {
         IsProcessing = flag;
         System.out.println(caller + " is setting Busy: " + flag);
     }
-    
 
     public String getCurrentPath() {
         return this.CurrentPath;

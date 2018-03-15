@@ -1,4 +1,3 @@
-
 package net.fairfieldtek.minecraft;
 
 import java.util.HashMap;
@@ -61,7 +60,7 @@ public class Initialization {
 
     static {
         //BaseUri = "http://localhost:31312/api/worldeditor/v1/";
-        BaseUri="http://mc.fairfieldtek.com/api/worldeditor/v1/";
+        BaseUri = "http://mc.fairfieldtek.com/api/worldeditor/v1/";
         PlayerInfoList = new HashMap<>();
     }
 }

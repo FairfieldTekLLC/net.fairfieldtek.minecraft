@@ -103,14 +103,13 @@ public class Paste
                     player.sendMessage("Please wait for last command to finish.");
                     return true;
                 }
-                if (Initialization.PlayerInfoList.get(player).ClipSchematic.IsEmpty())
-                {
-                     player.sendMessage("Nothing in clipboard.");
-                     Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Paste");
-                     return true;
+                if (Initialization.PlayerInfoList.get(player).ClipSchematic.IsEmpty()) {
+                    player.sendMessage("Nothing in clipboard.");
+                    Initialization.PlayerInfoList.get(player).setIsProcessing(false, "Paste");
+                    return true;
                 }
-                Initialization.PlayerInfoList.get(player).setIsProcessing(true,"Paste");
-                
+                Initialization.PlayerInfoList.get(player).setIsProcessing(true, "Paste");
+
                 Axis axis = Axis.N;
                 double degrees = 0.0;
                 Block targetBlock = null;
@@ -153,17 +152,16 @@ public class Paste
                 }
                 Location tLoc = targetBlock.getLocation();
                 if (!(axis != Axis.X && axis != Axis.Z || force)) {
-                    Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Paste");
+                    Initialization.PlayerInfoList.get(player).setIsProcessing(false, "Paste");
                     player.sendMessage("WARNING!!! The ONLY SAFE rotation is on the Y axis, put an 'f' at the end to force the rotation.");
                     player.sendMessage("ABORTING COPY");
                     return true;
                 }
                 player.sendMessage(ChatColor.RED + "Starting Paste Procedure...");
                 PasteTask pt = new PasteTask(player, tLoc.getBlockX(), tLoc.getBlockY(), tLoc.getBlockZ(), axis, degrees);
-                
-                
+
                 pt.runTaskTimer((org.bukkit.plugin.Plugin) Initialization.Plugin, 1, 15);
-                
+
             } catch (Exception e) {
                 player.sendMessage("Valid Formats for Paste are:");
                 player.sendMessage("                             /fft.we.paste");
@@ -172,12 +170,11 @@ public class Paste
                 player.sendMessage("                             /fft.we.paste x y z {Rotation} {Degrees}");
                 System.out.println(e.getLocalizedMessage());
                 System.out.println(e.getMessage());
-                
-                Initialization.PlayerInfoList.get(player).setIsProcessing(false,"Paste");
+
+                Initialization.PlayerInfoList.get(player).setIsProcessing(false, "Paste");
                 System.out.println(e.getLocalizedMessage());
                 System.out.println(e.getMessage());
-                
-                
+
             }
         }
         return true;
