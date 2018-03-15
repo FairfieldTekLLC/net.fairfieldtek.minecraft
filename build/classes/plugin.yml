@@ -53,10 +53,7 @@ commands:
     usage: /fft.reg 
   fft.auth:
     description: Send Authentication Code to Email
-    usage: /fft.auth
-  fft.login:
-    description: Logs in the minecraft account into their repository
-    usage: /fft.login
+    usage: /fft.auth <Code if logging in>
   fft.ls:
     description:
     usage: /fft.ls
@@ -75,3 +72,6 @@ commands:
   fft.load:
     description:
     usage: /fft.load        
+  fft.we.demo:
+    description: Tells you what type of blocks and how many are in your clipboard
+    usage: /fft.we.demo

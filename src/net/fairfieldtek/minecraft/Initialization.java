@@ -11,6 +11,7 @@ import net.fairfieldtek.minecraft.worldeditor.commands.RegenChunk;
 import net.fairfieldtek.minecraft.worldeditor.commands.Rotate;
 import net.fairfieldtek.minecraft.worldeditor.commands.Select;
 import net.fairfieldtek.minecraft.worldeditor.commands.Undo;
+import net.fairfieldtek.minecraft.worldeditor.commands.Demographics;
 import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.Authenticate;
 import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.CD;
 import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.LS;
@@ -43,6 +44,7 @@ public class Initialization {
         plugin.getCommand("fft.we.delete").setExecutor((CommandExecutor) new Delete());
         plugin.getCommand("fft.we.del").setExecutor((CommandExecutor) new Delete());
         plugin.getCommand("fft.we.chunkregen").setExecutor((CommandExecutor) new RegenChunk());
+        plugin.getCommand("fft.we.demo").setExecutor((CommandExecutor) new Demographics());
         plugin.getCommand("fft.reg").setExecutor((CommandExecutor) new Register());
         plugin.getCommand("fft.auth").setExecutor((CommandExecutor) new Authenticate());
         //plugin.getCommand("fft.login").setExecutor((CommandExecutor) new Login());
@@ -52,6 +54,7 @@ public class Initialization {
         plugin.getCommand("fft.mk").setExecutor((CommandExecutor) new MK());
         plugin.getCommand("fft.save").setExecutor((CommandExecutor) new SaveClipboard());
         plugin.getCommand("fft.load").setExecutor((CommandExecutor) new LoadClipboard());
+        
     }
 
     public static void ShutDown() {

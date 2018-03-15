@@ -35,7 +35,7 @@ public class LsTaskResponse
                     continue;
                 }
                 case 1: {
-                    player.sendMessage(ChatColor.WHITE + "-> ( " + ChatColor.BLUE + "S" + ChatColor.WHITE + " ) " + MiscUtil.padRight(element.getName(), 52) + "(" + element.getBlockCount() + ")");
+                    player.sendMessage(ChatColor.WHITE + "-> ( " + ChatColor.BLUE + "S" + ChatColor.WHITE + " ) " + MiscUtil.padRight(element.getName(), 52," ") + "(" + element.getBlockCount() + ")");
                 }
             }
         }
