@@ -151,9 +151,12 @@ public class BlockDef {
     }
 
     public boolean getIsStairs() {
-        
+        //System.out.println("Stair Check! " + SchematicOwner.GetBlockTypePaletteEntry(this.BlockTypeIndex).name());
         if (SchematicOwner.GetBlockTypePaletteEntry(this.BlockTypeIndex).name().endsWith("_STAIRS"))
-            return true;
+        {
+            //System.out.println("TRUE!!!!");
+            return true;}
+            //System.out.println("FALSE!!!!");
         return false;
         
     }
@@ -732,9 +735,8 @@ public class BlockDef {
     public boolean StairsCreate(Block changeBlock) {
         MaterialData tMat = changeBlock.getState().getData();
 
-        if (!(tMat instanceof Stairs)) {
+        if (!getIsStairs())
             return false;
-        }
 
         changeBlock.setType(Material.getMaterial(SchematicOwner.getBlockTypePalette().get(this.BlockTypeIndex)));
         //Material.getMaterial((String) getMaterialType()), true);
