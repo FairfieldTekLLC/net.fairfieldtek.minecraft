@@ -21,6 +21,9 @@ commands:
   fft.we.clear:
     description: Clears the buffers and selections
     usage: /fft.we.clear
+  fft.we.clearHistory:
+    description: Clears the undo history
+    usage: /fft.we.clearhistory
   fft.we.paste:
     description: Pastes your buffer
     usage: /fft.we.paste

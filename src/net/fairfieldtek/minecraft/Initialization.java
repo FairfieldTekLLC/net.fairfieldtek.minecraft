@@ -2,6 +2,7 @@ package net.fairfieldtek.minecraft;
 
 import java.util.HashMap;
 import net.fairfieldtek.minecraft.worldeditor.commands.Clear;
+import net.fairfieldtek.minecraft.worldeditor.commands.ClearHistory;
 import net.fairfieldtek.minecraft.worldeditor.commands.Copy;
 import net.fairfieldtek.minecraft.worldeditor.commands.Delete;
 import net.fairfieldtek.minecraft.worldeditor.commands.Inspect;
@@ -35,6 +36,7 @@ public class Initialization {
         plugin.getCommand("fft.we.select").setExecutor((CommandExecutor) new Select());
         plugin.getCommand("fft.we.print").setExecutor((CommandExecutor) new Print());
         plugin.getCommand("fft.we.clear").setExecutor((CommandExecutor) new Clear());
+        plugin.getCommand("fft.we.clearhistory").setExecutor((CommandExecutor) new ClearHistory());
         plugin.getCommand("fft.we.paste").setExecutor((CommandExecutor) new Paste());
         plugin.getCommand("fft.we.copy").setExecutor((CommandExecutor) new Copy());
         plugin.getCommand("fft.we.undo").setExecutor((CommandExecutor) new Undo());

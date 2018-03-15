@@ -25,7 +25,7 @@ public class UndoTask
     public UndoTask(Player player) {
         this.PlayerId = player.getUniqueId();
         PlayerInfo pi = Initialization.PlayerInfoList.get(player);
-        this.SchematicClip = pi.UndoSchematic;
+        this.SchematicClip = pi.GetUndo();
         this.ClipBoardCount = this.SchematicClip.Size();
     }
 

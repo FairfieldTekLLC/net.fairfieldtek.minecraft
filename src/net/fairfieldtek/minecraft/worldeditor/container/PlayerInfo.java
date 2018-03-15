@@ -1,6 +1,7 @@
 package net.fairfieldtek.minecraft.worldeditor.container;
 
 import java.util.ArrayList;
+import java.util.*;
 
 public class PlayerInfo {
 
@@ -8,11 +9,33 @@ public class PlayerInfo {
     private String CurrentPath = "";
     public IPoint SelectStart = null;
     public IPoint SelectEnd = null;
-    //public ArrayList<BlockDef> ClipBoard = new ArrayList();
-    //public ArrayList<BlockDef> UndoBuffer = new ArrayList();
 
     public SchematicDef ClipSchematic = new SchematicDef();
-    public SchematicDef UndoSchematic = new SchematicDef();
+
+    private SchematicDef UndoSchematic = new SchematicDef();
+
+    private Stack<SchematicDef> UndoHistory = new Stack<SchematicDef>();
+
+    public SchematicDef NewUndo() {
+        UndoHistory.push(UndoSchematic);
+        UndoSchematic = new SchematicDef();
+        return UndoSchematic;
+    }
+
+    public SchematicDef GetUndo() {
+        SchematicDef current = UndoSchematic;
+        if (!UndoHistory.empty()) {
+            UndoSchematic = UndoHistory.pop();
+        } else {
+            UndoSchematic = new SchematicDef();
+        }
+        return current;
+    }
+    
+    public void ClearHistory(){
+        UndoSchematic = new SchematicDef();
+        UndoHistory.empty();
+    }
 
     public String Token;
     public boolean CancelLastAction = false;

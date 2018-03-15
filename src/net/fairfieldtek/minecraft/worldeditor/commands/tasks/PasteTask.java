@@ -42,9 +42,8 @@ public class PasteTask
         this.Axis = axis;
         this.Degrees = degrees;
         PlayerInfo pi = Initialization.PlayerInfoList.get(player);
-        //this.ClipBoard = pi.ClipBoard;
-        this.SchematicClipboard = pi.ClipSchematic;
-        this.SchematicUndo = pi.UndoSchematic;
+        this.SchematicClipboard = pi.ClipSchematic.Clone();
+        this.SchematicUndo = pi.NewUndo();
         this.SchematicUndo.Clear();
     }
 

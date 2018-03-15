@@ -48,6 +48,20 @@ public class BlockDef {
 
     public SchematicDef SchematicOwner;
 
+    public BlockDef Clone(SchematicDef owner) {
+        BlockDef blockDef = new BlockDef();
+        blockDef.BlockColorIndex = this.BlockColorIndex;
+        blockDef.BlockFaceCode = this.BlockFaceCode;
+        blockDef.BlockTypeIndex = this.BlockTypeIndex;
+        blockDef.Inverted = this.Inverted;
+        blockDef.MaterialData = this.MaterialData;
+        blockDef.SchematicOwner = owner;
+        blockDef.X = this.X;
+        blockDef.Y = this.Y;
+        blockDef.Z = this.Z;
+        return blockDef;
+    }
+
     public String toXferString() {
         return Byte.toString(MaterialData) + "|"
                 + Integer.toString(X) + "|"

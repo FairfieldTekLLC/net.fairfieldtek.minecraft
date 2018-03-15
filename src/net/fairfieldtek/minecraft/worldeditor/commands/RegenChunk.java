@@ -14,6 +14,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import net.fairfieldtek.minecraft.worldeditor.container.SchematicDef;
 
 public class RegenChunk
         implements CommandExecutor {
@@ -67,7 +68,8 @@ public class RegenChunk
                 Chunk chunk = world.getChunkAt(block);
                 PlayerInfo pi = Initialization.PlayerInfoList.get(player);
 
-                pi.UndoSchematic.Clear();
+                //pi.UndoSchematic.Clear();
+                SchematicDef undo = pi.NewUndo();
 
                 //pi.UndoBuffer.clear();
                 player.sendMessage(ChatColor.RED + "Making everything right in the world again...");
@@ -78,7 +80,7 @@ public class RegenChunk
                         for (int iy = 255; iy >= 0; --iy) {
                             block = chunk.getBlock(ix, iy, iz);
                             //BlockDef blockDef = BlockUtil.GetBlockDef(block, 0, 0, 0, player);
-                            pi.UndoSchematic.AddBlock(block, 0, 0, 0, player);
+                            undo.AddBlock(block, 0, 0, 0, player);
                             //pi.UndoBuffer.add(blockDef);
                         }
                     }

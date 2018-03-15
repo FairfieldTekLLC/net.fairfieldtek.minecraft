@@ -16,6 +16,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 package net.fairfieldtek.minecraft.worldeditor.container;
+
 import java.util.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,23 +42,34 @@ public class SchematicDef {
     private String Name;
     private ArrayList<String> BlockTypePalette = new ArrayList<>();
     private ArrayList<String> BlockColorPalette = new ArrayList<>();
-    
-    public HashMap<String,Integer> GetBlockMaterialCounts(){
-     HashMap<String,Integer> map=new HashMap<String,Integer>();  
-        for (BlockDef def :Blocks) {
-           String matName = GetBlockTypePaletteEntry(def.getBlockTypeIndex()).name();
-           if (!map.containsKey(matName)) 
-           {
-               map.put(matName,1);
-           }
-           else
-           {
-           int count = map.get(matName)+1;
-           map.remove(matName);
-           map.put(matName, count);
-           }
+
+    public SchematicDef Clone() {
+        SchematicDef newSchematicDef = new SchematicDef();
+        Blocks.forEach((def) -> {
+            newSchematicDef.Blocks.add(def.Clone(this));
+        });
+        BlockTypePalette.forEach((matType) -> {
+            newSchematicDef.BlockTypePalette.add(matType);
+        });
+        BlockColorPalette.forEach((colorType) -> {
+            newSchematicDef.BlockColorPalette.add(colorType);
+        });
+        return newSchematicDef;
+    }
+
+    public HashMap<String, Integer> GetBlockMaterialCounts() {
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        for (BlockDef def : Blocks) {
+            String matName = GetBlockTypePaletteEntry(def.getBlockTypeIndex()).name();
+            if (!map.containsKey(matName)) {
+                map.put(matName, 1);
+            } else {
+                int count = map.get(matName) + 1;
+                map.remove(matName);
+                map.put(matName, count);
+            }
         }
-       return map;
+        return map;
     }
 
     public SchematicDef() {
@@ -145,7 +157,7 @@ public class SchematicDef {
         if (sMat instanceof Bed) {
             this.AddBlockColorToPalette(((org.bukkit.block.Bed) sourceBlock.getState()).getColor());
         }
-        
+
         def.GetColor(sourceBlock);
 
         if (!def.StairsGetDirectionalCond(sourceBlock)) {

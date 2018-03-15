@@ -81,8 +81,9 @@ public class DeleteTask
             }
             PlayerInfo pi = Initialization.PlayerInfoList.get(player);
 
-            //pi.ClipBoard.clear();
-            pi.UndoSchematic.Clear();
+            SchematicDef undo = pi.NewUndo();
+            
+            //pi.UndoSchematic.Clear();
 
             World world = player.getWorld();
             int counter = 0;
@@ -102,7 +103,7 @@ public class DeleteTask
                         this.EmptyDef.setZ(this.Z);
                         Block changeBlock = world.getBlockAt(this.X, this.Y, this.Z);
 
-                        pi.UndoSchematic.AddBlock(changeBlock, this.X, this.Y, this.Z, player);
+                        undo.AddBlock(changeBlock, this.X, this.Y, this.Z, player);
 
                         //pi.ClipBoard.add(BlockUtil.GetBlockDef(changeBlock, this.X, this.Y, this.Z, player));
                         EmptyDef.SetBlock(changeBlock, player, true);
