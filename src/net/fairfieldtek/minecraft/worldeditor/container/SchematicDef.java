@@ -18,6 +18,7 @@
 package net.fairfieldtek.minecraft.worldeditor.container;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import net.fairfieldtek.minecraft.Util.MaterialUtil;
 import net.fairfieldtek.minecraft.worldeditor.http.SchematicDataDownloadResponse;
 import org.bukkit.Chunk;
@@ -56,13 +57,8 @@ public class SchematicDef {
             def.SchematicOwner = this;
             Blocks.add(def);
         }
-        for (String blockType : response.getBlockTypePalette()) {
-            BlockTypePalette.add(blockType);
-        }
-        for (String color : response.getColorPalette()) {
-            System.out.println("Adding color - " + color);
-            BlockColorPalette.add(color);
-        }
+        BlockTypePalette.addAll(Arrays.asList(response.getBlockTypePalette()));
+        BlockColorPalette.addAll(Arrays.asList(response.getColorPalette()));
     }
 
     public DyeColor GetColorPaletteEntry(int i) {
@@ -131,6 +127,8 @@ public class SchematicDef {
         if (sMat instanceof Bed) {
             this.AddBlockColorToPalette(((org.bukkit.block.Bed) sourceBlock.getState()).getColor());
         }
+        
+        def.GetColor(sourceBlock);
 
         if (!def.StairsGetDirectionalCond(sourceBlock)) {
             if (!def.LadderGetDirectionalCond(sourceBlock)) {

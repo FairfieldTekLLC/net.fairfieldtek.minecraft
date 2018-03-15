@@ -9,13 +9,11 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
-import org.bukkit.material.Bed;
-import org.bukkit.material.Directional;
-import org.bukkit.material.Ladder;
-import org.bukkit.material.MaterialData;
-import org.bukkit.material.Stairs;
+import org.bukkit.material.*;
+import org.bukkit.inventory.meta.*;
 
 public class BlockDef {
+
     private static void erase(Block changeBlock) {
         Block s1 = changeBlock.getRelative(BlockFace.UP, 1);
         if (s1.isLiquid()) {
@@ -48,8 +46,8 @@ public class BlockDef {
     private int BlockTypeIndex;
     private int BlockColorIndex;
 
-
     public SchematicDef SchematicOwner;
+
     public String toXferString() {
         return Byte.toString(MaterialData) + "|"
                 + Integer.toString(X) + "|"
@@ -77,6 +75,8 @@ public class BlockDef {
                 GeneralCreate(changeBlock);
             }
         }
+
+        SetColor(changeBlock);
 
     }
 
@@ -674,11 +674,45 @@ public class BlockDef {
             this.BlockTypeIndex = SchematicOwner.AddBlockTypeToPalette(Material.AIR);
         } else {
             FromBlockFace(bed.getFacing());
-            DyeColor dye = ((org.bukkit.block.Bed) sourceBlock.getState()).getColor();
-            this.BlockColorIndex = SchematicOwner.AddBlockColorToPalette(dye);
         }
 
         return true;
+    }
+
+    public DyeColor GetColor(Block sourceBlock) {
+        MaterialData sMat = sourceBlock.getState().getData();
+        DyeColor dyeColor = DyeColor.WHITE;
+
+        if (sMat instanceof Wool) {
+            dyeColor = ((Wool) sMat).getColor();
+        } else if (sMat instanceof Bed) {
+            dyeColor = ((org.bukkit.block.Bed) sourceBlock.getState()).getColor();
+        } else if (sMat instanceof Banner) {
+
+            dyeColor = ((org.bukkit.block.Banner) sourceBlock.getState()).getBaseColor();
+        }
+
+        this.BlockColorIndex = SchematicOwner.AddBlockColorToPalette(dyeColor);
+        return dyeColor;
+    }
+
+    public void SetColor(Block sourceBlock) {
+
+        DyeColor dyeColor = this.SchematicOwner.GetColorPaletteEntry(this.BlockColorIndex);
+
+        BlockState sourceBlockState = sourceBlock.getState();
+
+        MaterialData sMat = sourceBlockState.getData();
+
+        if (sMat instanceof Wool) {
+            ((Wool) sMat).setColor(dyeColor);
+        } else if (sMat instanceof Bed) {
+            ((org.bukkit.block.Bed) sourceBlockState).setColor(dyeColor);
+        } else if (sMat instanceof Banner) {
+            ((org.bukkit.block.Banner) sourceBlockState).setBaseColor(dyeColor);
+        }
+
+        sourceBlockState.update(true);
     }
 
     public boolean GetDirectionalCond(Block sourceBlock) {
@@ -708,10 +742,8 @@ public class BlockDef {
         bedFootData.setFacingDirection(bedFacing);
         bedFootState.setData(bedFootData);
         bedFootState.update(true);
-        DyeColor dye = this.SchematicOwner.GetColorPaletteEntry(this.BlockColorIndex);
-        bedFootState = bedFootBlock.getState();
-        ((org.bukkit.block.Bed) bedFootState).setColor(dye);
-        bedFootState.update(true);
+        SetColor(bedFootBlock);
+
         BlockState bedHeadState = bedHeadBlock.getState();
         bedHeadState.setType(Material.BED_BLOCK);
         Bed bedHeadData = new Bed(Material.BED_BLOCK);
@@ -719,14 +751,13 @@ public class BlockDef {
         bedHeadData.setFacingDirection(bedFacing);
         bedHeadState.setData(bedHeadData);
         bedHeadState.update(true);
-        bedHeadState = bedHeadBlock.getState();
-        ((org.bukkit.block.Bed) bedHeadState).setColor(dye);
-        bedHeadState.update(true);
+        SetColor(bedHeadBlock);
+
         return true;
     }
 
     public boolean StairsCreate(Block changeBlock) {
-        MaterialData tMat = changeBlock.getState().getData();
+        //MaterialData tMat = changeBlock.getState().getData();
 
         if (!getIsStairs()) {
             return false;
@@ -738,7 +769,7 @@ public class BlockDef {
         state.setRawData(getMaterialData());
         state.update(true);
         state = changeBlock.getState();
-        tMat = state.getData();
+        MaterialData tMat = state.getData();
         if (getBlockFaceCode().equals("")) {
             return true;
         }
