@@ -15,6 +15,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.bukkit.scheduler.BukkitRunnable;
+import net.fairfieldtek.minecraft.worldeditor.container.SchematicDef;
 
 public class SaveClipboardTaskRequest
         extends BukkitRunnable {
@@ -23,48 +24,78 @@ public class SaveClipboardTaskRequest
     private String AuthToken;
     private final String Path;
     private final String Filename;
-    private final ArrayList<BlockDef> Clipboard;
+    private final SchematicDef ClipSchematic;
 
-    public SaveClipboardTaskRequest(String uuid, String authToken, String path, ArrayList<BlockDef> ClipBoard, String filename) {
+    private boolean FirstPass = true;
+
+    public SaveClipboardTaskRequest(String uuid, String authToken, String path, SchematicDef schematicDef, String filename) {
         this.Uuid = uuid;
         this.Filename = filename;
         this.AuthToken = authToken;
         this.Path = path;
-        this.Clipboard = ClipBoard;
+        this.ClipSchematic = schematicDef;
     }
 
     @Override
     public void run() {
         try {
             int schematicId = -1;
-            int total = this.Clipboard.size();
+            int total = this.ClipSchematic.Size();
             SchematicDataResponse response = new SchematicDataResponse();
-            while (this.Clipboard.size() > 0) {
+            while (this.ClipSchematic.Size() > 0) {
                 int maxBlocks = 25000;
-                ArrayList<BlockDef> tmp = new ArrayList<>(maxBlocks);
-                ListIterator<BlockDef> iter = this.Clipboard.listIterator();
+                ArrayList<String> tmp = new ArrayList<>(maxBlocks);
+
+                ListIterator<BlockDef> iter = ClipSchematic.getBlocks().listIterator();
+
                 int blockCounter = 0;
                 while (iter.hasNext()) {
                     BlockDef itm = iter.next();
-                    tmp.add(itm);
+                    tmp.add(itm.toXferString());
                     iter.remove();
                     if (++blockCounter < maxBlocks) {
                         continue;
                     }
                     break;
                 }
-                BlockDef[] blocks = new BlockDef[tmp.size()];
+
+                String[] blocks = new String[tmp.size()];
                 tmp.toArray(blocks);
+
+                SchematicDataRequest schematicDataRequest = new SchematicDataRequest();
+                if (FirstPass) {
+                    String[] blockTypePalette = new String[ClipSchematic.getBlockTypePalette().size()];
+                    ClipSchematic.getBlockTypePalette().toArray(blockTypePalette);
+                    schematicDataRequest.setBlockTypePalette(blockTypePalette);
+
+                    if (ClipSchematic.getBlockColorPalette().size() > 0) {
+                        String[] blockColorPalette = new String[ClipSchematic.getBlockColorPalette().size()];
+                        ClipSchematic.getBlockColorPalette().toArray(blockColorPalette);
+                        schematicDataRequest.setColorPalette(blockColorPalette);
+                    }
+                    else
+                    {
+                        schematicDataRequest.setColorPalette(new String[]{""});
+                    }
+                    FirstPass=false;
+                }
+                else
+                {
+                    schematicDataRequest.setColorPalette(new String[]{""});
+                    schematicDataRequest.setBlockTypePalette(new String[]{""});
+                }
+                
                 CloseableHttpClient httpClient = HttpClientBuilder.create().build();
                 HttpPost request = new HttpPost(Initialization.BaseUri + "Save");
                 Gson gson = new Gson();
-                SchematicDataRequest schematicDataRequest = new SchematicDataRequest();
+
                 schematicDataRequest.setAuthToken(this.AuthToken);
                 schematicDataRequest.setCurrentDirectory(this.Path);
                 schematicDataRequest.setUuid(this.Uuid);
                 schematicDataRequest.setFileName(this.Filename);
                 schematicDataRequest.setBlocks(blocks);
                 schematicDataRequest.setSchematicId(schematicId);
+
                 String body = gson.toJson(schematicDataRequest);
                 StringEntity params = new StringEntity(body);
                 request.addHeader("content-type", "application/json");
@@ -74,7 +105,7 @@ public class SaveClipboardTaskRequest
                 CloseableHttpResponse result = httpClient.execute(request);
                 String json = EntityUtils.toString(result.getEntity(), "UTF-8");
                 response = gson.fromJson(json, SchematicDataResponse.class);
-                response.setMessage("Saving... " + this.Clipboard.size() + " blocks remaining of " + total);
+                response.setMessage("Saving... " + this.ClipSchematic.Size() + " blocks remaining of " + total);
                 this.AuthToken = response.getLastAuth();
                 schematicId = response.getSchematicId();
                 response.setFinal(false);

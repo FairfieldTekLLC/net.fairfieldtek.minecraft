@@ -84,6 +84,7 @@ public class SchematicDef {
             world.loadChunk(chunk);
         }
         BlockDef def = new BlockDef();
+        def.setBlockColorIndex(-1);
         
         def.SchematicOwner=this;
 
@@ -109,7 +110,7 @@ public class SchematicDef {
             if (!def.LadderGetDirectionalCond(sourceBlock)) {
                 if (!def.BedGetDirectionalCond(sourceBlock)) {
                     if (!def.GetDirectionalCond(sourceBlock)) {
-                        System.out.println("No Condition");
+                        //System.out.println("No Condition");
                     }
                 }
             }

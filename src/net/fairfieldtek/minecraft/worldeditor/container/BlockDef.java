@@ -21,8 +21,6 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 public class BlockDef {
-
-    //private String MaterialType;
     private byte MaterialData;
     private int X;
     private int Y;
@@ -30,9 +28,21 @@ public class BlockDef {
     private boolean Inverted;
     private boolean IsStairs;
     private String BlockFaceCode;
-
     private int BlockTypeIndex;
     private int BlockColorIndex;
+    
+   public String toXferString(){
+       return 
+               Byte.toString(MaterialData) + "|" + 
+               Integer.toString(X) + "|" + 
+               Integer.toString(Y) + "|" + 
+               Integer.toString(Z) +"|" + 
+               (Inverted?"1":"0") + "|" + 
+               (IsStairs?"1":"0") + "|" +
+               BlockFaceCode + "|" +
+               Integer.toString(BlockTypeIndex) + "|" +
+               Integer.toString(BlockColorIndex);
+   }
 
     public SchematicDef SchematicOwner;
 
@@ -80,8 +90,6 @@ public class BlockDef {
     public int getBlockTypeIndex() {
         return this.BlockTypeIndex;
     }
-
-    ;
     
     public void setBlockTypeIndex(int idx) {
         this.BlockTypeIndex = idx;
@@ -151,13 +159,6 @@ public class BlockDef {
         this.IsStairs = isStairs;
     }
 
-//    public String getMaterialType() {
-//        return this.MaterialType;
-//    }
-//
-//    public void setMaterialType(String materialType) {
-//        this.MaterialType = materialType;
-//    }
     public byte getMaterialData() {
         return this.MaterialData;
     }
