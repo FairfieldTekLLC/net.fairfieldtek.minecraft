@@ -22,17 +22,25 @@ public class PasteTask
     Second Pass: render beds
     Need to research if any other objects use two blocks to represent itself.
      */
+    SchematicDef RotatedSchematicClipboard = new SchematicDef();
     SchematicDef SchematicClipboard;
     SchematicDef SchematicUndo;
 
-    //ArrayList<BlockDef> ClipBoard = new ArrayList();
-    //ArrayList<BlockDef> UndoBuffer = new ArrayList();
     UUID PlayerId;
     int X;
     int Y;
     int Z;
     Axis Axis;
     double Degrees;
+    boolean FinishedRotation = false;
+    
+    int minX = Integer.MAX_VALUE;
+    int minY = Integer.MAX_VALUE;
+    int minZ = Integer.MAX_VALUE;
+    
+    int finalOffsetX=0;
+    int finalOffsetY=0;
+    int finalOffsetZ=0;
 
     public PasteTask(Player player, int x, int y, int z, Axis axis, double degrees) {
         this.PlayerId = player.getUniqueId();
@@ -116,15 +124,64 @@ public class PasteTask
                 int x = (int) Math.round(dx) + this.X;
                 int y = (int) Math.round(dy) + this.Y + 1;
                 int z = (int) Math.round(dz) + this.Z;
+
+                itm.setX(x);
+                itm.setY(y);
+                itm.setZ(z);
+                this.RotatedSchematicClipboard.AddBlock(itm);
+                iter.remove();
+
+            }
+
+            if (this.SchematicClipboard.Size() == 0 && !FinishedRotation) {
+                FinishedRotation = true;
+                iter = this.RotatedSchematicClipboard.getBlocks().listIterator();
+                while (iter.hasNext()) {
+                    BlockDef itm = iter.next();
+                    if (itm.getX()<minX)
+                        minX=itm.getX();
+                    if (itm.getZ()<minZ)
+                        minZ=itm.getZ();
+                    if (itm.getY()<minY)
+                        minY=itm.getY();
+                }
+                
+                finalOffsetX = this.X - minX;
+                finalOffsetY = this.Y - minY;
+                finalOffsetZ = this.Z - minZ;
+
+            }
+
+            counter = 0;
+
+            iter = this.RotatedSchematicClipboard.getBlocks().listIterator();
+
+            while (iter.hasNext()) {
+                if (++counter > 8000) {
+                    try {
+                        player.sendMessage("Buffering... " + this.RotatedSchematicClipboard.getBlocks().size() + " left.");
+                    } catch (Exception e) {
+                        this.cancel();
+                    }
+                    return;
+                }
+                BlockDef itm = iter.next();
+                
+                System.out.println("Final Offset " + finalOffsetX + " " + finalOffsetY + " " + finalOffsetZ);
+
+                int x = itm.getX() + finalOffsetX;
+                int y = itm.getY() + finalOffsetY + 1;
+                int z = itm.getZ() + finalOffsetZ;
+
                 Block changeBlock = player.getWorld().getBlockAt(x, y, z);
 
                 this.SchematicUndo.AddBlock(changeBlock, 0, 0, 0, player);
 
                 itm.SetBlock(changeBlock, player, false);
-                //this.UndoBuffer.add(0, BlockUtil.GetBlockDef(changeBlock, 0, 0, 0, player));
-                //BlockUtil.SetBlock(changeBlock, itm, player, false);
+
                 iter.remove();
             }
+
             player.sendMessage("Blocks Pasted (" + this.SchematicUndo.Size() + ")");
         } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
