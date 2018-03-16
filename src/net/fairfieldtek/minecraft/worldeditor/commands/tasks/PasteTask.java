@@ -195,28 +195,20 @@ public class PasteTask
                 try {
                     switch (PlayerUtils.getCardinalDirection(player)) {
                         case WEST:
+                        case NORTH_WEST:                            
                             foz = finalOffsetZ - (maxZ - minZ);
                             fox = finalOffsetX - (maxX - minX);
                             break;
                         case SOUTH:
+                        case SOUTH_WEST:
                             fox = finalOffsetX - (maxX - minX);
                             break;
                         case NORTH:
+                        case NORTH_EAST:
                             foz = finalOffsetZ - (maxZ - minZ);
                             break;
                         case SOUTH_EAST:
                             break;
-                        case NORTH_EAST:
-                            foz = finalOffsetZ - (maxZ - minZ);
-                            break;
-                        case SOUTH_WEST:
-                            fox = finalOffsetX - (maxX - minX);
-                            break;
-                        case NORTH_WEST:
-                            foz = finalOffsetZ - (maxZ - minZ);
-                            fox = finalOffsetX - (maxX - minX);
-                            break;
-
                     }
                 } catch (Exception e) {
                     System.out.println("Cannot determine facing.");
