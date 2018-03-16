@@ -18,7 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import net.fairfieldtek.minecraft.worldeditor.container.SchematicDef;
 
 public class SaveClipboardTaskRequest
-        extends BukkitRunnable {
+        extends HttpRequestor {
 
     private final String Uuid;
     private String AuthToken;
@@ -80,27 +80,17 @@ public class SaveClipboardTaskRequest
                     schematicDataRequest.setColorPalette(new String[]{""});
                     schematicDataRequest.setBlockTypePalette(new String[]{""});
                 }
-
-                CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-                HttpPost request = new HttpPost(Initialization.BaseUri + "Save");
                 Gson gson = new Gson();
-
                 schematicDataRequest.setAuthToken(this.AuthToken);
                 schematicDataRequest.setCurrentDirectory(this.Path);
                 schematicDataRequest.setUuid(this.Uuid);
                 schematicDataRequest.setFileName(this.Filename);
                 schematicDataRequest.setBlocks(blocks);
                 schematicDataRequest.setSchematicId(schematicId);
-
                 String body = gson.toJson(schematicDataRequest);
-                StringEntity params = new StringEntity(body);
-                request.addHeader("content-type", "application/json");
-                request.setEntity(params);
-                RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(120000).setConnectTimeout(120000).setConnectionRequestTimeout(120000).build();
-                request.setConfig(requestConfig);
-                CloseableHttpResponse result = httpClient.execute(request);
-                String json = EntityUtils.toString(result.getEntity(), "UTF-8");
-                response = gson.fromJson(json, SchematicDataResponse.class);
+                response = gson.fromJson(
+                        RequestHttp(Initialization.BaseUri + "Save", body),
+                        SchematicDataResponse.class);
                 response.setMessage("Saving... " + this.ClipSchematic.Size() + " blocks remaining of " + total);
                 this.AuthToken = response.getLastAuth();
                 schematicId = response.getSchematicId();

@@ -15,7 +15,7 @@ import org.apache.http.util.EntityUtils;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class CdTaskRequest
-        extends BukkitRunnable {
+        extends HttpRequestor {
 
     private final String Uuid;
     private final String AuthToken;
@@ -32,8 +32,6 @@ public class CdTaskRequest
     @Override
     public void run() {
         try {
-            CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-            HttpPost request = new HttpPost(Initialization.BaseUri + "DirCd");
             Gson gson = new Gson();
             CdRequest cdRequest = new CdRequest();
             cdRequest.setAuthToken(this.AuthToken);
@@ -41,16 +39,13 @@ public class CdTaskRequest
             cdRequest.setUuid(this.Uuid);
             cdRequest.setTargetDirectory(this.Target);
             String body = gson.toJson(cdRequest);
-            StringEntity params = new StringEntity(body);
-            request.addHeader("content-type", "application/json");
-            request.setEntity(params);
-            RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(120000).setConnectTimeout(120000).setConnectionRequestTimeout(120000).build();
-            request.setConfig(requestConfig);
-            CloseableHttpResponse result = httpClient.execute(request);
-            String json = EntityUtils.toString(result.getEntity(), "UTF-8");
-            CdResponse response = gson.fromJson(json, CdResponse.class);
+            
+            CdResponse response = gson.fromJson(
+                    RequestHttp(Initialization.BaseUri + "DirCd", body), 
+                    CdResponse.class);
             response.setUuid(this.Uuid);
-            new CdTaskResponse(response).runTask((org.bukkit.plugin.Plugin) Initialization.Plugin);
+            new CdTaskResponse(response)
+                    .runTask((org.bukkit.plugin.Plugin) Initialization.Plugin);
         } catch (Exception e) {
             RegisterResponse registerResponse = new RegisterResponse();
             registerResponse.setMessage("An Error has occurred.");

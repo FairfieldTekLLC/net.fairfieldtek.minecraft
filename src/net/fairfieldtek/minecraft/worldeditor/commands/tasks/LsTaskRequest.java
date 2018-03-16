@@ -15,7 +15,7 @@ import org.apache.http.util.EntityUtils;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class LsTaskRequest
-        extends BukkitRunnable {
+        extends HttpRequestor {
 
     private final String Uuid;
     private final String AuthToken;
@@ -30,22 +30,15 @@ public class LsTaskRequest
     @Override
     public void run() {
         try {
-            CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-            HttpPost request = new HttpPost(Initialization.BaseUri + "DirLs");
             Gson gson = new Gson();
             LsRequest lsRequest = new LsRequest();
             lsRequest.setAuthToken(this.AuthToken);
             lsRequest.setCurrentDirectory(this.Path);
             lsRequest.setUuid(this.Uuid);
             String body = gson.toJson(lsRequest);
-            StringEntity params = new StringEntity(body);
-            request.addHeader("content-type", "application/json");
-            request.setEntity(params);
-            RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(120000).setConnectTimeout(120000).setConnectionRequestTimeout(120000).build();
-            request.setConfig(requestConfig);
-            CloseableHttpResponse result = httpClient.execute(request);
-            String json = EntityUtils.toString(result.getEntity(), "UTF-8");
-            LsResponse response = gson.fromJson(json, LsResponse.class);
+            LsResponse response = gson.fromJson(
+                    RequestHttp(Initialization.BaseUri + "DirLs", body),
+                    LsResponse.class);
             response.setUuid(this.Uuid);
             new LsTaskResponse(response).runTask((org.bukkit.plugin.Plugin) Initialization.Plugin);
         } catch (Exception e) {

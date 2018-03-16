@@ -40,23 +40,23 @@ public class PlayerUtils {
     private static BlockFace getDirection(double rot) {
         
         if (0 <= rot && rot < 22.5) {
-            return BlockFace.WEST;// BlockFace.NORTH;
+            return BlockFace.WEST;
         } else if (22.5 <= rot && rot < 67.5) {
             return BlockFace.NORTH_WEST;
         } else if (67.5 <= rot && rot < 112.5) {
-            return BlockFace.NORTH;//BlockFace.EAST;
+            return BlockFace.NORTH;
         } else if (112.5 <= rot && rot < 157.5) {
             return BlockFace.NORTH_EAST;
         } else if (157.5 <= rot && rot < 202.5) {
-            return BlockFace.EAST;//BlockFace.SOUTH;
+            return BlockFace.EAST;
         } else if (202.5 <= rot && rot < 247.5) {
-            return BlockFace.SOUTH_EAST;// "Southwest";
+            return BlockFace.SOUTH_EAST;
         } else if (247.5 <= rot && rot < 292.5) {
-            return BlockFace.SOUTH; //BlockFace.WEST;//"West";
+            return BlockFace.SOUTH; 
         } else if (292.5 <= rot && rot < 337.5) {
-            return BlockFace.SOUTH_WEST;//"Northwest";
+            return BlockFace.SOUTH_WEST;
         } else if (337.5 <= rot && rot < 360.0) {
-            return BlockFace.WEST;// BlockFace.NORTH;//"North";
+            return BlockFace.WEST;
         } else {
             return null;
         }

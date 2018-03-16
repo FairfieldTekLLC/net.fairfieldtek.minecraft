@@ -15,7 +15,7 @@ import org.apache.http.util.EntityUtils;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class RmTaskRequest
-        extends BukkitRunnable {
+        extends HttpRequestor {
 
     private final String Uuid;
     private final String AuthToken;
@@ -32,8 +32,6 @@ public class RmTaskRequest
     @Override
     public void run() {
         try {
-            CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-            HttpPost request = new HttpPost(Initialization.BaseUri + "DirRm");
             Gson gson = new Gson();
             RmRequest rmRequest = new RmRequest();
             rmRequest.setAuthToken(this.AuthToken);
@@ -41,14 +39,9 @@ public class RmTaskRequest
             rmRequest.setUuid(this.Uuid);
             rmRequest.setTargetDirectory(this.Target);
             String body = gson.toJson(rmRequest);
-            StringEntity params = new StringEntity(body);
-            request.addHeader("content-type", "application/json");
-            request.setEntity(params);
-            RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(120000).setConnectTimeout(120000).setConnectionRequestTimeout(120000).build();
-            request.setConfig(requestConfig);
-            CloseableHttpResponse result = httpClient.execute(request);
-            String json = EntityUtils.toString(result.getEntity(), "UTF-8");
-            RmResponse response = gson.fromJson(json, RmResponse.class);
+            RmResponse response = gson.fromJson(
+                    RequestHttp(Initialization.BaseUri + "DirRm", body),
+                    RmResponse.class);
             response.setUuid(this.Uuid);
             new RmTaskResponse(response).runTask((org.bukkit.plugin.Plugin) Initialization.Plugin);
         } catch (Exception e) {
