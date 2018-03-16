@@ -51,6 +51,9 @@ commands:
   fft.we.chunkregen:
     description: Regenerate Chunk
     usage: /fft.we.chunk.regen
+  fft.we.eraseLiquid:
+    description: Removes Water and Lava from x y z location or where player is looking
+    usage: /fft.we.eraseLiquid X Y Z (Blocks Out)
   fft.reg:
     description: Register Email to Minecraft Account
     usage: /fft.reg 
@@ -75,6 +78,6 @@ commands:
   fft.load:
     description:
     usage: /fft.load        
-  fft.we.demo:
-    description: Tells you what type of blocks and how many are in your clipboard
+  fft.we.distr:
+    description: Gets the block distribution of the clipboard
     usage: /fft.we.demo

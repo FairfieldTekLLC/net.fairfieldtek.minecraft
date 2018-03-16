@@ -11,29 +11,74 @@ import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.material.*;
 import org.bukkit.inventory.meta.*;
+import java.util.*;
 
 public class BlockDef {
 
-    private static void erase(Block changeBlock) {
-        Block s1 = changeBlock.getRelative(BlockFace.UP, 1);
+    public static void EraseLiquid(Block changeBlock, int diameter, Player player, SchematicDef undoBuffer) {
+        if (diameter == 0) {
+            return;
+        }
+
+        Block s1 = changeBlock;
+
         if (s1.isLiquid()) {
+            if (undoBuffer != null) {
+                undoBuffer.AddBlock(s1, 0, 0, 0, player);
+            }
             s1.setType(Material.AIR, true);
+            EraseLiquid(s1, diameter - 1, player, undoBuffer);
         }
+
+        s1 = changeBlock.getRelative(BlockFace.UP, 1);
+        if (s1.isLiquid()) {
+            if (undoBuffer != null) {
+                undoBuffer.AddBlock(s1, 0, 0, 0, player);
+            }
+            s1.setType(Material.AIR, true);
+            EraseLiquid(s1, diameter - 1, player, undoBuffer);
+        }
+
         if ((s1 = changeBlock.getRelative(BlockFace.DOWN, 1)).isLiquid()) {
+            if (undoBuffer != null) {
+                undoBuffer.AddBlock(s1, 0, 0, 0, player);
+            }
             s1.setType(Material.AIR, true);
+            EraseLiquid(s1, diameter - 1, player, undoBuffer);
         }
+
         if ((s1 = changeBlock.getRelative(BlockFace.EAST, 1)).isLiquid()) {
+            if (undoBuffer != null) {
+                undoBuffer.AddBlock(s1, 0, 0, 0, player);
+            }
             s1.setType(Material.AIR, true);
+            EraseLiquid(s1, diameter - 1, player, undoBuffer);
         }
+
         if ((s1 = changeBlock.getRelative(BlockFace.WEST, 1)).isLiquid()) {
+            if (undoBuffer != null) {
+                undoBuffer.AddBlock(s1, 0, 0, 0, player);
+            }
             s1.setType(Material.AIR, true);
+            EraseLiquid(s1, diameter - 1, player, undoBuffer);
         }
+
         if ((s1 = changeBlock.getRelative(BlockFace.NORTH, 1)).isLiquid()) {
+            if (undoBuffer != null) {
+                undoBuffer.AddBlock(s1, 0, 0, 0, player);
+            }
             s1.setType(Material.AIR, true);
+            EraseLiquid(s1, diameter - 1, player, undoBuffer);
         }
+
         if ((s1 = changeBlock.getRelative(BlockFace.SOUTH, 1)).isLiquid()) {
+            if (undoBuffer != null) {
+                undoBuffer.AddBlock(s1, 0, 0, 0, player);
+            }
             s1.setType(Material.AIR, true);
+            EraseLiquid(s1, diameter - 1, player, undoBuffer);
         }
+
     }
 
     private byte MaterialData;
@@ -81,7 +126,7 @@ public class BlockDef {
             world.loadChunk(chunk);
         }
         if (erase) {
-            erase(changeBlock);
+            EraseLiquid(changeBlock, 1, player, null);
         }
 
         if (!BedCreate(changeBlock)) {
@@ -96,6 +141,10 @@ public class BlockDef {
 
     public int getBlockTypeIndex() {
         return this.BlockTypeIndex;
+    }
+    
+    public Material getBlockMaterial(){
+        return SchematicOwner.GetBlockTypePaletteEntry(this.BlockTypeIndex);
     }
 
     public void setBlockTypeIndex(int idx) {
@@ -665,6 +714,7 @@ public class BlockDef {
         setInverted(stairs.isInverted());
         return true;
     }
+    
 
     public boolean LadderGetDirectionalCond(Block sourceBlock) {
         MaterialData sMat = sourceBlock.getState().getData();

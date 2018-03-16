@@ -10,6 +10,7 @@ import net.fairfieldtek.minecraft.worldeditor.commands.Paste;
 import net.fairfieldtek.minecraft.worldeditor.commands.Print;
 import net.fairfieldtek.minecraft.worldeditor.commands.RegenChunk;
 import net.fairfieldtek.minecraft.worldeditor.commands.Rotate;
+import net.fairfieldtek.minecraft.worldeditor.commands.EraseLiquid;
 import net.fairfieldtek.minecraft.worldeditor.commands.Select;
 import net.fairfieldtek.minecraft.worldeditor.commands.Undo;
 import net.fairfieldtek.minecraft.worldeditor.commands.Demographics;
@@ -46,7 +47,10 @@ public class Initialization {
         plugin.getCommand("fft.we.delete").setExecutor((CommandExecutor) new Delete());
         plugin.getCommand("fft.we.del").setExecutor((CommandExecutor) new Delete());
         plugin.getCommand("fft.we.chunkregen").setExecutor((CommandExecutor) new RegenChunk());
-        plugin.getCommand("fft.we.demo").setExecutor((CommandExecutor) new Demographics());
+        plugin.getCommand("fft.we.distr").setExecutor((CommandExecutor) new Demographics());
+        plugin.getCommand("fft.we.eraseLiquid").setExecutor((CommandExecutor) new EraseLiquid());
+        
+        
         plugin.getCommand("fft.reg").setExecutor((CommandExecutor) new Register());
         plugin.getCommand("fft.auth").setExecutor((CommandExecutor) new Authenticate());
         //plugin.getCommand("fft.login").setExecutor((CommandExecutor) new Login());

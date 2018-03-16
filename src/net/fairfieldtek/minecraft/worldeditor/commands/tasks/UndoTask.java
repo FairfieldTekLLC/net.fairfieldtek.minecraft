@@ -12,6 +12,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import net.fairfieldtek.minecraft.worldeditor.container.SchematicDef;
+import org.bukkit.Material;
 
 public class UndoTask
         extends BukkitRunnable {
@@ -42,8 +43,8 @@ public class UndoTask
         }
         World world = player.getWorld();
         int counter = 0;
-        ListIterator<BlockDef> iter = this.SchematicClip.getBlocks().listIterator();
-        while (iter.hasNext()) {
+        ListIterator<BlockDef> iter = this.SchematicClip.getBlocks().listIterator(this.SchematicClip.getBlocks().size());
+        while (iter.hasPrevious()) {
             if (++counter > 4000) {
                 try {
                     player.sendMessage("Buffering... " + this.SchematicClip.Size() + " left.");
@@ -52,11 +53,21 @@ public class UndoTask
                 }
                 return;
             }
-            BlockDef itm = iter.next();
+            BlockDef itm = iter.previous();
+            
+            //System.out.println("Material is: " + itm.getBlockMaterial().name());
+            
+            boolean eraseWater = true;
+            
+            if (itm.getBlockMaterial() == Material.WATER || itm.getBlockMaterial()==Material.LAVA)
+            {
+                eraseWater = false;
+            }
+            
             Block changeBlock = world.getBlockAt(itm.getX(), itm.getY(), itm.getZ());
             //BlockUtil.SetBlock(changeBlock, itm, player, true);
 
-            itm.SetBlock(changeBlock, player, true);
+            itm.SetBlock(changeBlock, player, eraseWater);
 
             iter.remove();
         }

@@ -32,6 +32,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.material.Bed;
 import org.bukkit.material.MaterialData;
 
+
 /**
  *
  * @author geev
@@ -159,6 +160,8 @@ public class SchematicDef {
         }
 
         def.GetColor(sourceBlock);
+        
+       
 
         if (!def.StairsGetDirectionalCond(sourceBlock)) {
             if (!def.LadderGetDirectionalCond(sourceBlock)) {
@@ -171,6 +174,19 @@ public class SchematicDef {
         }
         Blocks.add(def);
         return def;
+    }
+    
+    public BlockDef AddBlock(BlockDef blockDef){
+        
+        int matIdx = blockDef.getBlockTypeIndex();
+        int colIdx = blockDef.getBlockColorIndex();
+        
+        this.AddBlockTypeToPalette(blockDef.SchematicOwner.GetBlockTypePaletteEntry(matIdx));
+        this.AddBlockColorToPalette(blockDef.SchematicOwner.GetColorPaletteEntry(colIdx));
+        BlockDef clone = blockDef.Clone(this);
+        this.Blocks.add(clone);
+        return clone;
+        
     }
 
     public String getName() {
