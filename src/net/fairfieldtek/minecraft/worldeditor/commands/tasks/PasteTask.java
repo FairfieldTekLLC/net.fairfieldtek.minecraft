@@ -5,10 +5,14 @@ import java.util.ListIterator;
 import java.util.UUID;
 import net.fairfieldtek.minecraft.Initialization;
 import net.fairfieldtek.minecraft.Util.BlockUtil;
+import net.fairfieldtek.minecraft.Util.PlayerUtils;
 import net.fairfieldtek.minecraft.worldeditor.container.BlockDef;
 import net.fairfieldtek.minecraft.worldeditor.container.PlayerInfo;
 import net.fairfieldtek.minecraft.worldeditor.enumeration.Axis;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.Location;
+
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import net.fairfieldtek.minecraft.worldeditor.container.SchematicDef;
@@ -33,14 +37,18 @@ public class PasteTask
     Axis Axis;
     double Degrees;
     boolean FinishedRotation = false;
-    
+
     int minX = Integer.MAX_VALUE;
     int minY = Integer.MAX_VALUE;
     int minZ = Integer.MAX_VALUE;
-    
-    int finalOffsetX=0;
-    int finalOffsetY=0;
-    int finalOffsetZ=0;
+
+    int maxX = Integer.MIN_VALUE;
+    int maxY = Integer.MIN_VALUE;
+    int maxZ = Integer.MIN_VALUE;
+
+    int finalOffsetX = 0;
+    int finalOffsetY = 0;
+    int finalOffsetZ = 0;
 
     public PasteTask(Player player, int x, int y, int z, Axis axis, double degrees) {
         this.PlayerId = player.getUniqueId();
@@ -138,14 +146,27 @@ public class PasteTask
                 iter = this.RotatedSchematicClipboard.getBlocks().listIterator();
                 while (iter.hasNext()) {
                     BlockDef itm = iter.next();
-                    if (itm.getX()<minX)
-                        minX=itm.getX();
-                    if (itm.getZ()<minZ)
-                        minZ=itm.getZ();
-                    if (itm.getY()<minY)
-                        minY=itm.getY();
+                    if (itm.getX() < minX) {
+                        minX = itm.getX();
+                    }
+                    if (itm.getZ() < minZ) {
+                        minZ = itm.getZ();
+                    }
+                    if (itm.getY() < minY) {
+                        minY = itm.getY();
+                    }
+
+                    if (itm.getX() > maxX) {
+                        maxX = itm.getX();
+                    }
+                    if (itm.getZ() > maxZ) {
+                        maxZ = itm.getZ();
+                    }
+                    if (itm.getY() > maxY) {
+                        maxY = itm.getY();
+                    }
                 }
-                
+
                 finalOffsetX = this.X - minX;
                 finalOffsetY = this.Y - minY;
                 finalOffsetZ = this.Z - minZ;
@@ -166,12 +187,44 @@ public class PasteTask
                     return;
                 }
                 BlockDef itm = iter.next();
-                
-                System.out.println("Final Offset " + finalOffsetX + " " + finalOffsetY + " " + finalOffsetZ);
 
-                int x = itm.getX() + finalOffsetX;
-                int y = itm.getY() + finalOffsetY + 1;
-                int z = itm.getZ() + finalOffsetZ;
+                int foz = finalOffsetZ;
+                int fox = finalOffsetX;
+                int foy = finalOffsetY;
+
+                try {
+                    switch (PlayerUtils.getCardinalDirection(player)) {
+                        case WEST:
+                            foz = finalOffsetZ - (maxZ - minZ);
+                            fox = finalOffsetX - (maxX - minX);
+                            break;
+                        case SOUTH:
+                            fox = finalOffsetX - (maxX - minX);
+                            break;
+                        case NORTH:
+                            foz = finalOffsetZ - (maxZ - minZ);
+                            break;
+                        case SOUTH_EAST:
+                            break;
+                        case NORTH_EAST:
+                            foz = finalOffsetZ - (maxZ - minZ);
+                            break;
+                        case SOUTH_WEST:
+                            fox = finalOffsetX - (maxX - minX);
+                            break;
+                        case NORTH_WEST:
+                            foz = finalOffsetZ - (maxZ - minZ);
+                            fox = finalOffsetX - (maxX - minX);
+                            break;
+
+                    }
+                } catch (Exception e) {
+                    System.out.println("Cannot determine facing.");
+                }
+
+                int x = itm.getX() + fox;
+                int y = itm.getY() + foy + 1;
+                int z = itm.getZ() + foz;
 
                 Block changeBlock = player.getWorld().getBlockAt(x, y, z);
 
