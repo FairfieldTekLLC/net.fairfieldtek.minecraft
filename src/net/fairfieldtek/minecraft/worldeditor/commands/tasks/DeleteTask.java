@@ -62,12 +62,7 @@ public class DeleteTask
         this.EmptyDef = new BlockDef();
         this.EmptyDef.setBlockFaceCode("");
         this.EmptyDef.setInverted(false);
-
         this.EmptyDef.setMaterialData((byte) 0);
-
-        int airIdx = EmptySchematic.AddBlockTypeToPalette(Material.AIR);
-
-        //this.EmptyDef.
         this.EmptyDef.setBlockTypeIndex(EmptySchematic.AddBlockTypeToPalette(Material.AIR));
         EmptySchematic.getBlocks().add(EmptyDef);
     }

@@ -12,12 +12,21 @@ main: net.fairfieldtek.minecraft.Plugin
 commands:
    # Replace "kit" with the name of your command.
 commands:
+  fft.we.set:
+    description: Sets the blocks inside  your selection.
+    usage: /fft.we.set <To Material Name> <From Material Name Optional>
+  fft.we.matlist:
+    description: Prints a list of the available materials
+    usage: /fft.we.matlist <Name or partial name>
   fft.we.select:
     description: Sets a selection point
     usage: /fft.we.select
   fft.we.print:
     description: Prints your selection
     usage: /fft.we.print
+  fft.we.size:
+    description: Prints the dimensions of your selection
+    usage: /fft.we.size    
   fft.we.clear:
     description: Clears the buffers and selections
     usage: /fft.we.clear

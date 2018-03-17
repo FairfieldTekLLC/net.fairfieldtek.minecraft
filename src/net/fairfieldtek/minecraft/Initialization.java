@@ -10,9 +10,14 @@ import net.fairfieldtek.minecraft.worldeditor.commands.Paste;
 import net.fairfieldtek.minecraft.worldeditor.commands.Print;
 import net.fairfieldtek.minecraft.worldeditor.commands.RegenChunk;
 import net.fairfieldtek.minecraft.worldeditor.commands.Rotate;
+import net.fairfieldtek.minecraft.worldeditor.commands.ClipDimensions;
 import net.fairfieldtek.minecraft.worldeditor.commands.EraseLiquid;
 import net.fairfieldtek.minecraft.worldeditor.commands.Select;
 import net.fairfieldtek.minecraft.worldeditor.commands.Undo;
+import net.fairfieldtek.minecraft.worldeditor.commands.MatList;
+import net.fairfieldtek.minecraft.worldeditor.commands.Set;
+
+
 import net.fairfieldtek.minecraft.worldeditor.commands.Demographics;
 import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.Authenticate;
 import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.CD;
@@ -49,11 +54,14 @@ public class Initialization {
         plugin.getCommand("fft.we.chunkregen").setExecutor((CommandExecutor) new RegenChunk());
         plugin.getCommand("fft.we.distr").setExecutor((CommandExecutor) new Demographics());
         plugin.getCommand("fft.we.eraseLiquid").setExecutor((CommandExecutor) new EraseLiquid());
+        plugin.getCommand("fft.we.size").setExecutor((CommandExecutor) new ClipDimensions());
+        
+        plugin.getCommand("fft.we.set").setExecutor((CommandExecutor) new Set());
+        plugin.getCommand("fft.we.matlist").setExecutor((CommandExecutor) new MatList());
         
         
         plugin.getCommand("fft.reg").setExecutor((CommandExecutor) new Register());
         plugin.getCommand("fft.auth").setExecutor((CommandExecutor) new Authenticate());
-        //plugin.getCommand("fft.login").setExecutor((CommandExecutor) new Login());
         plugin.getCommand("fft.ls").setExecutor((CommandExecutor) new LS());
         plugin.getCommand("fft.cd").setExecutor((CommandExecutor) new CD());
         plugin.getCommand("fft.rm").setExecutor((CommandExecutor) new RM());
