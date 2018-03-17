@@ -1,8 +1,9 @@
 # net.fairfieldtek.minecraft
 Minecraft tools
 main: net.fairfieldtek.minecraft.Plugin
-
+'''
 commands:
+  
   fft.we.set:
     description: Sets the blocks inside  your selection.
     Usage: /fft.we.set <To Material Name>
@@ -107,3 +108,4 @@ commands:
   fft.we.distr:
     description: Gets the block distribution of the current clipboard
     usage: /fft.we.distr
+  '''
