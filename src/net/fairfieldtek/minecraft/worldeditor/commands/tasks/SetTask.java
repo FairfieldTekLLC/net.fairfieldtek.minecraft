@@ -51,8 +51,6 @@ public class SetTask extends BukkitRunnable {
     int ex;
     int ey;
     int ez;
-    
-    
 
     UUID PlayerId;
     String MatName;
@@ -66,7 +64,7 @@ public class SetTask extends BukkitRunnable {
     byte ToMagicNumber;
     byte FromMagicNumber;
 
-    public SetTask(Player player, IPoint start, IPoint end, Material toMat,byte toMagicNumber, Material fromMat, byte fromMagicNumber) {
+    public SetTask(Player player, IPoint start, IPoint end, Material toMat, byte toMagicNumber, Material fromMat, byte fromMagicNumber) {
         if (start.X < end.X) {
             sx = start.X;
             ex = end.X;
@@ -92,7 +90,7 @@ public class SetTask extends BukkitRunnable {
 
         ToMagicNumber = toMagicNumber;
         FromMagicNumber = fromMagicNumber;
-        
+
         this.PlayerId = player.getUniqueId();
         this.FromMat = fromMat;
         this.ToMat = toMat;
@@ -135,14 +133,22 @@ public class SetTask extends BukkitRunnable {
                         SchematicUndo.AddBlock(target, 0, 0, 0, player);
                         if (FromMat != null) {
                             if (target.getType() == FromMat) {
-                                //System.out.println("Setting Block! " + x + " " + y + " " + z);
-                                BlockDef EmptyDef = EmptySchematic.AddBlock(target, 0, 0, 0, player);
-                                EmptyDef.setBlockTypeIndex(MatIdx);
-                                EmptyDef.setMaterialData(ToMagicNumber);
-                                EmptyDef.setX(x);
-                                EmptyDef.setY(y);
-                                EmptyDef.setZ(z);
-                                EmptyDef.SetBlock(target, player, false);
+                                boolean ok = true;
+                                if (FromMagicNumber != 0) {
+                                    if (target.getData() != FromMagicNumber) {
+                                        ok = false;
+                                    }
+                                }
+                                if (ok) {
+                                    //System.out.println("Setting Block! " + x + " " + y + " " + z);
+                                    BlockDef EmptyDef = EmptySchematic.AddBlock(target, 0, 0, 0, player);
+                                    EmptyDef.setBlockTypeIndex(MatIdx);
+                                    EmptyDef.setMaterialData(ToMagicNumber);
+                                    EmptyDef.setX(x);
+                                    EmptyDef.setY(y);
+                                    EmptyDef.setZ(z);
+                                    EmptyDef.SetBlock(target, player, false);
+                                }
                             } else {
                                 //System.out.println("Not Setting Block!");
                             }
