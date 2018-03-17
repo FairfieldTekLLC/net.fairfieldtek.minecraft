@@ -1,7 +1,7 @@
 # net.fairfieldtek.minecraft
 Minecraft tools
 main: net.fairfieldtek.minecraft.Plugin
-'''
+`
 commands:
   
   fft.we.set:
@@ -108,4 +108,4 @@ commands:
   fft.we.distr:
     description: Gets the block distribution of the current clipboard
     usage: /fft.we.distr
-  '''
+`
