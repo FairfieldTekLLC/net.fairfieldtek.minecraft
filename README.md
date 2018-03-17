@@ -1,36 +1,36 @@
 # net.fairfieldtek.minecraft
 Minecraft tools
 main: net.fairfieldtek.minecraft.Plugin
-`
-commands:
+
+##commands:
   
-  fft.we.set:
-    description: Sets the blocks inside  your selection.
+  ###fft.we.set:
+    ####description: Sets the blocks inside  your selection.
     Usage: /fft.we.set <To Material Name>
            /fft.we.set <To Material Name> <Magic#>
            /fft.we.set <To Material Name> <From Material>
            /fft.we.set <To Material Name> <Magic#> <From Material>
            /fft.we.set <To Material Name> <Magic#> <From Material> <Magic#>
-  fft.we.matlist:
+  ###fft.we.matlist:
     description: Prints a list of the available materials available
                  in the game.  It does not show magic numbers, the best way to 
                  determine a magic number is to inspect (/fft.we.in) a block
                  that you want a magic number for.
     usage: /fft.we.matlist <Name or partial name>
-  fft.we.select:
+  ###fft.we.select:
     description: Sets a selection point
     usage: /fft.we.select
            /fft.we.select X Y Z
-  fft.we.print:
+  ###fft.we.print:
     description: Prints your selection start and selection end.
     usage: /fft.we.print
-  fft.we.size:
+  ###fft.we.size:
     description: Prints the dimensions of your selection
     usage: /fft.we.size    
-  fft.we.clear:
+  ###fft.we.clear:
     description: Clears the Selections and the Clipboard
     usage: /fft.we.clear
-  fft.we.clearHistory:
+  ###fft.we.clearHistory:
     description: Clears the undo history of you pastes.  use undo (/fft.we.undo)
                  to undo a paste, delete of set.
     usage: /fft.we.clearhistory
