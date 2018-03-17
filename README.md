@@ -3,8 +3,6 @@ Minecraft tools
 main: net.fairfieldtek.minecraft.Plugin
 
 commands:
-   # Replace "kit" with the name of your command.
-commands:
   fft.we.set:
     description: Sets the blocks inside  your selection.
     Usage: /fft.we.set <To Material Name>
