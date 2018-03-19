@@ -108,7 +108,8 @@ public class BlockDef {
     }
 
     public String toXferString() {
-        return Byte.toString(MaterialData) + "|"
+        return 
+                Byte.toString(MaterialData) + "|"
                 + Integer.toString(X) + "|"
                 + Integer.toString(Y) + "|"
                 + Integer.toString(Z) + "|"
@@ -232,8 +233,7 @@ public class BlockDef {
     @Override
     public String toString() {
         return Integer.toString(this.X) + " " + Integer.toString(this.Y) + " " + Integer.toString(this.Z) + " "
-                + ((SchematicOwner.getBlockTypePalette()).get(this.getBlockTypeIndex()))
-                //this.MaterialType 
+                + (SchematicOwner.GetBlockTypePaletteEntry(getBlockTypeIndex()))
                 + " " + this.BlockFaceCode;
     }
 
@@ -827,8 +827,7 @@ public class BlockDef {
             return false;
         }
 
-        changeBlock.setType(Material.getMaterial(SchematicOwner.getBlockTypePalette().get(this.BlockTypeIndex)));
-        //Material.getMaterial((String) getMaterialType()), true);
+        changeBlock.setType(SchematicOwner.GetBlockTypePaletteEntry(this.BlockTypeIndex));
         BlockState state = changeBlock.getState();
         state.setRawData(getMaterialData());
         state.update(true);
@@ -870,7 +869,7 @@ public class BlockDef {
 
     public boolean GeneralCreate(Block changeBlock) {
         //changeBlock.setType(Material.getMaterial((String) getMaterialType()), true);
-        changeBlock.setType(Material.getMaterial(SchematicOwner.getBlockTypePalette().get(this.BlockTypeIndex)));
+        changeBlock.setType(SchematicOwner.GetBlockTypePaletteEntry(BlockTypeIndex));
         BlockState state = changeBlock.getState();
         state.setRawData(getMaterialData());
         state.update(true);

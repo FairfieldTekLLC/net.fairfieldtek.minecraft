@@ -94,6 +94,9 @@ public class PasteTask
                 double dx = itm.getX();
                 double dy = itm.getY();
                 double dz = itm.getZ();
+                
+                
+                 
                 if (this.Degrees > 0.0) {
                     switch (this.Axis) {
                         case X: {
@@ -136,6 +139,7 @@ public class PasteTask
                 itm.setX(x);
                 itm.setY(y);
                 itm.setZ(z);
+                
                 this.RotatedSchematicClipboard.AddBlock(itm);
                 iter.remove();
 

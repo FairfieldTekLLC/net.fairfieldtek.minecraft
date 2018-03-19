@@ -17,7 +17,6 @@
  */
 package net.fairfieldtek.minecraft.worldeditor.commands.tasks;
 
-import java.util.Collections;
 import java.util.UUID;
 import net.fairfieldtek.minecraft.Initialization;
 import net.fairfieldtek.minecraft.worldeditor.http.SchematicDataDownloadResponse;
@@ -25,7 +24,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import net.fairfieldtek.minecraft.worldeditor.container.*;
-import java.util.*;
 
 /**
  *

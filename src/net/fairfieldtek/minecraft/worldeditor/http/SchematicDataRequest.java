@@ -1,6 +1,7 @@
 package net.fairfieldtek.minecraft.worldeditor.http;
 
 import net.fairfieldtek.minecraft.worldeditor.container.BlockDef;
+import net.fairfieldtek.minecraft.worldeditor.container.PaletteEntry;
 
 public class SchematicDataRequest
         extends LsRequest {
@@ -8,22 +9,22 @@ public class SchematicDataRequest
     private String[] Blocks;
     private String FileName;
     private int SchematicId;
-    private String[] ColorPalette;
-    private String[] BlockTypePalette;
+    private PaletteEntry[] ColorPalette;
+    private PaletteEntry[] BlockTypePalette;
 
-    public String[] getColorPalette() {
+    public PaletteEntry[] getColorPalette() {
         return ColorPalette;
     }
 
-    public void setColorPalette(String[] palette) {
+    public void setColorPalette(PaletteEntry[] palette) {
         ColorPalette = palette;
     }
 
-    public String[] getBlockTypePalette() {
+    public PaletteEntry[] getBlockTypePalette() {
         return BlockTypePalette;
     }
 
-    public void setBlockTypePalette(String[] palette) {
+    public void setBlockTypePalette(PaletteEntry[] palette) {
         BlockTypePalette = palette;
     }
 

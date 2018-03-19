@@ -18,6 +18,7 @@
 package net.fairfieldtek.minecraft.worldeditor.http;
 
 import net.fairfieldtek.minecraft.worldeditor.container.BlockDef;
+import net.fairfieldtek.minecraft.worldeditor.container.PaletteEntry;
 
 /**
  *
@@ -27,23 +28,23 @@ public class SchematicDataDownloadResponse
         extends BaseResponse {
 
     private String FileName = "";
-    private String[] ColorPalette = null;
-    private String[] BlockTypePalette = null;
+    private PaletteEntry[] ColorPalette = null;
+    private PaletteEntry[] BlockTypePalette = null;
     private BlockDef[] Blocks = null;
 
-    public String[] getColorPalette() {
+    public PaletteEntry[] getColorPalette() {
         return ColorPalette;
     }
 
-    public void setColorPalette(String[] palette) {
+    public void setColorPalette(PaletteEntry[] palette) {
         ColorPalette = palette;
     }
 
-    public String[] getBlockTypePalette() {
+    public PaletteEntry[] getBlockTypePalette() {
         return BlockTypePalette;
     }
 
-    public void setBlockTypePalette(String[] palette) {
+    public void setBlockTypePalette(PaletteEntry[] palette) {
         BlockTypePalette = palette;
     }
 

@@ -21,14 +21,6 @@ import com.google.gson.Gson;
 import net.fairfieldtek.minecraft.Initialization;
 import net.fairfieldtek.minecraft.worldeditor.http.SchematicDataDownloadRequest;
 import net.fairfieldtek.minecraft.worldeditor.http.SchematicDataDownloadResponse;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
-import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  *
@@ -60,10 +52,13 @@ public class LoadClipboardTaskRequest
             req.setUuid(this.Uuid);
             Gson gson = new Gson();
             String body = gson.toJson(req);
+            
             SchematicDataDownloadResponse response = gson.fromJson(
                     RequestHttp(Initialization.BaseUri + "Load",body), 
                     SchematicDataDownloadResponse.class);
+            
             response.setUuid(this.Uuid);
+            
             new LoadClipBoardTaskResponse(response).runTask((org.bukkit.plugin.Plugin) Initialization.Plugin);
         } catch (Exception e) {
             SchematicDataDownloadResponse resp = new SchematicDataDownloadResponse();
