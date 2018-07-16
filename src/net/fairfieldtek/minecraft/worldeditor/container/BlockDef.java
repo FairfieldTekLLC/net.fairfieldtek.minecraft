@@ -10,8 +10,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.material.*;
-import org.bukkit.inventory.meta.*;
-import java.util.*;
 
 public class BlockDef {
 
@@ -108,8 +106,7 @@ public class BlockDef {
     }
 
     public String toXferString() {
-        return 
-                Byte.toString(MaterialData) + "|"
+        return Byte.toString(MaterialData) + "|"
                 + Integer.toString(X) + "|"
                 + Integer.toString(Y) + "|"
                 + Integer.toString(Z) + "|"
@@ -131,8 +128,10 @@ public class BlockDef {
         }
 
         if (!BedCreate(changeBlock)) {
-            if (!StairsCreate(changeBlock)) {
-                GeneralCreate(changeBlock);
+            if (!DoorCreate(changeBlock)) {
+                if (!StairsCreate(changeBlock)) {
+                    GeneralCreate(changeBlock);
+                }
             }
         }
 
@@ -143,8 +142,8 @@ public class BlockDef {
     public int getBlockTypeIndex() {
         return this.BlockTypeIndex;
     }
-    
-    public Material getBlockMaterial(){
+
+    public Material getBlockMaterial() {
         return SchematicOwner.GetBlockTypePaletteEntry(this.BlockTypeIndex);
     }
 
@@ -219,9 +218,6 @@ public class BlockDef {
 
     }
 
-//    public void setIsStairs(boolean isStairs) {
-//        this.IsStairs = isStairs;
-//    }
     public byte getMaterialData() {
         return this.MaterialData;
     }
@@ -704,6 +700,22 @@ public class BlockDef {
         //return itm;
     }
 
+    public boolean DoorsGetDirectionalCond(Block sourceBlock) {
+        MaterialData sMat = sourceBlock.getState().getData();
+        if (!(sMat instanceof Door)) {
+            return false;
+        }
+        Door door = (Door) sMat;
+        if (door.isTopHalf()) {
+            this.BlockTypeIndex = SchematicOwner.AddBlockTypeToPalette(Material.AIR);
+        } else {
+            FromBlockFace(door.getFacing());
+        }
+
+        return true;
+
+    }
+
     public boolean StairsGetDirectionalCond(Block sourceBlock) {
         MaterialData sMat = sourceBlock.getState().getData();
         if (!(sMat instanceof Stairs)) {
@@ -714,7 +726,6 @@ public class BlockDef {
         setInverted(stairs.isInverted());
         return true;
     }
-    
 
     public boolean LadderGetDirectionalCond(Block sourceBlock) {
         MaterialData sMat = sourceBlock.getState().getData();
@@ -797,8 +808,11 @@ public class BlockDef {
             return false;
         }
         Block bedHeadBlock = changeBlock;
+
         BlockFace bedFacing = EnumHelper.ToBlockFaceFromCode(getBlockFaceCode());
+
         Block bedFootBlock = bedHeadBlock.getRelative(bedFacing.getOppositeFace());
+
         BlockState bedFootState = bedFootBlock.getState();
         bedFootState.setType(Material.BED_BLOCK);
         Bed bedFootData = new Bed(Material.BED_BLOCK);
@@ -817,6 +831,28 @@ public class BlockDef {
         bedHeadState.update(true);
         SetColor(bedHeadBlock);
 
+        return true;
+    }
+
+    public boolean DoorCreate(Block changeBlock) {
+        if (!this.getBlockMaterial().name().endsWith("_DOOR")) {
+            return false;
+        }
+        Block DoorBotBlock = changeBlock;
+        Block DoorTopBlock = changeBlock.getRelative(BlockFace.UP);
+        BlockState botState = DoorBotBlock.getState();
+        BlockState topState = DoorTopBlock.getState();
+
+        botState.setType(SchematicOwner.GetBlockTypePaletteEntry(BlockTypeIndex));
+        topState.setType(SchematicOwner.GetBlockTypePaletteEntry(BlockTypeIndex));
+        ((org.bukkit.material.Door) botState.getData()).setTopHalf(false);
+        ((org.bukkit.material.Door) botState.getData()).setFacingDirection(ToBlockFace());
+        ((org.bukkit.material.Door) topState.getData()).setTopHalf(false);
+        ((org.bukkit.material.Door) topState.getData()).setFacingDirection(ToBlockFace());
+        botState.setRawData(getMaterialData());
+        topState.setRawData(getMaterialData());
+        botState.update(true);
+        topState.update(true);
         return true;
     }
 

@@ -16,6 +16,7 @@ import net.fairfieldtek.minecraft.worldeditor.commands.Select;
 import net.fairfieldtek.minecraft.worldeditor.commands.Undo;
 import net.fairfieldtek.minecraft.worldeditor.commands.MatList;
 import net.fairfieldtek.minecraft.worldeditor.commands.Set;
+import net.fairfieldtek.minecraft.worldeditor.commands.MapTheWorld;
 
 
 import net.fairfieldtek.minecraft.worldeditor.commands.Demographics;
@@ -59,6 +60,8 @@ public class Initialization {
         plugin.getCommand("fft.we.set").setExecutor((CommandExecutor) new Set());
         plugin.getCommand("fft.we.matlist").setExecutor((CommandExecutor) new MatList());
         
+        plugin.getCommand("fft.we.maptheworld").setExecutor((CommandExecutor) new MapTheWorld());
+        
         
         plugin.getCommand("fft.reg").setExecutor((CommandExecutor) new Register());
         plugin.getCommand("fft.auth").setExecutor((CommandExecutor) new Authenticate());
@@ -68,6 +71,9 @@ public class Initialization {
         plugin.getCommand("fft.mk").setExecutor((CommandExecutor) new MK());
         plugin.getCommand("fft.save").setExecutor((CommandExecutor) new SaveClipboard());
         plugin.getCommand("fft.load").setExecutor((CommandExecutor) new LoadClipboard());
+        
+        
+        
         
     }
 

@@ -58,8 +58,6 @@ public class CopyTask
                     while (this.cz <= this.sez) {
 
                         this.SchematicToPaste.AddBlock(world.getBlockAt(this.cx, this.cy, this.cz), this.sbx, this.sby, this.sbz, player);
-
-                        //this.ClipBoard.add(BlockUtil.GetBlockDef(world.getBlockAt(this.cx, this.cy, this.cz), this.sbx, this.sby, this.sbz, player));
                         ++this.cz;
                         if (++counter > 32000) {
                             try {

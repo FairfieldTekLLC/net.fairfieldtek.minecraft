@@ -16,6 +16,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import net.fairfieldtek.minecraft.worldeditor.container.SchematicDef;
+import org.bukkit.Material;
 
 public class PasteTask
         extends BukkitRunnable {
@@ -94,9 +95,7 @@ public class PasteTask
                 double dx = itm.getX();
                 double dy = itm.getY();
                 double dz = itm.getZ();
-                
-                
-                 
+
                 if (this.Degrees > 0.0) {
                     switch (this.Axis) {
                         case X: {
@@ -139,7 +138,7 @@ public class PasteTask
                 itm.setX(x);
                 itm.setY(y);
                 itm.setZ(z);
-                
+
                 this.RotatedSchematicClipboard.AddBlock(itm);
                 iter.remove();
 
@@ -192,6 +191,13 @@ public class PasteTask
                 }
                 BlockDef itm = iter.next();
 
+                if ((itm.getBlockMaterial().name().endsWith("_DOOR"))
+                        || (itm.getBlockMaterial().name().endsWith("_STAIRS"))
+                        || (itm.getBlockMaterial().name().endsWith("_RAIL"))
+                        || (itm.getBlockMaterial().name().endsWith("TORCH"))) {
+                    continue;
+                }
+
                 int foz = finalOffsetZ;
                 int fox = finalOffsetX;
                 int foy = finalOffsetY;
@@ -199,7 +205,61 @@ public class PasteTask
                 try {
                     switch (PlayerUtils.getCardinalDirection(player)) {
                         case WEST:
-                        case NORTH_WEST:                            
+                        case NORTH_WEST:
+                            foz = finalOffsetZ - (maxZ - minZ);
+                            fox = finalOffsetX - (maxX - minX);
+                            break;
+                        case SOUTH:
+                        case SOUTH_WEST:
+                            fox = finalOffsetX - (maxX - minX);
+                            break;
+                        case NORTH:
+                        case NORTH_EAST:
+                            foz = finalOffsetZ - (maxZ - minZ);
+                            break;
+                        case SOUTH_EAST:
+                            break;
+                    }
+                } catch (Exception e) {
+                    System.out.println("Cannot determine facing.");
+                }
+
+                int x = itm.getX() + fox;
+                int y = itm.getY() + foy + 1;
+                int z = itm.getZ() + foz;
+
+                Block changeBlock = player.getWorld().getBlockAt(x, y, z);
+
+                this.SchematicUndo.AddBlock(changeBlock, 0, 0, 0, player);
+
+                itm.SetBlock(changeBlock, player, false);
+
+                iter.remove();
+            }
+
+            counter = 0;
+
+            //Now we place door's stairs and such.
+            iter = this.RotatedSchematicClipboard.getBlocks().listIterator();
+
+            while (iter.hasNext()) {
+                if (++counter > 8000) {
+                    try {
+                        player.sendMessage("Buffering... " + this.RotatedSchematicClipboard.getBlocks().size() + " left.");
+                    } catch (Exception e) {
+                        this.cancel();
+                    }
+                    return;
+                }
+                BlockDef itm = iter.next();
+                int foz = finalOffsetZ;
+                int fox = finalOffsetX;
+                int foy = finalOffsetY;
+
+                try {
+                    switch (PlayerUtils.getCardinalDirection(player)) {
+                        case WEST:
+                        case NORTH_WEST:
                             foz = finalOffsetZ - (maxZ - minZ);
                             fox = finalOffsetX - (maxX - minX);
                             break;

@@ -19,12 +19,21 @@ package net.fairfieldtek.minecraft.Util;
 
 import org.bukkit.DyeColor;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.EntityType;
 
 /**
  *
  * @author geev
  */
 public class EnumHelper {
+    
+    public static EntityType getEntityType(String name){
+        for (EntityType e : EntityType.values()){
+            if (e.name()==name)
+                return e;
+        }
+        return EntityType.CHICKEN;
+    }
 
     public static DyeColor GetDyeColor(String color) {
         for (DyeColor c : DyeColor.values()) {

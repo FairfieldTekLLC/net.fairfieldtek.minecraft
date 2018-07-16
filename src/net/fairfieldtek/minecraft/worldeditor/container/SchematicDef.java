@@ -18,8 +18,6 @@
 package net.fairfieldtek.minecraft.worldeditor.container;
 
 import java.util.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 import net.fairfieldtek.minecraft.Util.MaterialUtil;
 import net.fairfieldtek.minecraft.worldeditor.http.SchematicDataDownloadResponse;
 import org.bukkit.Chunk;
@@ -31,6 +29,7 @@ import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.material.Bed;
 import org.bukkit.material.MaterialData;
+import org.bukkit.TreeSpecies;
 
 /**
  *
@@ -42,11 +41,26 @@ public class SchematicDef {
     private String Name;
     private final ArrayList<PaletteEntry> BlockTypePalette = new ArrayList<>();
     private final ArrayList<PaletteEntry> BlockColorPalette = new ArrayList<>();
+
+    private final ArrayList<PaletteEntry> BlockSettingsPalette = new ArrayList<>();
+
     private int blockTypeCounter = 0;
     private int colorTypeCounter = 0;
+    
+    private int BlockSettingsPaletteCounter = 0;
+    
+     public String getBlockSettingsPalette(int i) {
+        for (PaletteEntry ent : BlockSettingsPalette) {
+            if (ent.getId() == i) {
+                return ent.getValue();
+            }
+        }
+        return "";
+    }
+    
+    
 
     public SchematicDef() {
-        //BlockColorPalette.add(new PaletteEntry(0, ""));
     }
 
     public SchematicDef Clone() {
@@ -60,6 +74,11 @@ public class SchematicDef {
         BlockColorPalette.forEach((colorType) -> {
             newSchematicDef.BlockColorPalette.add(colorType.Clone());
         });
+
+        BlockSettingsPalette.forEach((colorType) -> {
+            newSchematicDef.BlockSettingsPalette.add(colorType.Clone());
+        });
+
         return newSchematicDef;
     }
 
@@ -91,16 +110,12 @@ public class SchematicDef {
             Blocks.add(def);
         }
 
-//        System.out.println("Dumping Block Types:");
         for (PaletteEntry pe : response.getBlockTypePalette()) {
-//            System.out.println(pe.getId() + " = " + pe.getValue());
             this.BlockTypePalette.add(pe.Clone());
         }
 
         if (response.getColorPalette() != null) {
-//        System.out.println("Dumping Color Types:");
             for (PaletteEntry pe : response.getColorPalette()) {
-//            System.out.println(pe.getId() + " = " + pe.getValue());
                 this.BlockColorPalette.add(pe.Clone());
             }
         }
@@ -129,22 +144,18 @@ public class SchematicDef {
     public DyeColor GetColorPaletteEntry(int i) {
         for (PaletteEntry ent : BlockColorPalette) {
             if (ent.getId() == i) {
-//                System.out.println("Found Entry: " + ent.getId() + " - " + ent.getValue());
                 return MaterialUtil.getDyeColor(ent.getValue());
             }
         }
-//        System.out.println("Color: No Entry for " + i);
         return DyeColor.WHITE;
     }
 
     public Material GetBlockTypePaletteEntry(int i) {
         for (PaletteEntry ent : BlockTypePalette) {
             if (ent.getId() == i) {
-//                System.out.println("Found Entry: " + ent.getId() + " - " + ent.getValue());
                 return Material.getMaterial(ent.getValue());
             }
         }
-//        System.out.println("Material: No Entry for " + i);
         return Material.AIR;
     }
 
@@ -156,6 +167,7 @@ public class SchematicDef {
         Blocks.clear();
         BlockTypePalette.clear();
         BlockColorPalette.clear();
+
     }
 
     public boolean IsEmpty() {
@@ -173,26 +185,23 @@ public class SchematicDef {
     public BlockDef AddBlock(Block sourceBlock, int offsetX, int offsetY, int offsetZ, Player player) {
         Chunk chunk;
         World world = player.getWorld();
+
         if (!world.isChunkLoaded(chunk = world.getChunkAt(sourceBlock))) {
             world.loadChunk(chunk);
         }
+
         BlockDef def = new BlockDef();
         def.setBlockColorIndex(0);
 
         def.SchematicOwner = this;
-
-        //def.setMaterialType(sourceBlock.getType().name());
         def.setBlockTypeIndex(AddBlockTypeToPalette(sourceBlock));
-
         def.setX(sourceBlock.getX() - offsetX);
         def.setY(sourceBlock.getY() - offsetY);
         def.setZ(sourceBlock.getZ() - offsetZ);
         def.setBlockFaceCode("");
         BlockState blockState = sourceBlock.getState();
         def.setMaterialData(blockState.getRawData());
-
         MaterialData sMat = sourceBlock.getState().getData();
-
         if (sMat instanceof Bed) {
             this.AddBlockColorToPalette(((org.bukkit.block.Bed) sourceBlock.getState()).getColor());
         }
@@ -202,8 +211,10 @@ public class SchematicDef {
         if (!def.StairsGetDirectionalCond(sourceBlock)) {
             if (!def.LadderGetDirectionalCond(sourceBlock)) {
                 if (!def.BedGetDirectionalCond(sourceBlock)) {
-                    if (!def.GetDirectionalCond(sourceBlock)) {
-                        //System.out.println("No Condition");
+                    if (!def.DoorsGetDirectionalCond(sourceBlock)) {
+                        if (!def.GetDirectionalCond(sourceBlock)) {
+                            //System.out.println("No Condition");
+                        }
                     }
                 }
             }
@@ -236,44 +247,45 @@ public class SchematicDef {
     public void setName(String name) {
         this.Name = name;
     }
-
+    
+    public int addBlockSettingsPalette(String value){
+        for (PaletteEntry ent : BlockSettingsPalette) {
+            if (ent.getValue().equals(value.trim())) {
+                return ent.getId();
+            }
+        }
+        int idx = BlockSettingsPaletteCounter;
+        BlockTypePalette.add(new PaletteEntry(idx, value));
+        BlockSettingsPaletteCounter++;
+        return idx;
+    }
+    
     public int AddBlockTypeToPalette(Block sourceBlock) {
         return AddBlockTypeToPalette(sourceBlock.getType());
     }
 
     public int AddBlockTypeToPalette(Material mat) {
-//        System.out.println("Looking for: '" + mat.name() + "'");
         for (PaletteEntry ent : BlockTypePalette) {
-//            System.out.println("Found '" + ent.getValue() + "'");
             if (ent.getValue().equals(mat.name().trim())) {
-//                System.out.println("Match: " + ent.getId() + " - '" + ent.getValue() + "'");
                 return ent.getId();
             }
         }
-//        System.out.println("Didn't find '" + mat.name() + "'");
         int idx = blockTypeCounter;
-//        System.out.println("Creating: " + idx + " '" + mat.name() + "'");
         BlockTypePalette.add(new PaletteEntry(idx, mat.name()));
         blockTypeCounter++;
         return idx;
     }
 
     public int AddBlockColorToPalette(DyeColor color) {
-//        System.out.println("Looking for: '" + color.name() + "'");
         for (PaletteEntry ent : BlockColorPalette) {
-//            System.out.println("Found '" + ent.getValue() + "'");
             if (ent.getValue().equals(color.name().trim())) {
-//                System.out.println("Match: " + ent.getId() + " - " + ent.getValue());
                 return ent.getId();
             }
         }
-//        System.out.println("Didn't find '" + color.name() + "'");
         int idx = colorTypeCounter;
-//        System.out.println("Creating: " + idx + " '" + color.name() + "'");
         BlockColorPalette.add(new PaletteEntry(idx, color.name()));
         colorTypeCounter++;
         return idx;
-
     }
 
 }

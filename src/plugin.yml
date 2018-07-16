@@ -116,3 +116,6 @@ commands:
   fft.we.distr:
     description: Gets the block distribution of the current clipboard
     usage: /fft.we.distr
+  fft.we.MapTheWorld:
+    description: Generates the world
+    usage: /fft.we.MapTheWorld    
