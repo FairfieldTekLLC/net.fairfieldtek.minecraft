@@ -15,19 +15,19 @@ import net.fairfieldtek.minecraft.worldeditor.commands.EraseLiquid;
 import net.fairfieldtek.minecraft.worldeditor.commands.Select;
 import net.fairfieldtek.minecraft.worldeditor.commands.Undo;
 import net.fairfieldtek.minecraft.worldeditor.commands.MatList;
-import net.fairfieldtek.minecraft.worldeditor.commands.Set;
-import net.fairfieldtek.minecraft.worldeditor.commands.MapTheWorld;
-
-
-import net.fairfieldtek.minecraft.worldeditor.commands.Demographics;
-import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.Authenticate;
-import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.CD;
-import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.LS;
-import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.MK;
-import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.RM;
-import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.Register;
-import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.SaveClipboard;
-import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.LoadClipboard;
+//import net.fairfieldtek.minecraft.worldeditor.commands.Set;
+//import net.fairfieldtek.minecraft.worldeditor.commands.MapTheWorld;
+import net.fairfieldtek.minecraft.worldeditor.commands.StripMine;
+//
+//import net.fairfieldtek.minecraft.worldeditor.commands.Demographics;
+//import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.Authenticate;
+//import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.CD;
+//import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.LS;
+//import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.MK;
+//import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.RM;
+//import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.Register;
+//import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.SaveClipboard;
+//import net.fairfieldtek.minecraft.worldeditor.commands.filesystem.LoadClipboard;
 import net.fairfieldtek.minecraft.worldeditor.container.PlayerInfo;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
@@ -47,34 +47,32 @@ public class Initialization {
         plugin.getCommand("fft.we.paste").setExecutor((CommandExecutor) new Paste());
         plugin.getCommand("fft.we.copy").setExecutor((CommandExecutor) new Copy());
         plugin.getCommand("fft.we.undo").setExecutor((CommandExecutor) new Undo());
-        plugin.getCommand("fft.we.in").setExecutor((CommandExecutor) new Inspect());
-        plugin.getCommand("fft.we.rot").setExecutor((CommandExecutor) new Rotate());
-        plugin.getCommand("fft.we.rotate").setExecutor((CommandExecutor) new Rotate());
+//        plugin.getCommand("fft.we.in").setExecutor((CommandExecutor) new Inspect());
+//        plugin.getCommand("fft.we.rot").setExecutor((CommandExecutor) new Rotate());
+//        plugin.getCommand("fft.we.rotate").setExecutor((CommandExecutor) new Rotate());
         plugin.getCommand("fft.we.delete").setExecutor((CommandExecutor) new Delete());
         plugin.getCommand("fft.we.del").setExecutor((CommandExecutor) new Delete());
-        plugin.getCommand("fft.we.chunkregen").setExecutor((CommandExecutor) new RegenChunk());
-        plugin.getCommand("fft.we.distr").setExecutor((CommandExecutor) new Demographics());
-        plugin.getCommand("fft.we.eraseLiquid").setExecutor((CommandExecutor) new EraseLiquid());
-        plugin.getCommand("fft.we.size").setExecutor((CommandExecutor) new ClipDimensions());
+//        plugin.getCommand("fft.we.chunkregen").setExecutor((CommandExecutor) new RegenChunk());
+//        plugin.getCommand("fft.we.distr").setExecutor((CommandExecutor) new Demographics());
+//        plugin.getCommand("fft.we.eraseLiquid").setExecutor((CommandExecutor) new EraseLiquid());
+//        plugin.getCommand("fft.we.size").setExecutor((CommandExecutor) new ClipDimensions());
+//
+//        plugin.getCommand("fft.we.set").setExecutor((CommandExecutor) new Set());
+//        plugin.getCommand("fft.we.matlist").setExecutor((CommandExecutor) new MatList());
+//
+//        plugin.getCommand("fft.we.maptheworld").setExecutor((CommandExecutor) new MapTheWorld());
+//
+//        plugin.getCommand("fft.reg").setExecutor((CommandExecutor) new Register());
+//        plugin.getCommand("fft.auth").setExecutor((CommandExecutor) new Authenticate());
+//        plugin.getCommand("fft.ls").setExecutor((CommandExecutor) new LS());
+//        plugin.getCommand("fft.cd").setExecutor((CommandExecutor) new CD());
+//        plugin.getCommand("fft.rm").setExecutor((CommandExecutor) new RM());
+//        plugin.getCommand("fft.mk").setExecutor((CommandExecutor) new MK());
+//        plugin.getCommand("fft.save").setExecutor((CommandExecutor) new SaveClipboard());
+//        plugin.getCommand("fft.load").setExecutor((CommandExecutor) new LoadClipboard());
+        plugin.getCommand("fft.strip").setExecutor((CommandExecutor) new StripMine());
         
-        plugin.getCommand("fft.we.set").setExecutor((CommandExecutor) new Set());
-        plugin.getCommand("fft.we.matlist").setExecutor((CommandExecutor) new MatList());
-        
-        plugin.getCommand("fft.we.maptheworld").setExecutor((CommandExecutor) new MapTheWorld());
-        
-        
-        plugin.getCommand("fft.reg").setExecutor((CommandExecutor) new Register());
-        plugin.getCommand("fft.auth").setExecutor((CommandExecutor) new Authenticate());
-        plugin.getCommand("fft.ls").setExecutor((CommandExecutor) new LS());
-        plugin.getCommand("fft.cd").setExecutor((CommandExecutor) new CD());
-        plugin.getCommand("fft.rm").setExecutor((CommandExecutor) new RM());
-        plugin.getCommand("fft.mk").setExecutor((CommandExecutor) new MK());
-        plugin.getCommand("fft.save").setExecutor((CommandExecutor) new SaveClipboard());
-        plugin.getCommand("fft.load").setExecutor((CommandExecutor) new LoadClipboard());
-        
-        
-        
-        
+
     }
 
     public static void ShutDown() {

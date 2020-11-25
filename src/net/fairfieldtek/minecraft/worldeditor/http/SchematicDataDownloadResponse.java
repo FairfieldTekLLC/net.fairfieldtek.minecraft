@@ -17,7 +17,7 @@
  */
 package net.fairfieldtek.minecraft.worldeditor.http;
 
-import net.fairfieldtek.minecraft.worldeditor.container.BlockDef;
+import net.fairfieldtek.minecraft.worldeditor.container.BlockInfo;
 import net.fairfieldtek.minecraft.worldeditor.container.PaletteEntry;
 
 /**
@@ -30,7 +30,7 @@ public class SchematicDataDownloadResponse
     private String FileName = "";
     private PaletteEntry[] ColorPalette = null;
     private PaletteEntry[] BlockTypePalette = null;
-    private BlockDef[] Blocks = null;
+    private BlockInfo[] Blocks = null;
 
     public PaletteEntry[] getColorPalette() {
         return ColorPalette;
@@ -56,11 +56,11 @@ public class SchematicDataDownloadResponse
         this.FileName = name;
     }
 
-    public BlockDef[] getBlocks() {
+    public BlockInfo[] getBlocks() {
         return this.Blocks;
     }
 
-    public void setBlocks(BlockDef[] blocks) {
+    public void setBlocks(BlockInfo[] blocks) {
         this.Blocks = blocks;
     }
 }

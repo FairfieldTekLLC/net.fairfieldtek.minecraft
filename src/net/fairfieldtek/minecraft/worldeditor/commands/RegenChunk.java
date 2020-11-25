@@ -3,7 +3,7 @@ package net.fairfieldtek.minecraft.worldeditor.commands;
 import net.fairfieldtek.minecraft.Initialization;
 import net.fairfieldtek.minecraft.Util.BlockUtil;
 import net.fairfieldtek.minecraft.Util.PlayerUtils;
-import net.fairfieldtek.minecraft.worldeditor.container.BlockDef;
+import net.fairfieldtek.minecraft.worldeditor.container.BlockInfo;
 import net.fairfieldtek.minecraft.worldeditor.container.IPoint;
 import net.fairfieldtek.minecraft.worldeditor.container.PlayerInfo;
 import org.bukkit.ChatColor;
@@ -14,7 +14,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import net.fairfieldtek.minecraft.worldeditor.container.SchematicDef;
+import net.fairfieldtek.minecraft.worldeditor.container.BlockCollection;
 
 public class RegenChunk
         implements CommandExecutor {
@@ -69,7 +69,7 @@ public class RegenChunk
                 PlayerInfo pi = Initialization.PlayerInfoList.get(player);
 
                 //pi.UndoSchematic.Clear();
-                SchematicDef undo = pi.NewUndo();
+                BlockCollection undo = pi.NewUndo();
 
                 //pi.UndoBuffer.clear();
                 player.sendMessage(ChatColor.RED + "Making everything right in the world again...");

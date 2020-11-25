@@ -1,4 +1,5 @@
 name: FairfieldTekMineCraft
+api-version: 1.16
 version: 1.0
 description: Test!
 author: TouchBar
@@ -119,3 +120,6 @@ commands:
   fft.we.MapTheWorld:
     description: Generates the world
     usage: /fft.we.MapTheWorld    
+  fft.strip:
+    description: strip mines the current chunk
+    usage: /fft.strip  

@@ -31,7 +31,7 @@ public class PatternSerializer {
 
     private int PatternIdx;
     private int ColorIdx;
-    private SchematicDef SchematicDef;
+    private BlockCollection SchematicDef;
     
     public PatternType getPattern(){
         return MaterialUtil.getPatternType(SchematicDef.getBlockSettingsPalette(PatternIdx));
@@ -48,7 +48,7 @@ public class PatternSerializer {
         return MaterialUtil.getDyeColor(SchematicDef.getBlockSettingsPalette(ColorIdx));
     }
     
-    public PatternSerializer(Pattern pattern, SchematicDef schematicDef) {
+    public PatternSerializer(Pattern pattern, BlockCollection schematicDef) {
         this.PatternIdx = schematicDef.addBlockSettingsPalette(pattern.getPattern().name());
         this.ColorIdx = schematicDef.addBlockSettingsPalette(pattern.getColor().name());
         this.SchematicDef = schematicDef;

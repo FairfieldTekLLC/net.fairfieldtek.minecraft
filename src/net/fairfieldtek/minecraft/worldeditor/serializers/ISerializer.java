@@ -17,7 +17,8 @@
  */
 package net.fairfieldtek.minecraft.worldeditor.serializers;
 
-import net.fairfieldtek.minecraft.worldeditor.container.SchematicDef;
+import net.fairfieldtek.minecraft.worldeditor.container.BlockCollection;
+import net.fairfieldtek.minecraft.worldeditor.container.BlockInfo;
 import org.bukkit.block.Biome;
 
 /**
@@ -50,7 +51,7 @@ public interface ISerializer {
 
     public org.bukkit.Material getMaterialType();
 
-    public SchematicDef getSchematicDef();
+    public BlockCollection getSchematicDef();
 
-    public void setSchematicDef(SchematicDef def);
+    public void setSchematicDef(BlockCollection def);
 }

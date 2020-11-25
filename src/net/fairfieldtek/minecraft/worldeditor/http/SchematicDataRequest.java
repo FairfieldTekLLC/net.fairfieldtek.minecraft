@@ -1,6 +1,6 @@
 package net.fairfieldtek.minecraft.worldeditor.http;
 
-import net.fairfieldtek.minecraft.worldeditor.container.BlockDef;
+import net.fairfieldtek.minecraft.worldeditor.container.BlockInfo;
 import net.fairfieldtek.minecraft.worldeditor.container.PaletteEntry;
 
 public class SchematicDataRequest

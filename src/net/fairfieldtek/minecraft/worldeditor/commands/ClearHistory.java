@@ -43,13 +43,6 @@ public class ClearHistory
 
             PlayerInfo pi = Initialization.PlayerInfoList.get(player);
             pi.ClearHistory();
-            //pi.SelectStart = null;
-            //pi.SelectEnd = null;
-            //pi.ClipBoard.clear();
-
-            //pi.ClipSchematic.Clear();
-            //pi.UndoSchematic.Clear();
-
             player.sendMessage(ChatColor.RED + "Cleared History.");
             return true;
         }

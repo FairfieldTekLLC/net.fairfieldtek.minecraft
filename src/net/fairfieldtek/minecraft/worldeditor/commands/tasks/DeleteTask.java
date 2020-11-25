@@ -3,14 +3,14 @@ package net.fairfieldtek.minecraft.worldeditor.commands.tasks;
 import java.util.UUID;
 import net.fairfieldtek.minecraft.Initialization;
 import net.fairfieldtek.minecraft.Util.BlockUtil;
-import net.fairfieldtek.minecraft.worldeditor.container.BlockDef;
+import net.fairfieldtek.minecraft.worldeditor.container.BlockInfo;
 import net.fairfieldtek.minecraft.worldeditor.container.PlayerInfo;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import net.fairfieldtek.minecraft.worldeditor.container.SchematicDef;
+import net.fairfieldtek.minecraft.worldeditor.container.BlockCollection;
 
 public class DeleteTask
         extends BukkitRunnable {
@@ -26,8 +26,9 @@ public class DeleteTask
     int ez;
     boolean Cancel = false;
     UUID PlayerId;
-    BlockDef EmptyDef;
-    SchematicDef EmptySchematic = new SchematicDef();
+    BlockInfo EmptyDef;
+    BlockCollection EmptySchematic = new BlockCollection();
+    Player player ;
 
     public DeleteTask(Player player) {
         this.PlayerId = player.getUniqueId();
@@ -59,10 +60,10 @@ public class DeleteTask
         this.X = this.sx;
         this.Y = this.sy;
         this.Z = this.sz;
-        this.EmptyDef = new BlockDef();
-        this.EmptyDef.setBlockFaceCode("");
-        this.EmptyDef.setInverted(false);
-        this.EmptyDef.setMaterialData((byte) 0);
+        
+        Block block = player.getWorld().getBlockAt(X,Y,Z);        
+        this.EmptyDef = new BlockInfo(block,EmptySchematic);
+        this.EmptyDef.SetBlockFaceCode("");
         this.EmptyDef.setBlockTypeIndex(EmptySchematic.AddBlockTypeToPalette(Material.AIR));
         EmptySchematic.getBlocks().add(EmptyDef);
     }
@@ -70,15 +71,16 @@ public class DeleteTask
     @Override
     public void run() {
         try {
-            Player player = Initialization.Plugin.getServer().getPlayer(this.PlayerId);
+            player = Initialization.Plugin.getServer().getPlayer(this.PlayerId);
             if (player == null || this.Cancel) {
                 this.cancel();
             }
             PlayerInfo pi = Initialization.PlayerInfoList.get(player);
 
-            SchematicDef undo = pi.NewUndo();
+            BlockCollection undo = pi.NewUndo();
             
             //pi.UndoSchematic.Clear();
+            player.sendMessage("starting...");
 
             World world = player.getWorld();
             int counter = 0;
@@ -114,8 +116,10 @@ public class DeleteTask
             }
             Initialization.PlayerInfoList.get(player).setIsProcessing(false, "Delete");
             player.sendMessage("Finished Deleting Blocks.");
-        } catch (Exception player) {
-            // empty catch block
+        } catch (Exception e) {
+            Initialization.PlayerInfoList.get(player).setIsProcessing(false, "Delete");// empty catch block
+            System.out.println(e.getLocalizedMessage());
+            System.out.println(e.getMessage());
         }
         this.cancel();
     }

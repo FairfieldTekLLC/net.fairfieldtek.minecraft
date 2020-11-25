@@ -4,11 +4,11 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.ListIterator;
 import net.fairfieldtek.minecraft.Initialization;
-import net.fairfieldtek.minecraft.worldeditor.container.BlockDef;
+import net.fairfieldtek.minecraft.worldeditor.container.BlockInfo;
 import net.fairfieldtek.minecraft.worldeditor.container.PaletteEntry;
 import net.fairfieldtek.minecraft.worldeditor.http.SchematicDataRequest;
 import net.fairfieldtek.minecraft.worldeditor.http.SchematicDataResponse;
-import net.fairfieldtek.minecraft.worldeditor.container.SchematicDef;
+import net.fairfieldtek.minecraft.worldeditor.container.BlockCollection;
 
 public class SaveClipboardTaskRequest
         extends HttpRequestor {
@@ -17,11 +17,11 @@ public class SaveClipboardTaskRequest
     private String AuthToken;
     private final String Path;
     private final String Filename;
-    private final SchematicDef ClipSchematic;
+    private final BlockCollection ClipSchematic;
 
     private boolean FirstPass = true;
 
-    public SaveClipboardTaskRequest(String uuid, String authToken, String path, SchematicDef schematicDef, String filename) {
+    public SaveClipboardTaskRequest(String uuid, String authToken, String path, BlockCollection schematicDef, String filename) {
         this.Uuid = uuid;
         this.Filename = filename;
         this.AuthToken = authToken;
@@ -39,11 +39,11 @@ public class SaveClipboardTaskRequest
                 int maxBlocks = 25000;
                 ArrayList<String> tmp = new ArrayList<>(maxBlocks);
 
-                ListIterator<BlockDef> iter = ClipSchematic.getBlocks().listIterator();
+                ListIterator<BlockInfo> iter = ClipSchematic.getBlocks().listIterator();
 
                 int blockCounter = 0;
                 while (iter.hasNext()) {
-                    BlockDef itm = iter.next();
+                    BlockInfo itm = iter.next();
 
                     tmp.add(itm.toXferString());
 
@@ -63,7 +63,7 @@ public class SaveClipboardTaskRequest
 
                 if (FirstPass) {
                     schematicDataRequest.setBlockTypePalette(ClipSchematic.GetBlockTypePalette());
-                    schematicDataRequest.setColorPalette(ClipSchematic.GetColorPalette());
+                    //schematicDataRequest.setColorPalette(ClipSchematic.GetColorPalette());
                     FirstPass = false;
                 } else {
                     PaletteEntry[] e = new PaletteEntry[1];

@@ -18,7 +18,7 @@
 package net.fairfieldtek.minecraft.worldeditor.serializers;
 
 import net.fairfieldtek.minecraft.Util.MaterialUtil;
-import net.fairfieldtek.minecraft.worldeditor.container.SchematicDef;
+import net.fairfieldtek.minecraft.worldeditor.container.BlockCollection;
 import org.bukkit.block.Block;
 import org.bukkit.block.Biome;
 
@@ -38,7 +38,7 @@ public abstract class Serializer {
     private int MaterialTypeIdx;
     private int BiomeTypeIdx;
     private double Temperature;
-    private SchematicDef SchematicDef;
+    private BlockCollection SchematicDef;
     private byte Data;
     
     public final  void setData(byte data){
@@ -48,7 +48,7 @@ public abstract class Serializer {
         return this.Data;
     }
     
-    public Serializer(Block block, int xOffset, int yOffset, int zOffset, SchematicDef schematicDef) {
+    public Serializer(Block block, int xOffset, int yOffset, int zOffset, BlockCollection schematicDef) {
         SchematicDef = schematicDef;
         X = block.getX() - xOffset;
         Y = block.getY() - yOffset;
@@ -109,11 +109,11 @@ public abstract class Serializer {
         return org.bukkit.Material.getMaterial(SchematicDef.getBlockSettingsPalette(this.MaterialTypeIdx));
     }
 
-    public final  SchematicDef getSchematicDef() {
+    public final  BlockCollection getSchematicDef() {
         return this.SchematicDef;
     }
 
-    public final  void setSchematicDef(SchematicDef def) {
+    public final  void setSchematicDef(BlockCollection def) {
         this.SchematicDef = def;
     }
 }

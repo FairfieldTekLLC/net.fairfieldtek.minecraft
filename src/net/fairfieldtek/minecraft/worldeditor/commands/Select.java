@@ -59,12 +59,12 @@ public class Select
             IPoint point = new IPoint(x, y, z);
             if (Initialization.PlayerInfoList.get(player).SelectStart == null) {
                 Initialization.PlayerInfoList.get(player).SelectStart = point;
-                player.sendMessage(ChatColor.YELLOW + "Selected Point " + point.toString());
+                player.sendMessage(ChatColor.YELLOW + "Selected Start Point " + point.toString());
                 return true;
             }
             if (Initialization.PlayerInfoList.get(player).SelectEnd == null) {
                 Initialization.PlayerInfoList.get(player).SelectEnd = point;
-                player.sendMessage(ChatColor.YELLOW + "Selected Point " + point.toString());
+                player.sendMessage(ChatColor.YELLOW + "Selected End Point " + point.toString());
                 return true;
             }
             player.sendMessage(ChatColor.RED + "Positions already set, clear them first!");

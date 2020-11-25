@@ -27,7 +27,7 @@ import java.util.*;
  */
 public class ItemMetaSerializer {
 
-    private final SchematicDef SchematicDef;
+    private final BlockCollection SchematicDef;
     private int DisplayNameIdx;
     private int LocalizedNameIdx;
     private ArrayList<Integer> Lore = new ArrayList<>();
@@ -68,7 +68,7 @@ public class ItemMetaSerializer {
         return loreArray;
     }
 
-    public ItemMetaSerializer(ItemMeta meta, SchematicDef schematicDef) {
+    public ItemMetaSerializer(ItemMeta meta, BlockCollection schematicDef) {
         this.SchematicDef = schematicDef;
         if (meta.hasDisplayName()) {
             this.DisplayNameIdx = schematicDef.addBlockSettingsPalette(meta.getDisplayName());

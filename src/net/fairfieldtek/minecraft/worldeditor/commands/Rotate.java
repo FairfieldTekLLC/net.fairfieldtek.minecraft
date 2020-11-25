@@ -132,8 +132,8 @@ public class Rotate
             }
             block = player.getWorld().getBlockAt(x, y, z);
 
-            SchematicDef def = new SchematicDef();
-            BlockDef blockDef = def.AddBlock(block, 0, 0, 0, player);
+            BlockCollection def = new BlockCollection();
+            BlockInfo blockDef = def.AddBlock(block, 0, 0, 0, player);
 
             //BlockDef blockDef = BlockUtil.GetBlockDef(block, 0, 0, 0, player);
             switch (axis) {

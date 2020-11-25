@@ -6,7 +6,7 @@ import java.util.UUID;
 import net.fairfieldtek.minecraft.Initialization;
 import net.fairfieldtek.minecraft.Util.BlockUtil;
 import net.fairfieldtek.minecraft.Util.PlayerUtils;
-import net.fairfieldtek.minecraft.worldeditor.container.BlockDef;
+import net.fairfieldtek.minecraft.worldeditor.container.BlockInfo;
 import net.fairfieldtek.minecraft.worldeditor.container.PlayerInfo;
 import net.fairfieldtek.minecraft.worldeditor.enumeration.Axis;
 import org.bukkit.block.Block;
@@ -15,7 +15,7 @@ import org.bukkit.Location;
 
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import net.fairfieldtek.minecraft.worldeditor.container.SchematicDef;
+import net.fairfieldtek.minecraft.worldeditor.container.BlockCollection;
 import org.bukkit.Material;
 
 public class PasteTask
@@ -27,9 +27,9 @@ public class PasteTask
     Second Pass: render beds
     Need to research if any other objects use two blocks to represent itself.
      */
-    SchematicDef RotatedSchematicClipboard = new SchematicDef();
-    SchematicDef SchematicClipboard;
-    SchematicDef SchematicUndo;
+    BlockCollection RotatedSchematicClipboard = new BlockCollection();
+    BlockCollection SchematicClipboard;
+    BlockCollection SchematicUndo;
 
     UUID PlayerId;
     int X;
@@ -80,7 +80,7 @@ public class PasteTask
             }
             double radians = Math.toRadians(this.Degrees);
             int counter = 0;
-            ListIterator<BlockDef> iter = this.SchematicClipboard.getBlocks().listIterator();
+            ListIterator<BlockInfo> iter = this.SchematicClipboard.getBlocks().listIterator();
             //this.ClipBoard.listIterator();
             while (iter.hasNext()) {
                 if (++counter > 8000) {
@@ -91,7 +91,7 @@ public class PasteTask
                     }
                     return;
                 }
-                BlockDef itm = iter.next();
+                BlockInfo itm = iter.next();
                 double dx = itm.getX();
                 double dy = itm.getY();
                 double dz = itm.getZ();
@@ -148,7 +148,7 @@ public class PasteTask
                 FinishedRotation = true;
                 iter = this.RotatedSchematicClipboard.getBlocks().listIterator();
                 while (iter.hasNext()) {
-                    BlockDef itm = iter.next();
+                    BlockInfo itm = iter.next();
                     if (itm.getX() < minX) {
                         minX = itm.getX();
                     }
@@ -189,7 +189,7 @@ public class PasteTask
                     }
                     return;
                 }
-                BlockDef itm = iter.next();
+                BlockInfo itm = iter.next();
 
                 if ((itm.getBlockMaterial().name().endsWith("_DOOR"))
                         || (itm.getBlockMaterial().name().endsWith("_STAIRS"))
@@ -251,7 +251,7 @@ public class PasteTask
                     }
                     return;
                 }
-                BlockDef itm = iter.next();
+                BlockInfo itm = iter.next();
                 int foz = finalOffsetZ;
                 int fox = finalOffsetX;
                 int foy = finalOffsetY;

@@ -10,30 +10,30 @@ public class PlayerInfo {
     public IPoint SelectStart = null;
     public IPoint SelectEnd = null;
 
-    public SchematicDef ClipSchematic = new SchematicDef();
+    public BlockCollection ClipSchematic = new BlockCollection();
 
-    private SchematicDef UndoSchematic = new SchematicDef();
+    private BlockCollection UndoSchematic = new BlockCollection();
 
-    private Stack<SchematicDef> UndoHistory = new Stack<SchematicDef>();
+    private Stack<BlockCollection> UndoHistory = new Stack<BlockCollection>();
 
-    public SchematicDef NewUndo() {
+    public BlockCollection NewUndo() {
         UndoHistory.push(UndoSchematic);
-        UndoSchematic = new SchematicDef();
+        UndoSchematic = new BlockCollection();
         return UndoSchematic;
     }
 
-    public SchematicDef GetUndo() {
-        SchematicDef current = UndoSchematic;
+    public BlockCollection GetUndo() {
+        BlockCollection current = UndoSchematic;
         if (!UndoHistory.empty()) {
             UndoSchematic = UndoHistory.pop();
         } else {
-            UndoSchematic = new SchematicDef();
+            UndoSchematic = new BlockCollection();
         }
         return current;
     }
     
     public void ClearHistory(){
-        UndoSchematic = new SchematicDef();
+        UndoSchematic = new BlockCollection();
         UndoHistory.empty();
     }
 

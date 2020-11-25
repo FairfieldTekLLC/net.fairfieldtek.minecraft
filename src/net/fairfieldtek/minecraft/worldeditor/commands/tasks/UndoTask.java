@@ -5,19 +5,21 @@ import java.util.ListIterator;
 import java.util.UUID;
 import net.fairfieldtek.minecraft.Initialization;
 import net.fairfieldtek.minecraft.Util.BlockUtil;
-import net.fairfieldtek.minecraft.worldeditor.container.BlockDef;
+import net.fairfieldtek.minecraft.worldeditor.container.BlockInfo;
 import net.fairfieldtek.minecraft.worldeditor.container.PlayerInfo;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import net.fairfieldtek.minecraft.worldeditor.container.SchematicDef;
+import net.fairfieldtek.minecraft.worldeditor.container.BlockCollection;
+import org.bukkit.Chunk;
 import org.bukkit.Material;
+import org.bukkit.entity.*;
 
 public class UndoTask
         extends BukkitRunnable {
 
-    SchematicDef SchematicClip;
+    BlockCollection SchematicClip;
 
     //ArrayList<BlockDef> ClipBoard = new ArrayList();
     UUID PlayerId;
@@ -43,9 +45,13 @@ public class UndoTask
         }
         World world = player.getWorld();
         int counter = 0;
-        ListIterator<BlockDef> iter = this.SchematicClip.getBlocks().listIterator(this.SchematicClip.getBlocks().size());
+        ListIterator<BlockInfo> iter = this.SchematicClip.getBlocks().listIterator(this.SchematicClip.getBlocks().size());
         while (iter.hasPrevious()) {
             if (++counter > 4000) {
+                
+                
+                
+                
                 try {
                     player.sendMessage("Buffering... " + this.SchematicClip.Size() + " left.");
                 } catch (Exception e) {
@@ -53,19 +59,24 @@ public class UndoTask
                 }
                 return;
             }
-            BlockDef itm = iter.previous();
-            
+            BlockInfo itm = iter.previous();
+
             //System.out.println("Material is: " + itm.getBlockMaterial().name());
-            
             boolean eraseWater = true;
-            
-            if (itm.getBlockMaterial() == Material.WATER || itm.getBlockMaterial()==Material.LAVA)
-            {
+
+            if (itm.getBlockMaterial() == Material.WATER || itm.getBlockMaterial() == Material.LAVA) {
                 eraseWater = false;
             }
-            
+
             Block changeBlock = world.getBlockAt(itm.getX(), itm.getY(), itm.getZ());
             //BlockUtil.SetBlock(changeBlock, itm, player, true);
+
+//            Chunk chunk = world.getChunkAt(changeBlock);
+            
+//            Entity[] mobs = chunk.getEntities();
+//            for (Entity mob : mobs) {
+//                mob.remove();
+//            }
 
             itm.SetBlock(changeBlock, player, eraseWater);
 

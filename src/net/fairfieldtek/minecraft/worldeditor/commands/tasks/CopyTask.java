@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.UUID;
 import net.fairfieldtek.minecraft.Initialization;
 import net.fairfieldtek.minecraft.Util.BlockUtil;
-import net.fairfieldtek.minecraft.worldeditor.container.BlockDef;
+import net.fairfieldtek.minecraft.worldeditor.container.BlockInfo;
 import net.fairfieldtek.minecraft.worldeditor.container.PlayerInfo;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import net.fairfieldtek.minecraft.worldeditor.container.SchematicDef;
+import net.fairfieldtek.minecraft.worldeditor.container.BlockCollection;
 
 public class CopyTask
         extends BukkitRunnable {
@@ -25,7 +25,7 @@ public class CopyTask
     int cz = 0;
     UUID PlayerId;
     //ArrayList<BlockDef> ClipBoard = new ArrayList();
-    SchematicDef SchematicToPaste = new SchematicDef();
+    BlockCollection SchematicToPaste = new BlockCollection();
 
     public CopyTask(int bx, int ex, int by, int ey, int bz, int ez, UUID playerId) {
         this.sbx = bx;

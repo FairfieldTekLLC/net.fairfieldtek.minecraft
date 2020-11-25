@@ -19,7 +19,7 @@ package net.fairfieldtek.minecraft.worldeditor.commands;
 
 import net.fairfieldtek.minecraft.Initialization;
 import net.fairfieldtek.minecraft.Util.PlayerUtils;
-import net.fairfieldtek.minecraft.worldeditor.container.BlockDef;
+import net.fairfieldtek.minecraft.worldeditor.container.BlockInfo;
 import net.fairfieldtek.minecraft.worldeditor.container.PlayerInfo;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -28,7 +28,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.ChatColor;
 import java.util.*;
-import net.fairfieldtek.minecraft.worldeditor.container.SchematicDef;
+import net.fairfieldtek.minecraft.worldeditor.container.BlockCollection;
 
 /**
  *
@@ -54,8 +54,11 @@ public class EraseLiquid implements CommandExecutor {
                 try {
                     Block target = PlayerUtils.getTargetBlock(player, 10);
                     int dist = Integer.parseInt(args[0]);
-                    SchematicDef undo = info.NewUndo();
-                    BlockDef.EraseLiquid(target, dist, player,undo);
+                    BlockCollection undo = info.NewUndo();
+                    
+                    ((BlockInfo)target).EraseLiquid(target, dist, player,undo);
+                    
+//                    BlockInfo.EraseLiquid(target, dist, player,undo);
                     player.sendMessage("Water/Lava removed.");
                 } catch (Exception e) {
                     player.sendMessage(ChatColor.YELLOW + "Usage: /EraseLiquid X Y Z (Distance Out)");
@@ -69,8 +72,9 @@ public class EraseLiquid implements CommandExecutor {
                     int z = Integer.parseInt(args[2]);
                     int dist = Integer.parseInt(args[3]);
                     Block target = player.getWorld().getBlockAt(x, y, z);
-                     SchematicDef undo = info.NewUndo();
-                    BlockDef.EraseLiquid(target, dist, player,undo);
+                     BlockCollection undo = info.NewUndo();
+                     ((BlockInfo)target).EraseLiquid(target, dist, player,undo);
+//                    BlockDef.EraseLiquid(target, dist, player,undo);
                     player.sendMessage("Water/Lava removed.");
                     return true;
                 } catch (Exception e) {

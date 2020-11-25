@@ -1,6 +1,6 @@
 package net.fairfieldtek.minecraft.Util;
 
-import net.fairfieldtek.minecraft.worldeditor.container.BlockDef;
+
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.World;
