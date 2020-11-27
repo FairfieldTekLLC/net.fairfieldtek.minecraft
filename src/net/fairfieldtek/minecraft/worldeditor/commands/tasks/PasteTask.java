@@ -47,6 +47,8 @@ public class PasteTask
     int maxY = Integer.MIN_VALUE;
     int maxZ = Integer.MIN_VALUE;
 
+    BlockFace PlayerBlockFace;
+
     int finalOffsetX = 0;
     int finalOffsetY = 0;
     int finalOffsetZ = 0;
@@ -62,6 +64,7 @@ public class PasteTask
         this.SchematicClipboard = pi.ClipSchematic.Clone();
         this.SchematicUndo = pi.NewUndo();
         this.SchematicUndo.Clear();
+        PlayerBlockFace = PlayerUtils.getCardinalDirection(player);
     }
 
     @Override
@@ -139,7 +142,7 @@ public class PasteTask
                 itm.setY(y);
                 itm.setZ(z);
 
-                this.RotatedSchematicClipboard.AddBlock(itm);
+                this.RotatedSchematicClipboard.AddBlock(itm,null);
                 iter.remove();
 
             }
@@ -203,7 +206,7 @@ public class PasteTask
                 int foy = finalOffsetY;
 
                 try {
-                    switch (PlayerUtils.getCardinalDirection(player)) {
+                    switch (PlayerBlockFace) {
                         case WEST:
                         case NORTH_WEST:
                             foz = finalOffsetZ - (maxZ - minZ);
@@ -228,11 +231,7 @@ public class PasteTask
                 int y = itm.getY() + foy + 1;
                 int z = itm.getZ() + foz;
 
-                Block changeBlock = player.getWorld().getBlockAt(x, y, z);
-
-                this.SchematicUndo.AddBlock(changeBlock, 0, 0, 0, player);
-
-                itm.SetBlock(changeBlock, player, false);
+                itm.ApplyBlockInfoToBlock( player.getWorld().getBlockAt(x, y, z), false, this.SchematicUndo);
 
                 iter.remove();
             }
@@ -257,7 +256,7 @@ public class PasteTask
                 int foy = finalOffsetY;
 
                 try {
-                    switch (PlayerUtils.getCardinalDirection(player)) {
+                    switch (PlayerBlockFace) {
                         case WEST:
                         case NORTH_WEST:
                             foz = finalOffsetZ - (maxZ - minZ);
@@ -282,11 +281,7 @@ public class PasteTask
                 int y = itm.getY() + foy + 1;
                 int z = itm.getZ() + foz;
 
-                Block changeBlock = player.getWorld().getBlockAt(x, y, z);
-
-                this.SchematicUndo.AddBlock(changeBlock, 0, 0, 0, player);
-
-                itm.SetBlock(changeBlock, player, false);
+                itm.ApplyBlockInfoToBlock(player.getWorld().getBlockAt(x, y, z), false, SchematicUndo);
 
                 iter.remove();
             }
@@ -297,9 +292,9 @@ public class PasteTask
             System.out.println(e.getMessage());
 
         }
-        this.cancel();
-        Initialization.PlayerInfoList.get(player).setIsProcessing(false, "Paste");
 
+        Initialization.PlayerInfoList.get(player).setIsProcessing(false, "Paste");
+        this.cancel();
     }
 
 }

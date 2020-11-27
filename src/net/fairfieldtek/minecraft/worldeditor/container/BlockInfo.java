@@ -17,6 +17,8 @@
  */
 package net.fairfieldtek.minecraft.worldeditor.container;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.fairfieldtek.minecraft.Initialization;
 import net.fairfieldtek.minecraft.Util.EnumHelper;
 import net.fairfieldtek.minecraft.Util.MaterialUtil;
@@ -32,24 +34,42 @@ import org.bukkit.entity.Player;
 import org.bukkit.block.data.Directional;
 import org.bukkit.*;
 import org.bukkit.block.Chest;
+import org.bukkit.entity.Entity;
 
 /**
  *
  * @author geev
  */
-public class BlockInfo {
+public final class BlockInfo {
 
     private int X;
     private int Y;
     private int Z;
-//    private String BlockFaceCode;
-    private Material Material;
-    //private BlockData BlockData = null;
-    private String BlockData;
-    private boolean IsWallSign = false;
-    private int BlockTypeIndex;
     private BlockCollection BlockCollection;
-    private boolean IsDirectional = false;
+    private int BlockTypeIndex;
+    private int BlockDataIndex = -1;
+
+    public String getBlockDataString() {
+        if (BlockDataIndex == -1) {
+            System.out.println("******************************************************>>>> Block Data Index NOT INITIALIZED");
+        }
+        return BlockCollection.getBlockSettingsPalette(BlockDataIndex);
+    }
+
+    public BlockData getBlockData() {
+        if (BlockDataIndex == -1) {
+            System.out.println("******************************************************>>>> Block Data Index NOT INITIALIZED");
+        }
+
+        return Bukkit.getServer().createBlockData(BlockCollection.getBlockSettingsPalette(BlockDataIndex));
+    }
+
+    public final void setBlockData(String data) throws Exception {
+        if (data.isEmpty()) {
+            throw new Exception("DATA IS EMPTY!");
+        }
+        BlockDataIndex = BlockCollection.addBlockSettingsPalette(data);
+    }
 
     public BlockCollection getBlockCollection() {
         return this.BlockCollection;
@@ -59,19 +79,14 @@ public class BlockInfo {
         this.BlockCollection = bc;
     }
 
-    public BlockInfo Clone(BlockCollection owner) {
-        BlockInfo blockDef = new BlockInfo(this.BlockCollection);
-        //blockDef.BlockFaceCode = this.BlockFaceCode;
-        blockDef.BlockTypeIndex = this.BlockTypeIndex;
-        blockDef.Material = this.Material;
-        blockDef.BlockCollection = this.BlockCollection;
-        blockDef.BlockData = this.BlockData;
-
-        // blockDef.Inverted = this.Inverted;
-        blockDef.setBlockCollection(owner);
+    public BlockInfo Clone(BlockCollection targetCollection) throws Exception {
+        BlockInfo blockDef = new BlockInfo(targetCollection);
+        blockDef.setBlockCollection(targetCollection);
         blockDef.X = this.X;
         blockDef.Y = this.Y;
         blockDef.Z = this.Z;
+        blockDef.setBlockData(this.getBlockData().getAsString());
+        blockDef.setBlockMaterial(this.getBlockMaterial());
         return blockDef;
     }
 
@@ -80,21 +95,20 @@ public class BlockInfo {
     }
 
     public BlockInfo(Block block, BlockCollection collection) {
+        BlockCollection = collection;
         X = block.getX();
         Y = block.getY();
         Z = block.getZ();
-        Material = block.getType();
-        BlockData = block.getBlockData().getAsString();
-        BlockCollection = collection;
+        setBlockMaterial(block.getType());
+        try {
+            setBlockData(block.getBlockData().getAsString());
+        } catch (Exception ex) {
+            Logger.getLogger(BlockInfo.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-//        if (block.getBlockData() instanceof Directional) {
-//            BlockFaceCode = EnumHelper.ToCodeFromBlockFace(((Directional) block.getBlockData()).getFacing());
-//        } else {
-//            BlockFaceCode = "";
-//        }
     }
 
-    public void EraseLiquid(Block changeBlock, int diameter, Player player, BlockCollection undoBuffer) {
+    public void EraseLiquid(Block changeBlock, int diameter, BlockCollection undoBuffer) {
         if (diameter == 0) {
             return;
         }
@@ -103,131 +117,145 @@ public class BlockInfo {
 
         if (s1.isLiquid()) {
             if (undoBuffer != null) {
-                undoBuffer.AddBlock(s1, 0, 0, 0, player);
+                undoBuffer.AddBlock(s1, 0, 0, 0,null);
             }
             s1.setType(Material.AIR, true);
-            EraseLiquid(s1, diameter - 1, player, undoBuffer);
+            EraseLiquid(s1, diameter - 1, undoBuffer);
         }
 
         s1 = changeBlock.getRelative(BlockFace.UP, 1);
         if (s1.isLiquid()) {
             if (undoBuffer != null) {
-                undoBuffer.AddBlock(s1, 0, 0, 0, player);
+                undoBuffer.AddBlock(s1, 0, 0, 0,null);
             }
             s1.setType(Material.AIR, true);
-            EraseLiquid(s1, diameter - 1, player, undoBuffer);
+            EraseLiquid(s1, diameter - 1, undoBuffer);
         }
 
         if ((s1 = changeBlock.getRelative(BlockFace.DOWN, 1)).isLiquid()) {
             if (undoBuffer != null) {
-                undoBuffer.AddBlock(s1, 0, 0, 0, player);
+                undoBuffer.AddBlock(s1, 0, 0, 0,null);
             }
             s1.setType(Material.AIR, true);
-            EraseLiquid(s1, diameter - 1, player, undoBuffer);
+            EraseLiquid(s1, diameter - 1, undoBuffer);
         }
 
         if ((s1 = changeBlock.getRelative(BlockFace.EAST, 1)).isLiquid()) {
             if (undoBuffer != null) {
-                undoBuffer.AddBlock(s1, 0, 0, 0, player);
+                undoBuffer.AddBlock(s1, 0, 0, 0,null);
             }
             s1.setType(Material.AIR, true);
-            EraseLiquid(s1, diameter - 1, player, undoBuffer);
+            EraseLiquid(s1, diameter - 1, undoBuffer);
         }
 
         if ((s1 = changeBlock.getRelative(BlockFace.WEST, 1)).isLiquid()) {
             if (undoBuffer != null) {
-                undoBuffer.AddBlock(s1, 0, 0, 0, player);
+                undoBuffer.AddBlock(s1, 0, 0, 0,null);
             }
             s1.setType(Material.AIR, true);
-            EraseLiquid(s1, diameter - 1, player, undoBuffer);
+            EraseLiquid(s1, diameter - 1, undoBuffer);
         }
 
         if ((s1 = changeBlock.getRelative(BlockFace.NORTH, 1)).isLiquid()) {
             if (undoBuffer != null) {
-                undoBuffer.AddBlock(s1, 0, 0, 0, player);
+                undoBuffer.AddBlock(s1, 0, 0, 0,null);
             }
             s1.setType(Material.AIR, true);
-            EraseLiquid(s1, diameter - 1, player, undoBuffer);
+            EraseLiquid(s1, diameter - 1, undoBuffer);
         }
 
         if ((s1 = changeBlock.getRelative(BlockFace.SOUTH, 1)).isLiquid()) {
             if (undoBuffer != null) {
-                undoBuffer.AddBlock(s1, 0, 0, 0, player);
+                undoBuffer.AddBlock(s1, 0, 0, 0,null);
             }
             s1.setType(Material.AIR, true);
-            EraseLiquid(s1, diameter - 1, player, undoBuffer);
+            EraseLiquid(s1, diameter - 1, undoBuffer);
         }
 
     }
 
-    public void SetBlock(Block block, Player player, boolean eraseWater) {
-        // System.out.println("Begin Setting Block.");
-//        if (eraseWater) {
-//            EraseLiquid(block, 1, player, Initialization.PlayerInfoList.get(player).GetUndo());
-//        }
-        Block target = player.getWorld().getBlockAt(X, Y, Z);
+    public boolean ApplyBlockInfoToBlock(Block target, boolean eraseWater, BlockCollection undoBuffer) {
 
-        if (target instanceof Container) {
+        if (undoBuffer != null) {
+            undoBuffer.AddBlock(target, 0, 0, 0,null);
+        }
+        if (eraseWater) {
+            EraseLiquid(target, 1, undoBuffer);
+        }
+        try {
             BlockState state = target.getState();
             Container chest = (Container) state;
-            chest.update();
+            chest.update(true);
             chest.getInventory().clear();
-            target.breakNaturally();
-            target = player.getWorld().getBlockAt(X, Y, Z);
+            target.setType(Material.AIR);
+//            //target.breakNaturally();
+            System.out.println("<>-------------------------------------------<>CHEST");
+//            //ClearEntities(target.getChunk());
+            return false;
+        } catch (Exception e) {
         }
-        Server server = Bukkit.getServer();
-        BlockData newBlockData = server.createBlockData(BlockData);
-        target.setType(Material, false);
-        target.setBlockData(newBlockData, false);
 
+        target.setType(getBlockMaterial());
+        target.setBlockData(getBlockData());
+        return true;
     }
 
     public Material getBlockMaterial() {
         return BlockCollection.GetBlockTypePaletteEntry(this.BlockTypeIndex);
     }
 
+    public void setBlockMaterial(Material mat) {
+
+        this.BlockTypeIndex = BlockCollection.AddBlockTypeToPalette(mat);
+    }
+
     public String getBlockFaceCode() {
-        Server server = Bukkit.getServer();
-        BlockData newBlockData = server.createBlockData(BlockData);
+
+        BlockData newBlockData = this.getBlockData();
         return EnumHelper.ToCodeFromBlockFace(((Directional) newBlockData).getFacing());
     }
 
     public BlockFace GetBlockFace() {
-        Server server = Bukkit.getServer();
-        BlockData newBlockData = server.createBlockData(BlockData);
+
+        BlockData newBlockData = this.getBlockData();
         return ((Directional) newBlockData).getFacing();
     }
 
     public void SetBlockFace(BlockFace face) {
-        Server server = Bukkit.getServer();
-        BlockData newBlockData = server.createBlockData(BlockData);
+
+        BlockData newBlockData = this.getBlockData();
         ((Directional) newBlockData).setFacing(face);
-        BlockData = newBlockData.getAsString();
-    }
-    
-    public void SetBlockFaceCode(String code){
-         Server server = Bukkit.getServer();
-        BlockData newBlockData = server.createBlockData(BlockData);
-        ((Directional) newBlockData).setFacing(EnumHelper.ToBlockFaceFromCode(code));
-         BlockData = newBlockData.getAsString();
+        try {
+            setBlockData(newBlockData.getAsString());
+        } catch (Exception ex) {
+            Logger.getLogger(BlockInfo.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-//    public void setBlockFaceCode(String code) {
-//        Server server = Bukkit.getServer();
-//        BlockData newBlockData = server.createBlockData(BlockData);
-//        BlockFace face =  EnumHelper.ToCodeFromBlockFace(((Directional)newBlockData).getFacing());
-//        
-//        
-//        this.BlockFaceCode = code;
-//    }
-//    public BlockFace ToBlockFace() {
-//        return EnumHelper.ToBlockFaceFromCode(this.BlockFaceCode);
-//    }
-//    
-//    public void FromBlockFace(BlockFace face) {
-//        this.BlockFaceCode = EnumHelper.ToCodeFromBlockFace(face);
-//    }
-//    
+    public void SetBlockFaceCode(String code) {
+
+        try {
+            BlockData newBlockData = this.getBlockData();
+            ((Directional) newBlockData).setFacing(EnumHelper.ToBlockFaceFromCode(code));
+            setBlockData(newBlockData.getAsString());
+        } catch (Exception ex) {
+            Logger.getLogger(BlockInfo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void ClearEntities(Chunk chunk) {
+         try {
+             
+                        //Lets clear any entities int he chunk....
+                        Entity[] ent = chunk.getEntities();
+                        for (Entity ent1 : ent) {
+                            ent1.remove();
+                        }
+                    } catch (Exception itm) {
+                        // empty catch block
+                    }
+    }
+
     public int getX() {
         return this.X;
     }
@@ -410,16 +438,15 @@ public class BlockInfo {
                 }
             }
         }
-        
+
         this.SetBlockFace(MaterialUtil.getFacingByMod(x, y, z));
-        
-        
+
         //FromBlockFace(MaterialUtil.getFacingByMod(x, y, z));
         //return itm;
     }
 
     public void GetRotY(int degrees) {
-        BlockFace bf =  GetBlockFace();//ToBlockFace();
+        BlockFace bf = GetBlockFace();//ToBlockFace();
         String j = EnumHelper.ToCodeFromBlockFace(bf);
         int x = bf.getModX();
         int y = bf.getModY();
@@ -551,7 +578,7 @@ public class BlockInfo {
     }
 
     public void GetRotX(int degrees) {
-        BlockFace bf =  GetBlockFace();//ToBlockFace();
+        BlockFace bf = GetBlockFace();//ToBlockFace();
         String j = EnumHelper.ToCodeFromBlockFace(bf);
         int x = bf.getModX();
         int y = bf.getModY();
@@ -772,16 +799,12 @@ public class BlockInfo {
         return this.BlockTypeIndex;
     }
 
-    public void setBlockTypeIndex(int idx) {
-        this.BlockTypeIndex = idx;
-    }
-
     public String toXferString() {
-        return  Integer.toString(X) + "|"
+        return Integer.toString(X) + "|"
                 + Integer.toString(Y) + "|"
                 + Integer.toString(Z) + "|"
                 + Integer.toString(BlockTypeIndex) + "|"
-                +   this.BlockData;
+                + this.getBlockData();
     }
 
 }

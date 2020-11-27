@@ -27,13 +27,13 @@ public class AuthenticateTaskRequest
     @Override
     public void run() {
         try {
-            
+
             Gson gson = new Gson();
             AuthenticateRequest authenticateRequest = new AuthenticateRequest();
             authenticateRequest.setUuid(this.Uuid);
             String body = gson.toJson(authenticateRequest);
             AuthenticateResponse response = gson.fromJson(
-                    RequestHttp(Initialization.BaseUri + "Authenticate",body),
+                    RequestHttp(Initialization.BaseUri + "Authenticate", body),
                     AuthenticateResponse.class);
             new AuthenticateTaskResponse(response)
                     .runTask((org.bukkit.plugin.Plugin) Initialization.Plugin);

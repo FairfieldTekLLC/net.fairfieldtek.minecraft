@@ -23,21 +23,19 @@ package net.fairfieldtek.minecraft.Util;
  */
 public class MiscUtil {
 
-    public static String padRight(String s, int n,String character) {
+    public static String padRight(String s, int n, String character) {
         String newString = s.trim();
-        for (int i = newString.length();i<=n;i++)
-        {
-            newString= newString + character;
-           // System.out.println(newString);
+        for (int i = newString.length(); i <= n; i++) {
+            newString = newString + character;
+            // System.out.println(newString);
         }
         return newString;
     }
 
-    public static String padLeft(String s, int n,String character) {
+    public static String padLeft(String s, int n, String character) {
         String newString = s.trim();
         //System.out.println("String length: " + newString.length());
-        for (int i = newString.length();i<=n;i++)
-        {
+        for (int i = newString.length(); i <= n; i++) {
             newString = character + newString;
             //System.out.println(i + " -> " + newString);
         }

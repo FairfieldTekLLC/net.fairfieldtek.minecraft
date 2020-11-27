@@ -26,6 +26,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.Bukkit;
+
 /**
  *
  * @author geev
@@ -37,28 +38,25 @@ public class MapTheWorld implements CommandExecutor {
 
         Player player;
 
-        if (sender instanceof Player ) {
-            
+        if (sender instanceof Player) {
+
             player = (Player) sender;
             player.sendMessage("Got Command");
-                    
-            if (args.length==1)
-            {
-                
-            int n = Integer.parseInt(args[0]);
-            
-            MappingTask pt = new MappingTask(player.getUniqueId(),n);
-            
-            player.sendMessage("Starting Mapping Process for " + n);
-            
-            pt.runTaskTimer((org.bukkit.plugin.Plugin) Initialization.Plugin, 1, 15);
-            return true;
-            }
-            else
-            {
+
+            if (args.length == 1) {
+
+                int n = Integer.parseInt(args[0]);
+
+                MappingTask pt = new MappingTask(player.getUniqueId(), n);
+
+                player.sendMessage("Starting Mapping Process for " + n);
+
+                pt.runTaskTimer((org.bukkit.plugin.Plugin) Initialization.Plugin, 1, 15);
+                return true;
+            } else {
                 player.sendMessage("Incorrect Parameters expecting number of spirals.");
             }
-            
+
         }
         return true;
 

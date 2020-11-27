@@ -37,7 +37,6 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 public abstract class HttpRequestor extends BukkitRunnable {
 
-    
     public String RequestHttp(String uri, String postBody) {
         try {
             CloseableHttpClient httpClient = HttpClientBuilder.create().build();
@@ -45,7 +44,7 @@ public abstract class HttpRequestor extends BukkitRunnable {
             HttpPost request = new HttpPost(uri);
 
             Gson gson = new Gson();
-            
+
             StringEntity params = new StringEntity(postBody);
             request.addHeader("content-type", "application/json");
             request.setEntity(params);

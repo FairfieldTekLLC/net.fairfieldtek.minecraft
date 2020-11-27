@@ -49,13 +49,8 @@ public class StripMineTask extends BukkitRunnable {
             MaterialCount.put(mat, 0);
         }
         MaterialCount.put(mat, MaterialCount.get(mat) + 1);
-
-        BlockInfo blockInfo = new BlockInfo(changeBlock, Undo);
-
-        Undo.AddBlock(blockInfo);
-
+        Undo.AddBlock(changeBlock,0,0,0, Undo);
         changeBlock.setType(material);
-
     }
 
     public void SetBlock(Chunk chunk, int x, int y, int z, Material material, boolean isWorldCoords) {
@@ -65,8 +60,7 @@ public class StripMineTask extends BukkitRunnable {
             MaterialCount.put(mat, 0);
         }
         MaterialCount.put(mat, MaterialCount.get(mat) + 1);
-        BlockInfo blockInfo = new BlockInfo(changeBlock, Undo);
-        Undo.AddBlock(blockInfo);
+        Undo.AddBlock(new BlockInfo(changeBlock, Undo),Undo);
         changeBlock.setType(material);
     }
 

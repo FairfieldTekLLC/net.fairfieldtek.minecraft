@@ -16,10 +16,10 @@ public class PlayerUtils {
         }
         return lastBlock;
     }
-    
+
     /**
      * Get the cardinal compass direction of a player.
-     * 
+     *
      * @param player
      * @return
      */
@@ -33,12 +33,12 @@ public class PlayerUtils {
 
     /**
      * Converts a rotation to a cardinal direction name.
-     * 
+     *
      * @param rot
      * @return
      */
     private static BlockFace getDirection(double rot) {
-        
+
         if (0 <= rot && rot < 22.5) {
             return BlockFace.WEST;
         } else if (22.5 <= rot && rot < 67.5) {
@@ -52,7 +52,7 @@ public class PlayerUtils {
         } else if (202.5 <= rot && rot < 247.5) {
             return BlockFace.SOUTH_EAST;
         } else if (247.5 <= rot && rot < 292.5) {
-            return BlockFace.SOUTH; 
+            return BlockFace.SOUTH;
         } else if (292.5 <= rot && rot < 337.5) {
             return BlockFace.SOUTH_WEST;
         } else if (337.5 <= rot && rot < 360.0) {

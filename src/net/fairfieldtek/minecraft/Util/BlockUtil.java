@@ -1,6 +1,5 @@
 package net.fairfieldtek.minecraft.Util;
 
-
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.World;

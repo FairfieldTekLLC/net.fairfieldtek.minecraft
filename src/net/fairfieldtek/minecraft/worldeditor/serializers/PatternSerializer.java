@@ -32,26 +32,27 @@ public class PatternSerializer {
     private int PatternIdx;
     private int ColorIdx;
     private BlockCollection SchematicDef;
-    
-    public PatternType getPattern(){
+
+    public PatternType getPattern() {
         return MaterialUtil.getPatternType(SchematicDef.getBlockSettingsPalette(PatternIdx));
     }
-    public void setPattern(PatternType pat){
-         this.PatternIdx = SchematicDef.addBlockSettingsPalette(pat.name());
+
+    public void setPattern(PatternType pat) {
+        this.PatternIdx = SchematicDef.addBlockSettingsPalette(pat.name());
     }
-    public void setColor(DyeColor color)
-    {
+
+    public void setColor(DyeColor color) {
         this.ColorIdx = SchematicDef.addBlockSettingsPalette(color.name());
     }
-    
-    public DyeColor getColor(){
+
+    public DyeColor getColor() {
         return MaterialUtil.getDyeColor(SchematicDef.getBlockSettingsPalette(ColorIdx));
     }
-    
+
     public PatternSerializer(Pattern pattern, BlockCollection schematicDef) {
         this.PatternIdx = schematicDef.addBlockSettingsPalette(pattern.getPattern().name());
         this.ColorIdx = schematicDef.addBlockSettingsPalette(pattern.getColor().name());
         this.SchematicDef = schematicDef;
     }
-    
+
 }

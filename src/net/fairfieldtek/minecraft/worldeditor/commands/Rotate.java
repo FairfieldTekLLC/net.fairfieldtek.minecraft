@@ -133,7 +133,7 @@ public class Rotate
             block = player.getWorld().getBlockAt(x, y, z);
 
             BlockCollection def = new BlockCollection();
-            BlockInfo blockDef = def.AddBlock(block, 0, 0, 0, player);
+            BlockInfo blockDef = def.AddBlock(block, 0, 0, 0,null);
 
             //BlockDef blockDef = BlockUtil.GetBlockDef(block, 0, 0, 0, player);
             switch (axis) {
@@ -149,7 +149,7 @@ public class Rotate
                     blockDef.GetRotZ(degrees);
                 }
             }
-            blockDef.SetBlock(block, player, false);
+            blockDef.ApplyBlockInfoToBlock(block, false, null);
             //BlockUtil.SetBlock(block, blockDef, player, false);
             player.sendMessage(ChatColor.RED + "Rotation Complete.");
         }

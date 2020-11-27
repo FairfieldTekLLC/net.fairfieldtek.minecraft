@@ -80,7 +80,7 @@ public class RegenChunk
                         for (int iy = 255; iy >= 0; --iy) {
                             block = chunk.getBlock(ix, iy, iz);
                             //BlockDef blockDef = BlockUtil.GetBlockDef(block, 0, 0, 0, player);
-                            undo.AddBlock(block, 0, 0, 0, player);
+                            undo.AddBlock(block, 0, 0, 0,pi.GetUndo());
                             //pi.UndoBuffer.add(blockDef);
                         }
                     }

@@ -52,13 +52,13 @@ public class LoadClipboardTaskRequest
             req.setUuid(this.Uuid);
             Gson gson = new Gson();
             String body = gson.toJson(req);
-            
+
             SchematicDataDownloadResponse response = gson.fromJson(
-                    RequestHttp(Initialization.BaseUri + "Load",body), 
+                    RequestHttp(Initialization.BaseUri + "Load", body),
                     SchematicDataDownloadResponse.class);
-            
+
             response.setUuid(this.Uuid);
-            
+
             new LoadClipBoardTaskResponse(response).runTask((org.bukkit.plugin.Plugin) Initialization.Plugin);
         } catch (Exception e) {
             SchematicDataDownloadResponse resp = new SchematicDataDownloadResponse();

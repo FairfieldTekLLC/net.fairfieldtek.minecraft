@@ -27,7 +27,7 @@ import org.bukkit.entity.Player;
  *
  * @author geev
  */
-public class Cover  implements CommandExecutor {
+public class Cover implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -42,9 +42,7 @@ public class Cover  implements CommandExecutor {
                 }
 
                 Initialization.PlayerInfoList.get(player).setIsProcessing(true, "Cover");
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Initialization.PlayerInfoList.get(player).setIsProcessing(false, "Cover");
             }
         }

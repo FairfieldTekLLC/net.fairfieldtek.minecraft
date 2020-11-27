@@ -63,7 +63,7 @@ public class Copy
 
                     CopyTask ct = new CopyTask(sbx, sex, sby, sey, sbz, sez, player.getUniqueId());
 
-                    ct.runTaskTimer((org.bukkit.plugin.Plugin) Initialization.Plugin, 1, 15);
+                    ct.runTaskTimer((org.bukkit.plugin.Plugin) Initialization.Plugin, 2, 15);
 
                 }
 

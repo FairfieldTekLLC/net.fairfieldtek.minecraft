@@ -5,12 +5,12 @@ import net.fairfieldtek.minecraft.Initialization;
 import net.fairfieldtek.minecraft.Util.BlockUtil;
 import net.fairfieldtek.minecraft.worldeditor.container.BlockInfo;
 import net.fairfieldtek.minecraft.worldeditor.container.PlayerInfo;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import net.fairfieldtek.minecraft.worldeditor.container.BlockCollection;
+import org.bukkit.Material;
 
 public class DeleteTask
         extends BukkitRunnable {
@@ -28,7 +28,7 @@ public class DeleteTask
     UUID PlayerId;
     BlockInfo EmptyDef;
     BlockCollection EmptySchematic = new BlockCollection();
-    Player player ;
+    Player player;
 
     public DeleteTask(Player player) {
         this.PlayerId = player.getUniqueId();
@@ -60,11 +60,11 @@ public class DeleteTask
         this.X = this.sx;
         this.Y = this.sy;
         this.Z = this.sz;
-        
-        Block block = player.getWorld().getBlockAt(X,Y,Z);        
-        this.EmptyDef = new BlockInfo(block,EmptySchematic);
+
+        Block block = player.getWorld().getBlockAt(X, Y, Z);
+        this.EmptyDef = new BlockInfo(block, EmptySchematic);
         this.EmptyDef.SetBlockFaceCode("");
-        this.EmptyDef.setBlockTypeIndex(EmptySchematic.AddBlockTypeToPalette(Material.AIR));
+        this.EmptyDef.setBlockMaterial(Material.AIR);
         EmptySchematic.getBlocks().add(EmptyDef);
     }
 
@@ -76,12 +76,8 @@ public class DeleteTask
                 this.cancel();
             }
             PlayerInfo pi = Initialization.PlayerInfoList.get(player);
-
             BlockCollection undo = pi.NewUndo();
-            
-            //pi.UndoSchematic.Clear();
             player.sendMessage("starting...");
-
             World world = player.getWorld();
             int counter = 0;
             while (this.Y >= this.ey) {
@@ -99,13 +95,7 @@ public class DeleteTask
                         this.EmptyDef.setY(this.Y);
                         this.EmptyDef.setZ(this.Z);
                         Block changeBlock = world.getBlockAt(this.X, this.Y, this.Z);
-
-                        undo.AddBlock(changeBlock, this.X, this.Y, this.Z, player);
-
-                        //pi.ClipBoard.add(BlockUtil.GetBlockDef(changeBlock, this.X, this.Y, this.Z, player));
-                        EmptyDef.SetBlock(changeBlock, player, true);
-
-                        //BlockUtil.SetBlock(changeBlock, this.EmptyDef, player, true);
+                        EmptyDef.ApplyBlockInfoToBlock(changeBlock, true, undo);
                         --this.Z;
                     }
                     this.Z = this.sz;

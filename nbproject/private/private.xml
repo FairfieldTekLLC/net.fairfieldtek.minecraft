@@ -3,14 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/NetBeans/net.fairfieldtek.minecraft/src/net/fairfieldtek/minecraft/worldeditor/commands/tasks/StripMineTask.java</file>
-            <file>file:/C:/NetBeans/net.fairfieldtek.minecraft/src/net/fairfieldtek/minecraft/worldeditor/container/PlayerInfo.java</file>
-            <file>file:/C:/NetBeans/net.fairfieldtek.minecraft/src/net/fairfieldtek/minecraft/worldeditor/container/BlockCollection.java</file>
+            <file>file:/C:/NetBeans/net.fairfieldtek.minecraft/src/net/fairfieldtek/minecraft/worldeditor/commands/tasks/PasteTask.java</file>
             <file>file:/C:/NetBeans/net.fairfieldtek.minecraft/src/net/fairfieldtek/minecraft/worldeditor/commands/tasks/UndoTask.java</file>
-            <file>file:/C:/NetBeans/net.fairfieldtek.minecraft/src/net/fairfieldtek/minecraft/worldeditor/container/BlockInfo.java</file>
-            <file>file:/C:/NetBeans/net.fairfieldtek.minecraft/src/net/fairfieldtek/minecraft/Initialization.java</file>
-            <file>file:/C:/NetBeans/net.fairfieldtek.minecraft/src/net/fairfieldtek/minecraft/worldeditor/commands/Undo.java</file>
-            <file>file:/C:/NetBeans/net.fairfieldtek.minecraft/src/net/fairfieldtek/minecraft/worldeditor/commands/StripMine.java</file>
         </group>
     </open-files>
 </project-private>

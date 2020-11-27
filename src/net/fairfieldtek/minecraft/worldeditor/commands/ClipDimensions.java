@@ -16,6 +16,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 package net.fairfieldtek.minecraft.worldeditor.commands;
+
 import net.fairfieldtek.minecraft.Initialization;
 import net.fairfieldtek.minecraft.worldeditor.container.PlayerInfo;
 import org.bukkit.ChatColor;
@@ -23,6 +24,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
 /**
  *
  * @author geev
@@ -37,23 +39,21 @@ public class ClipDimensions implements CommandExecutor {
                 player.sendMessage("Please wait for last command to finish.");
                 return true;
             }
-            
-            
 
             PlayerInfo pi = Initialization.PlayerInfoList.get(player);
-            if (pi.SelectStart == null || pi.SelectEnd==null)
-            {
+            if (pi.SelectStart == null || pi.SelectEnd == null) {
                 player.sendMessage(ChatColor.YELLOW + "Please select something first!");
                 return true;
             }
-            
+
             int x = Math.abs(pi.SelectStart.X - pi.SelectEnd.X);
             int y = Math.abs(pi.SelectStart.Y - pi.SelectEnd.X);
             int z = Math.abs(pi.SelectStart.Z - pi.SelectEnd.Z);
-            
+
             player.sendMessage(ChatColor.YELLOW + "Your selection dimension is " + x + " " + y + " " + z + ".");
-            
+
             return true;
         }
-        return true;}
+        return true;
+    }
 }

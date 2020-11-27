@@ -24,7 +24,7 @@ public class Undo
             player.sendMessage(ChatColor.RED + "Starting Undo, guess you really messed up, eh?");
             UndoTask ut = new UndoTask(player);
 
-            ut.runTaskTimer((org.bukkit.plugin.Plugin) Initialization.Plugin, 1, 15);
+            ut.runTaskTimer((org.bukkit.plugin.Plugin) Initialization.Plugin, 1, 16);
         }
         return true;
     }

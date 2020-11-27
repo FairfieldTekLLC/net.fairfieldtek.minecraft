@@ -31,8 +31,8 @@ public class PlayerInfo {
         }
         return current;
     }
-    
-    public void ClearHistory(){
+
+    public void ClearHistory() {
         UndoSchematic = new BlockCollection();
         UndoHistory.empty();
     }

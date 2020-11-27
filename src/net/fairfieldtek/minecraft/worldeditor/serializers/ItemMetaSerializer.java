@@ -48,12 +48,10 @@ public class ItemMetaSerializer {
     public String getLocalizedName() {
         return SchematicDef.getBlockSettingsPalette(LocalizedNameIdx);
     }
-    
-    public void setLore(String[] lore)
-    {
+
+    public void setLore(String[] lore) {
         Lore.clear();
-        for (String ent :lore)
-        {
+        for (String ent : lore) {
             Lore.add(SchematicDef.addBlockSettingsPalette(ent));
         }
     }

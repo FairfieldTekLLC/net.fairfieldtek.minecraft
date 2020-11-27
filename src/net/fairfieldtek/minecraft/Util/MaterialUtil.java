@@ -13,7 +13,7 @@ import org.bukkit.Note.Tone;
 
 public class MaterialUtil {
 
-      public static org.bukkit.Note.Tone getTone(String name){
+    public static org.bukkit.Note.Tone getTone(String name) {
         for (org.bukkit.Note.Tone s : org.bukkit.Note.Tone.values()) {
             if (s.name().equals(name)) {
                 return s;
@@ -21,9 +21,8 @@ public class MaterialUtil {
         }
         return org.bukkit.Note.Tone.A;
     }
-      
-    
-    public static org.bukkit.GrassSpecies getGrassSpecies(String name){
+
+    public static org.bukkit.GrassSpecies getGrassSpecies(String name) {
         for (org.bukkit.GrassSpecies s : org.bukkit.GrassSpecies.values()) {
             if (s.name().equals(name)) {
                 return s;
@@ -31,7 +30,7 @@ public class MaterialUtil {
         }
         return org.bukkit.GrassSpecies.NORMAL;
     }
-    
+
     public static org.bukkit.CropState getCropState(String name) {
         for (org.bukkit.CropState s : org.bukkit.CropState.values()) {
             if (s.name().equals(name)) {

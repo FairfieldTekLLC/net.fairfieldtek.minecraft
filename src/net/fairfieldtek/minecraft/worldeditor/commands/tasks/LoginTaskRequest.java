@@ -35,7 +35,7 @@ public class LoginTaskRequest
             loginRequest.setAuthToken(this.AuthToken);
             String body = gson.toJson(loginRequest);
             LoginResponse response = gson.fromJson(
-                    RequestHttp(Initialization.BaseUri + "Login",body), 
+                    RequestHttp(Initialization.BaseUri + "Login", body),
                     LoginResponse.class);
             response.setUuid(this.Uuid);
             new LoginTaskResponse(response).runTask((org.bukkit.plugin.Plugin) Initialization.Plugin);

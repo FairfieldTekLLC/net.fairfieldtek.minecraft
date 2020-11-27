@@ -40,14 +40,15 @@ public abstract class Serializer {
     private double Temperature;
     private BlockCollection SchematicDef;
     private byte Data;
-    
-    public final  void setData(byte data){
+
+    public final void setData(byte data) {
         this.Data = data;
     }
-    public final  byte getData(){
+
+    public final byte getData() {
         return this.Data;
     }
-    
+
     public Serializer(Block block, int xOffset, int yOffset, int zOffset, BlockCollection schematicDef) {
         SchematicDef = schematicDef;
         X = block.getX() - xOffset;
@@ -57,63 +58,62 @@ public abstract class Serializer {
         BiomeTypeIdx = schematicDef.addBlockSettingsPalette(block.getBiome().name());
         Temperature = block.getTemperature();
         Data = block.getData();
-        
+
     }
 
-    public final  Biome getBiomeType() {
+    public final Biome getBiomeType() {
         return MaterialUtil.getBiome(SchematicDef.getBlockSettingsPalette(BiomeTypeIdx));
     }
 
-    public final  void setBiomeType(Biome biome) {
+    public final void setBiomeType(Biome biome) {
         BiomeTypeIdx = SchematicDef.addBlockSettingsPalette(biome.name());
     }
-    
-    public  final double getTemperature(){
+
+    public final double getTemperature() {
         return Temperature;
     }
 
-    public  final void setTemperature(double t){
-        this .Temperature=t;
+    public final void setTemperature(double t) {
+        this.Temperature = t;
     }
-    
 
-    public final  int getX() {
+    public final int getX() {
         return X;
     }
 
-    public  final void setX(int x) {
+    public final void setX(int x) {
         this.X = x;
     }
 
-    public final  int getY() {
+    public final int getY() {
         return Y;
     }
 
-    public  final int getZ() {
+    public final int getZ() {
         return Z;
     }
 
-    public  final void setY(int y) {
+    public final void setY(int y) {
         Y = y;
     }
 
-    public final  void setZ(int z) {
+    public final void setZ(int z) {
         Z = z;
     }
 
-    public final  void setMaterialType(org.bukkit.Material mat) {
+    public final void setMaterialType(org.bukkit.Material mat) {
         this.MaterialTypeIdx = SchematicDef.addBlockSettingsPalette(mat.name());
     }
 
-    public  final org.bukkit.Material getMaterialType() {
+    public final org.bukkit.Material getMaterialType() {
         return org.bukkit.Material.getMaterial(SchematicDef.getBlockSettingsPalette(this.MaterialTypeIdx));
     }
 
-    public final  BlockCollection getSchematicDef() {
+    public final BlockCollection getSchematicDef() {
         return this.SchematicDef;
     }
 
-    public final  void setSchematicDef(BlockCollection def) {
+    public final void setSchematicDef(BlockCollection def) {
         this.SchematicDef = def;
     }
 }

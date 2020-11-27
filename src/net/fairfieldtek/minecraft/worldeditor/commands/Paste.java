@@ -160,7 +160,7 @@ public class Paste
                 player.sendMessage(ChatColor.RED + "Starting Paste Procedure...");
                 PasteTask pt = new PasteTask(player, tLoc.getBlockX(), tLoc.getBlockY(), tLoc.getBlockZ(), axis, degrees);
 
-                pt.runTaskTimer((org.bukkit.plugin.Plugin) Initialization.Plugin, 1, 15);
+                pt.runTaskTimer((org.bukkit.plugin.Plugin) Initialization.Plugin, 2, 15);
 
             } catch (Exception e) {
                 player.sendMessage("Valid Formats for Paste are:");

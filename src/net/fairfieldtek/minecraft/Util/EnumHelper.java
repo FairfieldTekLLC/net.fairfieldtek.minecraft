@@ -26,11 +26,12 @@ import org.bukkit.entity.EntityType;
  * @author geev
  */
 public class EnumHelper {
-    
-    public static EntityType getEntityType(String name){
-        for (EntityType e : EntityType.values()){
-            if (e.name()==name)
+
+    public static EntityType getEntityType(String name) {
+        for (EntityType e : EntityType.values()) {
+            if (e.name() == name) {
                 return e;
+            }
         }
         return EntityType.CHICKEN;
     }

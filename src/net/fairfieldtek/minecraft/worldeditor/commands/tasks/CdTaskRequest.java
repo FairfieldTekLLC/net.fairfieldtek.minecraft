@@ -39,9 +39,9 @@ public class CdTaskRequest
             cdRequest.setUuid(this.Uuid);
             cdRequest.setTargetDirectory(this.Target);
             String body = gson.toJson(cdRequest);
-            
+
             CdResponse response = gson.fromJson(
-                    RequestHttp(Initialization.BaseUri + "DirCd", body), 
+                    RequestHttp(Initialization.BaseUri + "DirCd", body),
                     CdResponse.class);
             response.setUuid(this.Uuid);
             new CdTaskResponse(response)

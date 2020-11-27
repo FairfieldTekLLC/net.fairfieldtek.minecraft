@@ -52,7 +52,7 @@ public class Demographics implements CommandExecutor {
                     String key = entry.getKey();
                     int value = entry.getValue();
                     //100000
-                    player.sendMessage("--->" + ChatColor.YELLOW + MiscUtil.padLeft(Integer.toString(value), 6,"0") + "   " + key  );
+                    player.sendMessage("--->" + ChatColor.YELLOW + MiscUtil.padLeft(Integer.toString(value), 6, "0") + "   " + key);
                     // ...
                 }
                 player.sendMessage("===========Finished=============");
