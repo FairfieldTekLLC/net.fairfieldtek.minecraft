@@ -37,12 +37,9 @@ import org.bukkit.Bukkit;
 public class BlockCollection {
 
     private ArrayList<BlockInfo> Blocks = new ArrayList<>();
-    private final ArrayList<PaletteEntry> BlockTypePalette = new ArrayList<>();
-    private final ArrayList<PaletteEntry> BlockSettingsPalette = new ArrayList<>();
+    private ArrayList<PaletteEntry> BlockTypePalette = new ArrayList<>();
+    private ArrayList<PaletteEntry> BlockDataPalette = new ArrayList<>();
     private String Name;
-
-    private int blockTypeCounter = 0;
-    private int BlockSettingsPaletteCounter = 0;
 
     public HashMap<String, Integer> GetBlockMaterialCounts() {
         HashMap<String, Integer> map = new HashMap<>();
@@ -60,21 +57,28 @@ public class BlockCollection {
 
     public void LoadResponse(SchematicDataDownloadResponse response) {
         Blocks.clear();
-        BlockTypePalette.clear();
-        blockTypeCounter = 0;
+        BlockTypePalette = new ArrayList<>();
+        BlockDataPalette = new ArrayList<>();
         Name = response.getFileName();
-
-        Blocks.addAll(Arrays.asList(response.getBlocks())); //def.SchematicOwner = this;
-
         for (PaletteEntry pe : response.getBlockTypePalette()) {
-            this.BlockTypePalette.add(pe.Clone());
+            BlockTypePalette.add(pe.Clone());
+        }
+        for (PaletteEntry pe : response.getBlockDataPalette()) {
+            BlockDataPalette.add(pe.Clone());
         }
 
-//        if (response.getColorPalette() != null) {
-//            for (PaletteEntry pe : response.getColorPalette()) {
-//                this.BlockColorPalette.add(pe.Clone());
-//            }
-//        }
+        for (BlockInfo ent : response.getBlocks()) {
+            ent.setBlockCollection(this);
+            try {
+                Blocks.add(ent);
+            } catch (Exception ex) {
+                Logger.getLogger(BlockCollection.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
+       
+
     }
 
     /**
@@ -82,9 +86,9 @@ public class BlockCollection {
      * @param i
      * @return
      */
-    public Material GetBlockTypePaletteEntry(int i) {
+    public Material GetBlockTypePaletteEntry(int id) {
         for (PaletteEntry ent : BlockTypePalette) {
-            if (ent.getId() == i) {
+            if (ent.getId() == id) {
                 return Material.getMaterial(ent.getValue());
             }
         }
@@ -101,9 +105,16 @@ public class BlockCollection {
         return blockTypePalette;
     }
 
+    public PaletteEntry[] GetBlockDataPalette() {
+        PaletteEntry[] blockDataPalette = new PaletteEntry[BlockDataPalette.size()];
+        BlockDataPalette.toArray(blockDataPalette);
+        return blockDataPalette;
+    }
+
     public void Clear() {
         Blocks.clear();
         BlockTypePalette.clear();
+        BlockDataPalette.clear();
     }
 
     public boolean IsEmpty() {
@@ -160,15 +171,24 @@ public class BlockCollection {
         return AddBlockTypeToPalette(sourceBlock.getType());
     }
 
+    public int getMaxPalletId(ArrayList<PaletteEntry> palette) {
+        int start = 0;
+        for (PaletteEntry ent : palette) {
+            if (ent.getId() > start) {
+                start = ent.getId();
+            }
+        }
+        return start;
+    }
+
     public int AddBlockTypeToPalette(Material mat) {
         for (PaletteEntry ent : BlockTypePalette) {
             if (ent.getValue().equals(mat.name().trim())) {
                 return ent.getId();
             }
         }
-        int idx = blockTypeCounter;
+        int idx = getMaxPalletId(BlockTypePalette) + 1;
         BlockTypePalette.add(new PaletteEntry(idx, mat.name()));
-        blockTypeCounter++;
         return idx;
     }
 
@@ -187,8 +207,8 @@ public class BlockCollection {
         BlockTypePalette.forEach((matType) -> {
             newSchematicDef.BlockTypePalette.add(matType.Clone());
         });
-        BlockSettingsPalette.forEach((colorType) -> {
-            newSchematicDef.BlockSettingsPalette.add(colorType.Clone());
+        BlockDataPalette.forEach((Data) -> {
+            newSchematicDef.BlockDataPalette.add(Data.Clone());
         });
 
         Blocks.forEach((BlockInfo def) -> {
@@ -198,11 +218,28 @@ public class BlockCollection {
                 Logger.getLogger(BlockCollection.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+
+        Validate();
+        newSchematicDef.Validate();
+
         return newSchematicDef;
     }
 
-    public String getBlockSettingsPalette(int i) {
-        for (PaletteEntry ent : BlockSettingsPalette) {
+    public boolean Validate() {
+        Blocks.forEach((BlockInfo def) -> {
+            if (def.getBlockData() == null) {
+                System.out.println("------------------------------------->NULL BLOCk data");
+            }
+            if (def.getBlockMaterial() == null) {
+                System.out.println("------------------------------------->NULL BLOCk Material");
+            }
+        });
+
+        return true;
+    }
+
+    public String getBlockDataPalette(int i) {
+        for (PaletteEntry ent : BlockDataPalette) {
             if (ent.getId() == i) {
                 return ent.getValue();
             }
@@ -210,15 +247,17 @@ public class BlockCollection {
         return "";
     }
 
-    public int addBlockSettingsPalette(String value) {
-        for (PaletteEntry ent : BlockSettingsPalette) {
+    public int addBlockDataPalette(String value) {
+        if (value == null) {
+            value = "";
+        }
+        for (PaletteEntry ent : BlockDataPalette) {
             if (ent.getValue().equals(value.trim())) {
                 return ent.getId();
             }
         }
-        int idx = BlockSettingsPaletteCounter;
-        BlockSettingsPalette.add(new PaletteEntry(idx, value));
-        BlockSettingsPaletteCounter++;
+        int idx = getMaxPalletId(BlockDataPalette) + 1;
+        BlockDataPalette.add(new PaletteEntry(idx, value));
         return idx;
     }
 }

@@ -23,8 +23,8 @@ package net.fairfieldtek.minecraft.worldeditor.container;
  */
 public class PaletteEntry {
 
-    private int Id;
-    private String Value;
+    private int Id = -1;
+    private String Value = "";
 
     public PaletteEntry() {
     }

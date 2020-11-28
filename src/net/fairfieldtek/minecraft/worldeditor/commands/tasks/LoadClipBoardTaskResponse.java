@@ -53,7 +53,9 @@ public class LoadClipBoardTaskResponse
         pi.SelectStart = null;
 
         System.out.println("Loading Clip Schematic");
+        
         pi.ClipSchematic.LoadResponse(Response);
+        
         System.out.println("Done Loading Clip Schematic");
 
         if (!this.Response.getWasSuccessful()) {

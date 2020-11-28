@@ -63,13 +63,13 @@ public class SaveClipboardTaskRequest
 
                 if (FirstPass) {
                     schematicDataRequest.setBlockTypePalette(ClipSchematic.GetBlockTypePalette());
-                    //schematicDataRequest.setColorPalette(ClipSchematic.GetColorPalette());
+                    schematicDataRequest.setBlockDataPalette(ClipSchematic.GetBlockDataPalette());
                     FirstPass = false;
                 } else {
                     PaletteEntry[] e = new PaletteEntry[1];
                     e[0].setId(0);
                     e[0].setValue("");
-                    schematicDataRequest.setColorPalette(e);
+                    schematicDataRequest.setBlockDataPalette(e);
                     schematicDataRequest.setBlockTypePalette(e);
                 }
                 Gson gson = new Gson();

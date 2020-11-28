@@ -19,21 +19,16 @@ package net.fairfieldtek.minecraft.worldeditor.container;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.fairfieldtek.minecraft.Initialization;
 import net.fairfieldtek.minecraft.Util.EnumHelper;
 import net.fairfieldtek.minecraft.Util.MaterialUtil;
 import org.bukkit.block.Block;
-import org.bukkit.Material;
 import org.bukkit.block.data.*;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Container;
 import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.entity.Player;
 import org.bukkit.block.data.Directional;
 import org.bukkit.*;
-import org.bukkit.block.Chest;
 import org.bukkit.entity.Entity;
 
 /**
@@ -46,14 +41,14 @@ public final class BlockInfo {
     private int Y;
     private int Z;
     private BlockCollection BlockCollection;
-    private int BlockTypeIndex;
+    private int BlockTypeIndex = -1;
     private int BlockDataIndex = -1;
 
     public String getBlockDataString() {
         if (BlockDataIndex == -1) {
             System.out.println("******************************************************>>>> Block Data Index NOT INITIALIZED");
         }
-        return BlockCollection.getBlockSettingsPalette(BlockDataIndex);
+        return BlockCollection.getBlockDataPalette(BlockDataIndex);
     }
 
     public BlockData getBlockData() {
@@ -61,14 +56,14 @@ public final class BlockInfo {
             System.out.println("******************************************************>>>> Block Data Index NOT INITIALIZED");
         }
 
-        return Bukkit.getServer().createBlockData(BlockCollection.getBlockSettingsPalette(BlockDataIndex));
+        return Bukkit.getServer().createBlockData(BlockCollection.getBlockDataPalette(BlockDataIndex));
     }
 
     public final void setBlockData(String data) throws Exception {
         if (data.isEmpty()) {
             throw new Exception("DATA IS EMPTY!");
         }
-        BlockDataIndex = BlockCollection.addBlockSettingsPalette(data);
+        BlockDataIndex = BlockCollection.addBlockDataPalette(data);
     }
 
     public BlockCollection getBlockCollection() {
@@ -117,7 +112,7 @@ public final class BlockInfo {
 
         if (s1.isLiquid()) {
             if (undoBuffer != null) {
-                undoBuffer.AddBlock(s1, 0, 0, 0,null);
+                undoBuffer.AddBlock(s1, 0, 0, 0, null);
             }
             s1.setType(Material.AIR, true);
             EraseLiquid(s1, diameter - 1, undoBuffer);
@@ -126,7 +121,7 @@ public final class BlockInfo {
         s1 = changeBlock.getRelative(BlockFace.UP, 1);
         if (s1.isLiquid()) {
             if (undoBuffer != null) {
-                undoBuffer.AddBlock(s1, 0, 0, 0,null);
+                undoBuffer.AddBlock(s1, 0, 0, 0, null);
             }
             s1.setType(Material.AIR, true);
             EraseLiquid(s1, diameter - 1, undoBuffer);
@@ -134,7 +129,7 @@ public final class BlockInfo {
 
         if ((s1 = changeBlock.getRelative(BlockFace.DOWN, 1)).isLiquid()) {
             if (undoBuffer != null) {
-                undoBuffer.AddBlock(s1, 0, 0, 0,null);
+                undoBuffer.AddBlock(s1, 0, 0, 0, null);
             }
             s1.setType(Material.AIR, true);
             EraseLiquid(s1, diameter - 1, undoBuffer);
@@ -142,7 +137,7 @@ public final class BlockInfo {
 
         if ((s1 = changeBlock.getRelative(BlockFace.EAST, 1)).isLiquid()) {
             if (undoBuffer != null) {
-                undoBuffer.AddBlock(s1, 0, 0, 0,null);
+                undoBuffer.AddBlock(s1, 0, 0, 0, null);
             }
             s1.setType(Material.AIR, true);
             EraseLiquid(s1, diameter - 1, undoBuffer);
@@ -150,7 +145,7 @@ public final class BlockInfo {
 
         if ((s1 = changeBlock.getRelative(BlockFace.WEST, 1)).isLiquid()) {
             if (undoBuffer != null) {
-                undoBuffer.AddBlock(s1, 0, 0, 0,null);
+                undoBuffer.AddBlock(s1, 0, 0, 0, null);
             }
             s1.setType(Material.AIR, true);
             EraseLiquid(s1, diameter - 1, undoBuffer);
@@ -158,7 +153,7 @@ public final class BlockInfo {
 
         if ((s1 = changeBlock.getRelative(BlockFace.NORTH, 1)).isLiquid()) {
             if (undoBuffer != null) {
-                undoBuffer.AddBlock(s1, 0, 0, 0,null);
+                undoBuffer.AddBlock(s1, 0, 0, 0, null);
             }
             s1.setType(Material.AIR, true);
             EraseLiquid(s1, diameter - 1, undoBuffer);
@@ -166,7 +161,7 @@ public final class BlockInfo {
 
         if ((s1 = changeBlock.getRelative(BlockFace.SOUTH, 1)).isLiquid()) {
             if (undoBuffer != null) {
-                undoBuffer.AddBlock(s1, 0, 0, 0,null);
+                undoBuffer.AddBlock(s1, 0, 0, 0, null);
             }
             s1.setType(Material.AIR, true);
             EraseLiquid(s1, diameter - 1, undoBuffer);
@@ -177,7 +172,7 @@ public final class BlockInfo {
     public boolean ApplyBlockInfoToBlock(Block target, boolean eraseWater, BlockCollection undoBuffer) {
 
         if (undoBuffer != null) {
-            undoBuffer.AddBlock(target, 0, 0, 0,null);
+            undoBuffer.AddBlock(target, 0, 0, 0, null);
         }
         if (eraseWater) {
             EraseLiquid(target, 1, undoBuffer);
@@ -212,23 +207,35 @@ public final class BlockInfo {
     public String getBlockFaceCode() {
 
         BlockData newBlockData = this.getBlockData();
-        return EnumHelper.ToCodeFromBlockFace(((Directional) newBlockData).getFacing());
+
+        if (newBlockData instanceof Directional) {
+            return EnumHelper.ToCodeFromBlockFace(((Directional) newBlockData).getFacing());
+        }
+        return "";
     }
 
     public BlockFace GetBlockFace() {
 
         BlockData newBlockData = this.getBlockData();
-        return ((Directional) newBlockData).getFacing();
+        if (newBlockData instanceof Directional) {
+            return ((Directional) newBlockData).getFacing();
+        }
+
+        return BlockFace.SELF;
+
     }
 
     public void SetBlockFace(BlockFace face) {
 
         BlockData newBlockData = this.getBlockData();
-        ((Directional) newBlockData).setFacing(face);
-        try {
-            setBlockData(newBlockData.getAsString());
-        } catch (Exception ex) {
-            Logger.getLogger(BlockInfo.class.getName()).log(Level.SEVERE, null, ex);
+        if (newBlockData instanceof Directional) {
+
+            ((Directional) newBlockData).setFacing(face);
+            try {
+                setBlockData(newBlockData.getAsString());
+            } catch (Exception ex) {
+                Logger.getLogger(BlockInfo.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -236,24 +243,26 @@ public final class BlockInfo {
 
         try {
             BlockData newBlockData = this.getBlockData();
-            ((Directional) newBlockData).setFacing(EnumHelper.ToBlockFaceFromCode(code));
-            setBlockData(newBlockData.getAsString());
+            if (newBlockData instanceof Directional) {
+                ((Directional) newBlockData).setFacing(EnumHelper.ToBlockFaceFromCode(code));
+                setBlockData(newBlockData.getAsString());
+            }
         } catch (Exception ex) {
             Logger.getLogger(BlockInfo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     public void ClearEntities(Chunk chunk) {
-         try {
-             
-                        //Lets clear any entities int he chunk....
-                        Entity[] ent = chunk.getEntities();
-                        for (Entity ent1 : ent) {
-                            ent1.remove();
-                        }
-                    } catch (Exception itm) {
-                        // empty catch block
-                    }
+        try {
+
+            //Lets clear any entities int he chunk....
+            Entity[] ent = chunk.getEntities();
+            for (Entity ent1 : ent) {
+                ent1.remove();
+            }
+        } catch (Exception itm) {
+            // empty catch block
+        }
     }
 
     public int getX() {
@@ -804,7 +813,7 @@ public final class BlockInfo {
                 + Integer.toString(Y) + "|"
                 + Integer.toString(Z) + "|"
                 + Integer.toString(BlockTypeIndex) + "|"
-                + this.getBlockData();
+                + Integer.toString(BlockDataIndex);
     }
 
 }

@@ -5,15 +5,7 @@ import net.fairfieldtek.minecraft.Initialization;
 import net.fairfieldtek.minecraft.worldeditor.http.AuthenticateRequest;
 import net.fairfieldtek.minecraft.worldeditor.http.AuthenticateResponse;
 import net.fairfieldtek.minecraft.worldeditor.http.RegisterResponse;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class AuthenticateTaskRequest
         extends HttpRequestor {
@@ -26,23 +18,27 @@ public class AuthenticateTaskRequest
 
     @Override
     public void run() {
-        try {
+//        try {
 
             Gson gson = new Gson();
             AuthenticateRequest authenticateRequest = new AuthenticateRequest();
             authenticateRequest.setUuid(this.Uuid);
             String body = gson.toJson(authenticateRequest);
+            
+            String hr =  RequestHttp(Initialization.BaseUri + "Authenticate", body);
+            
+            //System.out.println(hr);
+            
             AuthenticateResponse response = gson.fromJson(
-                    RequestHttp(Initialization.BaseUri + "Authenticate", body),
+                   hr,
                     AuthenticateResponse.class);
-            new AuthenticateTaskResponse(response)
-                    .runTask((org.bukkit.plugin.Plugin) Initialization.Plugin);
-        } catch (Exception e) {
-            RegisterResponse registerResponse = new RegisterResponse();
-            registerResponse.setMessage("An Error has occurred.");
-            registerResponse.setWasSuccessful(false);
-            registerResponse.setUuid(this.Uuid);
-            new RegisterTaskResponse(registerResponse).runTask((org.bukkit.plugin.Plugin) Initialization.Plugin);
-        }
+            new AuthenticateTaskResponse(response).runTask((org.bukkit.plugin.Plugin) Initialization.Plugin);
+//        } catch (Exception e) {
+//            RegisterResponse registerResponse = new RegisterResponse();
+//            registerResponse.setMessage("An Error has occurred.");
+//            registerResponse.setWasSuccessful(false);
+//            registerResponse.setUuid(this.Uuid);
+//            new RegisterTaskResponse(registerResponse).runTask((org.bukkit.plugin.Plugin) Initialization.Plugin);
+//        }
     }
 }

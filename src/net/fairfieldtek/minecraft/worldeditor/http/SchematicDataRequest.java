@@ -9,15 +9,15 @@ public class SchematicDataRequest
     private String[] Blocks;
     private String FileName;
     private int SchematicId;
-    private PaletteEntry[] ColorPalette;
+    private PaletteEntry[] BlockDataPalette;
     private PaletteEntry[] BlockTypePalette;
 
-    public PaletteEntry[] getColorPalette() {
-        return ColorPalette;
+    public PaletteEntry[] getBlockDataPalette() {
+        return BlockDataPalette;
     }
 
-    public void setColorPalette(PaletteEntry[] palette) {
-        ColorPalette = palette;
+    public void setBlockDataPalette(PaletteEntry[] palette) {
+        BlockDataPalette = palette;
     }
 
     public PaletteEntry[] getBlockTypePalette() {

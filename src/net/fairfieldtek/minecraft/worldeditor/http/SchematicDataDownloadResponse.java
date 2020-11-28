@@ -28,16 +28,16 @@ public class SchematicDataDownloadResponse
         extends BaseResponse {
 
     private String FileName = "";
-    private PaletteEntry[] ColorPalette = null;
+    private PaletteEntry[] BlockDataPalette = null;
     private PaletteEntry[] BlockTypePalette = null;
     private BlockInfo[] Blocks = null;
 
-    public PaletteEntry[] getColorPalette() {
-        return ColorPalette;
+    public PaletteEntry[] getBlockDataPalette() {
+        return BlockDataPalette;
     }
 
-    public void setColorPalette(PaletteEntry[] palette) {
-        ColorPalette = palette;
+    public void setBlockDataPalette(PaletteEntry[] palette) {
+        BlockDataPalette = palette;
     }
 
     public PaletteEntry[] getBlockTypePalette() {
