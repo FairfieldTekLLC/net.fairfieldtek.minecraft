@@ -1,25 +1,18 @@
-name: FairfieldTekMineCraft
-api-version: 1.16
+name: Blockelot.com
+api-version: 1.16.3
 version: 1.0
 description: Test!
 author: TouchBar
-webite: http://www.fairfieldtek.com
+website: http://www.fairfieldtek.com
 load: POSTWORLD
 
 softdepend:
 
-main: net.fairfieldtek.minecraft.Plugin
+main: com.Blockelot.Plugin
 
 commands:
    # Replace "kit" with the name of your command.
 commands:
-  fft.we.set:
-    description: Sets the blocks inside  your selection.
-    Usage: /fft.we.set <To Material Name>
-           /fft.we.set <To Material Name> <Magic#>
-           /fft.we.set <To Material Name> <From Material>
-           /fft.we.set <To Material Name> <Magic#> <From Material>
-           /fft.we.set <To Material Name> <Magic#> <From Material> <Magic#>
   fft.we.matlist:
     description: Prints a list of the available materials available
                  in the game.  It does not show magic numbers, the best way to 
@@ -55,9 +48,6 @@ commands:
   fft.we.undo:
     description: Will undo your last World Edit Command.
     usage: /fft.we.undo        
-  fft.we.in:
-    description: Inspects the block.
-    usage: /fft.we.in
   fft.we.rot:
     description: Rotates a single block, use /fft.we.paste with a rotation to
                  rotate a large area.
@@ -77,15 +67,6 @@ commands:
     description: Sets all blocks in your selection to Air.  Also removes all
                  water sources.
     usage: /fft.we.delete
-  fft.we.chunkregen:
-    description: Regenerate Chunk using the server seed.  Does not restore 
-                 Trees or buildings.
-    usage: /fft.we.chunk.regen
-  fft.we.eraseLiquid:
-    description: Removes Water and Lava from x y z location or where player is 
-                 looking.  Blocks out is how many blocks from the point you 
-                 specify will be evaluated.
-    usage: /fft.we.eraseLiquid X Y Z (Blocks Out)
   fft.reg:
     description: Register Email to Minecraft Account.  You will recieve an
                  email with a five alpha-numeric authentication code

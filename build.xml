@@ -7,8 +7,8 @@
 <!-- the Compile on Save feature is turned off for the project. -->
 <!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
 <!-- in the project's Project Properties dialog box.-->
-<project name="net.fairfieldtek.minecraft" default="default" basedir=".">
-    <description>Builds, tests, and runs the project net.fairfieldtek.minecraft.</description>
+<project name="com.Blockelot" default="default" basedir=".">
+    <description></description>
     <import file="nbproject/build-impl.xml"/>
     <!--
 
@@ -72,7 +72,7 @@
     -->
    
     <target name="package-for-MineCraft" depends="jar">
-    <property name="store.jar.name" value="net.fairfieldtek.minecraft"/>
+    <property name="store.jar.name" value="Blockelot.com"/>
     <property name="store.dir" value="store"/>
     <property name="store.jar" value="${store.dir}/${store.jar.name}.jar"/>
     <echo message="Packaging ${application.title} into a single JAR at ${store.jar}"/>

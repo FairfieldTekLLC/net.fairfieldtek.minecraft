@@ -1,7 +1,7 @@
-package net.fairfieldtek.minecraft;
+package com.Blockelot;
 
-import net.fairfieldtek.minecraft.worldeditor.listeners.PlayerJoinListener;
-import net.fairfieldtek.minecraft.worldeditor.listeners.ChunkEvents;
+import com.Blockelot.worldeditor.listeners.PlayerJoinListener;
+import com.Blockelot.worldeditor.listeners.ChunkEvents;
 import org.bukkit.event.Listener;
 
 import org.bukkit.plugin.java.JavaPlugin;
@@ -40,12 +40,11 @@ public class Plugin extends JavaPlugin {
     @Override
     public void onEnable() {
         this.getServer().getPluginManager().registerEvents((Listener) new PlayerJoinListener(), (org.bukkit.plugin.Plugin) this);
-        //this.getServer().getPluginManager().registerEvents((Listener) new ChunkEvents(), (org.bukkit.plugin.Plugin) this);
-        Initialization.Initialize(this);
+        PluginManager.Initialize(this);
     }
 
     @Override
     public void onDisable() {
-        Initialization.ShutDown();
+        PluginManager.ShutDown();
     }
 }
