@@ -24,26 +24,26 @@ public class SaveClipboardTaskResponse
                 return;
             }
 
-            if (Response.getFinal()) {
-                PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "SaveClipboard");
-            }
-
+//            if (Response.getFinal()) {
+//                PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "SaveClipboard");
+//            }
             PluginManager.PlayerInfoList.get(player).setLastAuth(this.Response.getAuth());
+
             if (!this.Response.getWasSuccessful()) {
                 player.sendMessage(ChatColor.YELLOW + "File not saved.");
                 if (!"".equals(Response.getMessage())) {
                     player.sendMessage(ChatColor.RED + this.Response.getMessage());
                 }
             } else {
+                player.sendMessage(ChatColor.GREEN + "File Saved.");
                 if (!"".equals(Response.getMessage())) {
                     player.sendMessage(ChatColor.GREEN + this.Response.getMessage());
-                }
-                PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "SaveClipboard");
+                }                
             }
         } catch (Exception e) {
-            PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "SaveClipboard");
-        }
 
+        }
+        PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "SaveClipboard");
         this.cancel();
     }
 }

@@ -3,6 +3,7 @@ package com.Blockelot.worldeditor.commands.tasks;
 import java.util.ListIterator;
 import java.util.UUID;
 import com.Blockelot.PluginManager;
+import com.Blockelot.Util.ServerUtil;
 import com.Blockelot.worldeditor.container.BlockCollection;
 import com.Blockelot.worldeditor.container.BlockInfo;
 import com.Blockelot.worldeditor.container.PlayerInfo;
@@ -64,8 +65,8 @@ public class UndoTask
 
             pi.getPlayer().sendMessage("Blocks undone (" + this.ClipBoardCount + ")");
         } catch (Exception e) {
-            System.out.println(e.getLocalizedMessage());
-            System.out.println(e.getMessage());
+            ServerUtil.consoleLog(e.getLocalizedMessage());
+            ServerUtil.consoleLog(e.getMessage());
         }
 
         PluginManager.PlayerInfoList.get(pi.getPlayer()).setIsProcessing(false, "Undo");

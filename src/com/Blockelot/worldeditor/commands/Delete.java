@@ -1,6 +1,7 @@
 package com.Blockelot.worldeditor.commands;
 
 import com.Blockelot.PluginManager;
+import com.Blockelot.Util.ServerUtil;
 import com.Blockelot.worldeditor.commands.tasks.DeleteTask;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -35,8 +36,8 @@ public class Delete
 
             } catch (Exception e) {
                 PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Delete");
-                System.out.println(e.getLocalizedMessage());
-                System.out.println(e.getMessage());
+                ServerUtil.consoleLog(e.getLocalizedMessage());
+                ServerUtil.consoleLog(e.getMessage());
             }
 
         }

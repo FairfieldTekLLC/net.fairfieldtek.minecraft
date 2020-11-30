@@ -1,6 +1,7 @@
 package com.Blockelot.worldeditor.commands.filesystem;
 
 import com.Blockelot.PluginManager;
+import com.Blockelot.Util.ServerUtil;
 import com.Blockelot.worldeditor.commands.tasks.RegisterTaskRequest;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -29,8 +30,8 @@ public class Register
                 new RegisterTaskRequest(player, args[0]).runTaskAsynchronously((org.bukkit.plugin.Plugin) PluginManager.Plugin);
             } catch (Exception e) {
                 PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Register");
-                System.out.println(e.getLocalizedMessage());
-                System.out.println(e.getMessage());
+                ServerUtil.consoleLog(e.getLocalizedMessage());
+                ServerUtil.consoleLog(e.getMessage());
             }
         }
         return true;

@@ -1,6 +1,7 @@
 package com.Blockelot.worldeditor.commands.filesystem;
 
 import com.Blockelot.PluginManager;
+import com.Blockelot.Util.ServerUtil;
 import com.Blockelot.worldeditor.commands.tasks.CdTaskRequest;
 import com.Blockelot.worldeditor.container.PlayerInfo;
 import org.bukkit.ChatColor;
@@ -41,9 +42,9 @@ public class CD
                 
                 PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "CD");
                 
-                System.out.println(e.getLocalizedMessage());
+                ServerUtil.consoleLog(e.getLocalizedMessage());
                 
-                System.out.println(e.getMessage());
+                ServerUtil.consoleLog(e.getMessage());
                 
             }
         }

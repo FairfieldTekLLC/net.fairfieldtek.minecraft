@@ -2,6 +2,7 @@ package com.Blockelot.worldeditor.commands.tasks;
 
 import java.util.UUID;
 import com.Blockelot.PluginManager;
+import com.Blockelot.Util.ServerUtil;
 import com.Blockelot.worldeditor.http.AuthenticateResponse;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -28,8 +29,8 @@ public class AuthenticateTaskResponse
                 
             }
         } catch (Exception e) {
-            System.out.println(e.getLocalizedMessage());
-            System.out.println(e.getMessage());
+            ServerUtil.consoleLog(e.getLocalizedMessage());
+            ServerUtil.consoleLog(e.getMessage());
         }
         PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Authenticate");
         this.cancel();

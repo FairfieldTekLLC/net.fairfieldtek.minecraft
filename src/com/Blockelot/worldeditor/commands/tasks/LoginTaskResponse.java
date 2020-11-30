@@ -2,6 +2,7 @@ package com.Blockelot.worldeditor.commands.tasks;
 
 import java.util.UUID;
 import com.Blockelot.PluginManager;
+import com.Blockelot.Util.ServerUtil;
 import com.Blockelot.worldeditor.container.PlayerInfo;
 import com.Blockelot.worldeditor.http.LoginResponse;
 import org.bukkit.entity.Player;
@@ -43,8 +44,8 @@ public class LoginTaskResponse
 
             }
         } catch (Exception e) {
-            System.out.println(e.getLocalizedMessage());
-            System.out.println(e.getMessage());
+            ServerUtil.consoleLog(e.getLocalizedMessage());
+            ServerUtil.consoleLog(e.getMessage());
         }
         PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Login");
         this.cancel();

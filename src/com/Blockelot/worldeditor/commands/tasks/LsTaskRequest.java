@@ -2,6 +2,7 @@ package com.Blockelot.worldeditor.commands.tasks;
 
 import com.google.gson.Gson;
 import com.Blockelot.PluginManager;
+import com.Blockelot.Util.ServerUtil;
 import com.Blockelot.worldeditor.http.LsRequest;
 import com.Blockelot.worldeditor.http.LsResponse;
 import com.Blockelot.worldeditor.http.RegisterResponse;
@@ -36,8 +37,8 @@ public class LsTaskRequest
             new LsTaskResponse(response).runTask((org.bukkit.plugin.Plugin) PluginManager.Plugin);
         } catch (Exception e) {
             PlayerInfo.setIsProcessing(false, "LS");
-            System.out.println(e.getLocalizedMessage());
-            System.out.println(e.getMessage());
+            ServerUtil.consoleLog(e.getLocalizedMessage());
+            ServerUtil.consoleLog(e.getMessage());
             RegisterResponse registerResponse = new RegisterResponse();
             registerResponse.setMessage("An Error has occurred.");
             registerResponse.setWasSuccessful(false);

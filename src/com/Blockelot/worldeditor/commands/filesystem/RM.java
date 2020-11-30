@@ -1,6 +1,7 @@
 package com.Blockelot.worldeditor.commands.filesystem;
 
 import com.Blockelot.PluginManager;
+import com.Blockelot.Util.ServerUtil;
 import com.Blockelot.worldeditor.commands.tasks.RmTaskRequest;
 import com.Blockelot.worldeditor.container.PlayerInfo;
 import org.bukkit.ChatColor;
@@ -34,8 +35,8 @@ public class RM
                 new RmTaskRequest(PluginManager.PlayerInfoList.get(player), args[0]).runTaskAsynchronously((org.bukkit.plugin.Plugin) PluginManager.Plugin);
             } catch (Exception e) {
                 PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Rm");
-                System.out.println(e.getLocalizedMessage());
-                System.out.println(e.getMessage());
+                ServerUtil.consoleLog(e.getLocalizedMessage());
+                ServerUtil.consoleLog(e.getMessage());
             }
         }
         return true;

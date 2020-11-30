@@ -28,25 +28,30 @@ import org.apache.http.util.EntityUtils;
 
 public class Verify {
 
-    public static String Register(Plugin Plugin) {
-        String body = RequestHttp("http://www.blockelot.com/api/worldeditor/v1/Version?version='" + PluginManager.Version + "'&serverName='" + Plugin.getServer().getName() + "'");
-        System.out.println("#########################################################");
-        System.out.println(body);
+    public static void Register(Plugin Plugin) {
+        String body = RequestHttp("http://www.blockelot.com/api/worldeditor/v1/Version?version='" + PluginManager.Version + "'"
+                + "&worldId=" + PluginManager.Config.WorldId 
+                + "&serverName='" + Plugin.getServer().getName() + "'");
+                
+        ServerUtil.consoleLog("#########################################################");
+        
+        //System.out.println(body);
         
         String[] parts = body.split("\\|");
         String WorldId = parts[0];
         String MinimumVersion = parts[1];
-        
-        
-        System.out.println("Minimum Local Version: " + MinimumVersion);
-        System.out.println("Current Local Version: " + PluginManager.Version);
-        System.out.println("WorldId: " + WorldId);
+        ServerUtil.consoleLog("Minimum Local Version: " + MinimumVersion);
+        ServerUtil.consoleLog("Current Local Version: " + PluginManager.Version);
+        ServerUtil.consoleLog("WorldId: " + WorldId);
+        if (!WorldId.equalsIgnoreCase(PluginManager.Config.WorldId)) {
+            PluginManager.Config.WorldId = WorldId;
+            PluginManager.Config.SaveData();
+        }
 
         if (!MinimumVersion.equalsIgnoreCase(PluginManager.Version)) {
-            System.out.println("Blockelot is out of Date!");
+            ServerUtil.consoleLog("Blockelot is out of Date!");
         }
-        System.out.println("#########################################################");
-        return WorldId;
+        ServerUtil.consoleLog("#########################################################");
 
     }
 
@@ -60,8 +65,8 @@ public class Verify {
             CloseableHttpResponse result = httpClient.execute(request);
             return EntityUtils.toString(result.getEntity(), "UTF-8");
         } catch (Exception e) {
-            System.out.println(e.getLocalizedMessage());
-            System.out.println(e.getMessage());
+            ServerUtil.consoleLog(e.getLocalizedMessage());
+            ServerUtil.consoleLog(e.getMessage());
         }
         return null;
     }

@@ -3,6 +3,7 @@ package com.Blockelot.worldeditor.commands.tasks;
 import java.util.HashMap;
 import java.util.UUID;
 import com.Blockelot.PluginManager;
+import com.Blockelot.Util.ServerUtil;
 import com.Blockelot.worldeditor.container.PlayerInfo;
 import com.Blockelot.worldeditor.container.BlockInfo;
 import com.Blockelot.worldeditor.container.BlockCollection;
@@ -298,8 +299,8 @@ public class StripMineTask extends BukkitRunnable {
                 this.cancel();
             }
         } catch (IllegalStateException e) {
-            System.out.println(e.getLocalizedMessage());
-            System.out.println(e.getMessage());
+            ServerUtil.consoleLog(e.getLocalizedMessage());
+            ServerUtil.consoleLog(e.getMessage());
             PluginManager.PlayerInfoList.get(PlayerInfo.getPlayer()).setIsProcessing(false, "StripMine");
             this.cancel();
         }

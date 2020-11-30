@@ -17,6 +17,7 @@
  */
 package com.Blockelot.worldeditor.listeners;
 
+import com.Blockelot.Util.ServerUtil;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -31,13 +32,13 @@ public class ChunkEvents implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onChunkUnloadEvent(ChunkUnloadEvent event) {
-        System.out.println("Chunk Unloading . . .");
+        ServerUtil.consoleLog("Chunk Unloading . . .");
         // Bukkit.getConsoleSender().sendMessage("Chunk Unload " + event.getChunk().getX() + ", " + event.getChunk().getZ());
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onChunkloadEvent(ChunkLoadEvent event) {
-        System.out.println("Chunk loading . . .");
+        ServerUtil.consoleLog("Chunk loading . . .");
         //Bukkit.getConsoleSender().sendMessage("Chunk Unload " + event.getChunk().getX() + ", " + event.getChunk().getZ());
     }
 }

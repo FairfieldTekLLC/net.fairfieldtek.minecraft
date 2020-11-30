@@ -1,6 +1,7 @@
 package com.Blockelot.worldeditor.commands.filesystem;
 
 import com.Blockelot.PluginManager;
+import com.Blockelot.Util.ServerUtil;
 import com.Blockelot.worldeditor.commands.tasks.LsTaskRequest;
 import com.Blockelot.worldeditor.container.PlayerInfo;
 import org.bukkit.ChatColor;
@@ -30,9 +31,9 @@ public class LS
             } catch (Exception e) {
                 PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "LS");
 
-                System.out.println(e.getLocalizedMessage());
+                ServerUtil.consoleLog(e.getLocalizedMessage());
 
-                System.out.println(e.getMessage());
+                ServerUtil.consoleLog(e.getMessage());
             }
         }
         return true;

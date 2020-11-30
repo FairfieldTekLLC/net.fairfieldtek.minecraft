@@ -2,6 +2,7 @@ package com.Blockelot.worldeditor.commands.tasks;
 
 import java.util.UUID;
 import com.Blockelot.PluginManager;
+import com.Blockelot.Util.ServerUtil;
 import com.Blockelot.worldeditor.http.RmResponse;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -37,8 +38,8 @@ public class RmTaskResponse
             } catch (Exception e) {
             }
         } catch (Exception e) {
-            System.out.println(e.getLocalizedMessage());
-            System.out.println(e.getMessage());
+            ServerUtil.consoleLog(e.getLocalizedMessage());
+            ServerUtil.consoleLog(e.getMessage());
         }
 
         PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Rm");

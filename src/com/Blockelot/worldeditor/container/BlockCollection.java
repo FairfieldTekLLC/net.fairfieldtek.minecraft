@@ -18,15 +18,22 @@
 package com.Blockelot.worldeditor.container;
 
 import com.Blockelot.PluginManager;
+import com.Blockelot.Util.ServerUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.Blockelot.worldeditor.http.SchematicDataDownloadResponse;
+import java.util.Collections;
 import org.bukkit.Chunk;
-import org.bukkit.Material;
+import org.bukkit.Material.*;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import java.util.*;
+import java.util.function.Consumer;
+import org.bukkit.Material;
+import org.bukkit.block.data.Bisected.Half;
+import org.bukkit.block.data.type.Door;
 
 /**
  *
@@ -38,6 +45,43 @@ public class BlockCollection {
 
     public ArrayList<BlockInfo> getBlocks() {
         return this.Blocks;
+    }
+
+    public static ArrayList<BlockInfo> BlocksGetForY(ArrayList<BlockInfo> toSort, int y) {
+        ArrayList<BlockInfo> Result = new ArrayList<>();
+        for (BlockInfo pe : toSort) {
+            if (pe.getY() == y) {
+                Result.add(pe);
+            }
+        }
+        return Result;
+    }
+
+    public static ArrayList<BlockInfo> SortYAscending(ArrayList<BlockInfo> toSort) {
+        ArrayList<BlockInfo> result = new ArrayList<>();
+
+        int minY = 1000000000;
+        int maxY = 0;
+
+        for (BlockInfo pe : toSort) {
+            if (pe.getY() <= minY) {
+                minY = pe.getY();
+            }
+            if (pe.getY() >= maxY) {
+                maxY = pe.getY();
+            }
+        }
+
+        for (int i = minY; i <= maxY; i++) {
+            ArrayList<BlockInfo> d = BlocksGetForY(toSort, i);
+            result.addAll(d);
+        }       
+
+        return result;
+    }
+
+    public ArrayList<BlockInfo> getBlocksOrderYAscending() {
+        return SortYAscending(Blocks);
     }
 
     public void setBlocks(ArrayList<BlockInfo> blocks) {
@@ -65,11 +109,21 @@ public class BlockCollection {
         def.setY(sourceBlock.getY() + offsetY);
         def.setZ(sourceBlock.getZ() + offsetZ);
 
+//        If it is the top of a door, we don't want to collect it.
+//        Since it will be generated auto when we create the bottom of the
+//        door.
+        if (sourceBlock.getBlockData() instanceof Door) {
+            if (((Door) sourceBlock.getBlockData()).getHalf() == Half.TOP) {
+                return def;
+            }
+        }
+
         Blocks.add(def);
         return def;
     }
 
     public BlockInfo AddBlock(BlockInfo blockDef, BlockCollection undo) throws Exception {
+
         if (Blocks.size() > PluginManager.Config.MaxClipboardSize) {
             throw new Exception("Schematic size exceeds server max.");
         }
@@ -80,6 +134,16 @@ public class BlockCollection {
         try {
 
             clone = blockDef.Clone(this);
+
+            //If it is the top of a door, we don't want to collect it.
+            //Since it will be generated auto when we create the bottom of the
+            //door.
+            if (clone.getBlockData() instanceof Door) {
+                if (((Door) clone.getBlockData()).getHalf() == Half.TOP) {
+                    return clone;
+                }
+            }
+
             this.Blocks.add(clone);
             return clone;
 
@@ -292,10 +356,10 @@ public class BlockCollection {
     public boolean Validate() {
         Blocks.forEach((BlockInfo def) -> {
             if (def.getBlockData() == null) {
-                System.out.println("------------------------------------->NULL BLOCk data");
+               ServerUtil.consoleLog("------------------------------------->NULL BLOCk data");
             }
             if (def.getBlockMaterial() == null) {
-                System.out.println("------------------------------------->NULL BLOCk Material");
+                ServerUtil.consoleLog("------------------------------------->NULL BLOCk Material");
             }
         });
 

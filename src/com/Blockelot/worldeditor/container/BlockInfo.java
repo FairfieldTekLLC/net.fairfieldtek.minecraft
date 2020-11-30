@@ -25,6 +25,7 @@ import com.Blockelot.Util.Base64Coder;
 import com.Blockelot.Util.EnumHelper;
 import static com.Blockelot.Util.Inventory.itemStackArrayToBase64;
 import com.Blockelot.Util.MaterialUtil;
+import com.Blockelot.Util.ServerUtil;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.*;
 import org.bukkit.block.BlockState;
@@ -34,6 +35,9 @@ import org.bukkit.Material;
 import org.bukkit.block.data.Directional;
 import org.bukkit.*;
 import org.bukkit.block.*;
+import org.bukkit.block.data.Bisected.Half;
+import org.bukkit.block.data.type.Door;
+import org.bukkit.block.data.type.Stairs;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 
@@ -54,14 +58,14 @@ public final class BlockInfo {
 
     public String getBlockDataString() {
         if (BlockDataIndex == -1) {
-            System.out.println("******************************************************>>>> Block Data Index NOT INITIALIZED");
+            ServerUtil.consoleLog("******************************************************>>>> Block Data Index NOT INITIALIZED");
         }
         return BlockCollection.getBlockDataPalette(BlockDataIndex);
     }
 
     public BlockData getBlockData() {
         if (BlockDataIndex == -1) {
-            System.out.println("******************************************************>>>> Block Data Index NOT INITIALIZED");
+            ServerUtil.consoleLog("******************************************************>>>> Block Data Index NOT INITIALIZED");
         }
 
         return Bukkit.getServer().createBlockData(BlockCollection.getBlockDataPalette(BlockDataIndex));
@@ -118,7 +122,7 @@ public final class BlockInfo {
 
         String contentsString = "";
         String storageString = "";
-        
+
         BlockState state = block.getState();
         if (state instanceof Container) {
             ItemStack[] ContentsElements = ((Container) state).getInventory().getContents();
@@ -198,8 +202,11 @@ public final class BlockInfo {
     }
 
     public boolean ApplyBlockInfoToBlock(Block target, boolean eraseWater, BlockCollection undoBuffer) throws Exception {
+        return ApplyBlockInfoToBlock(target, eraseWater, undoBuffer, true);
+    }
 
-        
+    public boolean ApplyBlockInfoToBlock(Block target, boolean eraseWater, BlockCollection undoBuffer, boolean applyPhysics) throws Exception {
+
         if (!target.getChunk().isLoaded()) {
             target.getChunk().load();
         }
@@ -210,6 +217,8 @@ public final class BlockInfo {
         if (eraseWater) {
             EraseLiquid(target, 1, undoBuffer);
         }
+
+        //Inventory handler to prevent bug.
         try {
             BlockState state = target.getState();
             Container chest = (Container) state;
@@ -219,28 +228,37 @@ public final class BlockInfo {
             return false;
         } catch (Exception e) {
         }
-        target.setType(getBlockMaterial());
-        target.setBlockData(getBlockData());
-        
-        
-        target.getState().update();
-        
-        if (target.getState() instanceof Container) {
-            try {
-                
 
-                if (this.getInventoryContentsString() != "") {
-                    ((Container) target.getState()).getInventory().setContents(com.Blockelot.Util.Inventory.itemStackArrayFromBase64(this.getInventoryContentsString()));
+        if (this.getBlockData() instanceof Door) {
+            final Block bottom = target;
+            final Block top = bottom.getRelative(BlockFace.UP, 1);
+
+            Door door = (Door) Bukkit.createBlockData(this.getBlockMaterial());
+            door.setHalf(Half.BOTTOM);
+            bottom.setBlockData(door, false);
+            door.setHalf(Half.TOP);
+            top.setBlockData(door, false);
+
+        } else {
+            target.setType(getBlockMaterial(), applyPhysics);
+            target.setBlockData(getBlockData(), applyPhysics);
+
+            target.getState().update();
+
+            if (target.getState() instanceof Container) {
+                try {
+                    if (this.getInventoryContentsString() != "") {
+                        ((Container) target.getState()).getInventory().setContents(com.Blockelot.Util.Inventory.itemStackArrayFromBase64(this.getInventoryContentsString()));
+                    }
+                    if (this.getInventoryStorageString() != "") {
+                        ((Container) target.getState()).getInventory().setStorageContents(com.Blockelot.Util.Inventory.itemStackArrayFromBase64(this.getInventoryStorageString()));
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(BlockInfo.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                if (this.getInventoryStorageString() != "") {
-                    ((Container) target.getState()).getInventory().setStorageContents(com.Blockelot.Util.Inventory.itemStackArrayFromBase64(this.getInventoryStorageString()));
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(BlockInfo.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-        
+
         return true;
     }
 
@@ -254,7 +272,6 @@ public final class BlockInfo {
     }
 
     public void setInventoryContentsString(String inv) {
-//        System.out.println("----------------------------------------------------->Setting Inventory String = '" + inv + "'");
         this.BlockContentsIndex = BlockCollection.addBlockInventoryPalette(inv);
     }
 
@@ -263,7 +280,6 @@ public final class BlockInfo {
     }
 
     public void setInventoryStorageString(String inv) {
-        //System.out.println("----------------------------------------------------->Setting Inventory String = '" + inv + "'");
         this.BlockStorageIndex = BlockCollection.addBlockInventoryPalette(inv);
     }
 
@@ -391,12 +407,21 @@ public final class BlockInfo {
                         break block0;
                     }
                     case "+00": {
+                        if (this.IsStairs()) {
+                            x = -1;
+                            y = 0;
+                            z = 0;
+                            break block0;
+                        }
                         x = 0;
                         y = 1;
                         z = 0;
                         break block0;
                     }
                     case "-00": {
+                        if (this.IsStairs()) {
+                            this.Invert();
+                        }
                         x = 0;
                         y = -1;
                         z = 0;
@@ -407,12 +432,18 @@ public final class BlockInfo {
             case 180: {
                 switch (j) {
                     case "00+": {
+                        if (this.IsStairs()) {
+                            this.Invert();
+                        }
                         x = 0;
                         y = 0;
                         z = 1;
                         break block0;
                     }
                     case "00-": {
+                        if (this.IsStairs()) {
+                            this.Invert();
+                        }
                         x = 0;
                         y = 0;
                         z = -1;
@@ -431,12 +462,18 @@ public final class BlockInfo {
                         break block0;
                     }
                     case "+00": {
+                        if (this.IsStairs()) {
+                            this.Invert();
+                        }
                         x = -1;
                         y = 0;
                         z = 0;
                         break block0;
                     }
                     case "-00": {
+                        if (this.IsStairs()) {
+                            this.Invert();
+                        }
                         x = 1;
                         y = 0;
                         z = 0;
@@ -471,6 +508,9 @@ public final class BlockInfo {
                         break block0;
                     }
                     case "+00": {
+                        if (this.IsStairs()) {
+                            this.Invert();
+                        }
                         x = 0;
                         y = -1;
                         z = 0;
@@ -643,12 +683,25 @@ public final class BlockInfo {
                         break block0;
                     }
                     case "00-": {
+                        if (this.IsStairs()) {
+                            x = 0;
+                            y = 0;
+                            z = 1;
+                            break block0;
+                        }
                         x = 0;
                         y = 1;
                         z = 0;
                         break block0;
                     }
                     case "00+": {
+                        if (this.IsStairs()) {
+                            x = 0;
+                            y = 0;
+                            z = 1;
+                            this.Invert();
+                            break block0;
+                        }
                         x = 0;
                         y = -1;
                         z = 0;
@@ -664,6 +717,7 @@ public final class BlockInfo {
                         x = 1;
                         y = 0;
                         z = 0;
+                        break block0;
                     }
                 }
                 break;
@@ -671,6 +725,9 @@ public final class BlockInfo {
             case 180: {
                 switch (j) {
                     case "-00": {
+                        if (this.IsStairs()) {
+                            this.Invert();
+                        }
                         x = -1;
                         y = 0;
                         z = 0;
@@ -683,12 +740,21 @@ public final class BlockInfo {
                         break block0;
                     }
                     case "00-": {
+                        if (this.IsStairs()) {
+                            this.Invert();
+                        }
                         x = 0;
                         y = 0;
                         z = 1;
                         break block0;
                     }
                     case "00+": {
+                        if (IsStairs()) {
+                            x = 0;
+                            y = 0;
+                            z = -1;
+                            this.Invert();
+                        }
                         x = 0;
                         y = 0;
                         z = -1;
@@ -701,6 +767,9 @@ public final class BlockInfo {
                         break block0;
                     }
                     case "+00": {
+                        if (IsStairs()) {
+                            this.Invert();
+                        }
                         x = 1;
                         y = 0;
                         z = 0;
@@ -723,12 +792,25 @@ public final class BlockInfo {
                         break block0;
                     }
                     case "00-": {
+                        if (IsStairs()) {
+                            x = 0;
+                            y = 0;
+                            z = -1;
+                            this.Invert();
+                            break block0;
+                        }
                         x = 0;
                         y = -1;
                         z = 0;
                         break block0;
                     }
                     case "00+": {
+                        if (IsStairs()) {
+                            x = 0;
+                            y = 0;
+                            z = -1;
+                            break block0;
+                        }
                         x = 0;
                         y = 1;
                         z = 0;
@@ -748,7 +830,12 @@ public final class BlockInfo {
                 }
             }
         }
-        this.SetBlockFace(MaterialUtil.getFacingByMod(x, y, z));
+        try {
+            this.SetBlockFace(MaterialUtil.getFacingByMod(x, y, z));
+        } catch (Exception e) {
+            //
+        }
+
     }
 
     public int getBlockTypeIndex() {
@@ -763,6 +850,41 @@ public final class BlockInfo {
                 + Integer.toString(BlockDataIndex) + "|"
                 + Integer.toString(BlockContentsIndex) + "|"
                 + Integer.toString(BlockStorageIndex) + "|";
+    }
+
+    public boolean IsDoor() {
+        if (this.getBlockData().getMaterial().name().toLowerCase().endsWith("_door")) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean IsStairs() {
+        if (this.getBlockData().getMaterial().name().toLowerCase().endsWith("_STAIRS".toLowerCase())) {
+            return true;
+        }
+        return false;
+    }
+
+    public void Invert() {
+        BlockData data = this.getBlockData();
+
+        if (data instanceof Bisected) {
+            Bisected.Half h = ((Bisected) data).getHalf();
+            if (h == Half.BOTTOM) {
+                ((Bisected) data).setHalf(Half.TOP);
+            } else {
+                ((Bisected) data).setHalf(Half.BOTTOM);
+            }
+        }
+
+        try {
+            this.setBlockData(data.getAsString());
+        } catch (Exception ex) {
+            Logger.getLogger(BlockInfo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
 }

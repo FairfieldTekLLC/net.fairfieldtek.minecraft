@@ -2,6 +2,7 @@ package com.Blockelot.worldeditor.commands.tasks;
 
 import java.util.UUID;
 import com.Blockelot.PluginManager;
+import com.Blockelot.Util.ServerUtil;
 import com.Blockelot.worldeditor.http.CdResponse;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -30,8 +31,8 @@ public class CdTaskResponse
             }
             player.sendMessage("Current Directory: " + this.CdResponse.getDirectoryPath());
         } catch (Exception e) {
-            System.out.println(e.getLocalizedMessage());
-            System.out.println(e.getMessage());
+            ServerUtil.consoleLog(e.getLocalizedMessage());
+            ServerUtil.consoleLog(e.getMessage());
         }
         PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Cd");
         this.cancel();

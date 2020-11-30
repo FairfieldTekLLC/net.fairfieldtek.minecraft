@@ -1,6 +1,7 @@
 package com.Blockelot.worldeditor.commands.filesystem;
 
 import com.Blockelot.PluginManager;
+import com.Blockelot.Util.ServerUtil;
 import com.Blockelot.worldeditor.commands.tasks.AuthenticateTaskRequest;
 import com.Blockelot.worldeditor.commands.tasks.LoginTaskRequest;
 import org.bukkit.ChatColor;
@@ -47,9 +48,9 @@ public class Authenticate
             } catch (Exception e) {
                 PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Authenticate");
 
-                System.out.println(e.getLocalizedMessage());
+                ServerUtil.consoleLog(e.getLocalizedMessage());
 
-                System.out.println(e.getMessage());
+                ServerUtil.consoleLog(e.getMessage());
             }
         }
         return true;

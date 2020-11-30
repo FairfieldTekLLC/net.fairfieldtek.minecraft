@@ -1,6 +1,7 @@
 package com.Blockelot.worldeditor.commands;
 
 import com.Blockelot.PluginManager;
+import com.Blockelot.Util.ServerUtil;
 import com.Blockelot.worldeditor.commands.tasks.CopyTask;
 import com.Blockelot.worldeditor.container.PlayerInfo;
 import org.bukkit.ChatColor;
@@ -70,8 +71,8 @@ public class Copy
 
             } catch (Exception e) {
                 PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Copy");
-                System.out.println(e.getLocalizedMessage());
-                System.out.println(e.getMessage());
+                ServerUtil.consoleLog(e.getLocalizedMessage());
+                ServerUtil.consoleLog(e.getMessage());
             }
         }
 

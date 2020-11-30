@@ -2,6 +2,7 @@ package com.Blockelot.worldeditor.commands.tasks;
 
 import java.util.UUID;
 import com.Blockelot.PluginManager;
+import com.Blockelot.Util.ServerUtil;
 import com.Blockelot.worldeditor.container.BlockCollection;
 import com.Blockelot.worldeditor.container.BlockInfo;
 import com.Blockelot.worldeditor.container.PlayerInfo;
@@ -106,8 +107,8 @@ public class DeleteTask
             
             player.sendMessage("Finished Deleting Blocks.");
         } catch (Exception e) {
-            System.out.println(e.getLocalizedMessage());
-            System.out.println(e.getMessage());
+            ServerUtil.consoleLog(e.getLocalizedMessage());
+            ServerUtil.consoleLog(e.getMessage());
         }
         PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Delete");
         this.cancel();

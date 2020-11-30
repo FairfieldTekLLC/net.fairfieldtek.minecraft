@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.ListIterator;
 import com.Blockelot.PluginManager;
+import com.Blockelot.Util.ServerUtil;
 import com.Blockelot.worldeditor.container.BlockInfo;
 import com.Blockelot.worldeditor.container.PaletteEntry;
 import com.Blockelot.worldeditor.http.SchematicDataRequest;
@@ -103,10 +104,10 @@ public class SaveClipboardTaskRequest
             this.cancel();
 
         } catch (Exception e) {
-            System.out.println("ERROR");
-            System.out.println(e.getLocalizedMessage());
-            System.out.println(e.getMessage());
-            System.out.println(e);
+            ServerUtil.consoleLog("ERROR");
+            ServerUtil.consoleLog(e.getLocalizedMessage());
+            ServerUtil.consoleLog(e.getMessage());
+            ServerUtil.consoleLog(e);
             
             SchematicDataResponse response = new SchematicDataResponse();
             response.setMessage("An Error has occurred. " + e.getMessage());

@@ -2,6 +2,7 @@ package com.Blockelot.worldeditor.commands.tasks;
 
 import java.util.UUID;
 import com.Blockelot.PluginManager;
+import com.Blockelot.Util.ServerUtil;
 import com.Blockelot.worldeditor.container.BlockCollection;
 import com.Blockelot.worldeditor.container.PlayerInfo;
 import org.bukkit.World;
@@ -42,7 +43,7 @@ public class CopyTask
         try {
 
             PlayerInfo pi = PluginManager.PlayerInfoList.get(player);
-            pi.setIsProcessing(false, "Copy");
+            
 
             if (player == null) {
                 PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Copy");
@@ -61,8 +62,8 @@ public class CopyTask
                             try {
                                 player.sendMessage("Copied " + this.SchematicToPaste.Size() + " blocks so far.. waiting..");
                             } catch (Exception e) {
-                                System.out.println(e.getLocalizedMessage());
-                                System.out.println(e.getMessage());
+                                ServerUtil.consoleLog(e.getLocalizedMessage());
+                                ServerUtil.consoleLog(e.getMessage());
                             }
                             return;
                         }
@@ -79,8 +80,8 @@ public class CopyTask
             PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Copy");
             this.cancel();
         } catch (Exception e) {
-            System.out.println(e.getLocalizedMessage());
-            System.out.println(e.getMessage());
+            ServerUtil.consoleLog(e.getLocalizedMessage());
+            ServerUtil.consoleLog(e.getMessage());
 
         }
         PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Copy");

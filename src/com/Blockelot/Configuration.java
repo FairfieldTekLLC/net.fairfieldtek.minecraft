@@ -28,8 +28,10 @@ public class Configuration implements Serializable {
 
     private static transient final long serialVersionUID = -1681012206529286330L;
     //Max number of blocks allowed in the clipboard.
+    public String WorldId="";
     public int MaxClipboardSize = 1000000000;
     public String BaseUri = "https://www.blockelot.com/api/worldeditor/v1/";
+//    public String BaseUri = "http://localhost:31312/api/worldeditor/v1/";
 
     public String Permission_User = "Blockelot.WorldEditor.User";
     public String Permission_Clear = "Blockelot.WorldEditor.User.Clear";
@@ -55,6 +57,7 @@ public class Configuration implements Serializable {
         config.set("settings.Description", "A tool to allow players to cut and paste across servers.");
         config.set("settings.HomePage", "Http://www.Blockelot.com");
         config.set("settings.Contact", "Vince@Fairfieldtek.com");
+        config.set("settings.WorldId", WorldId);
         
         config.set("settings.config.maxclipboardsize", MaxClipboardSize);
         config.set("settings.config.BaseUri",BaseUri);
@@ -78,6 +81,7 @@ public class Configuration implements Serializable {
 
     public boolean LoadData() {
         FileConfiguration config = PluginManager.Plugin.getConfig();
+        WorldId = config.getString("settings.WorldId");
         MaxClipboardSize = config.getInt("settings.config.maxclipboardsize");
         BaseUri = config.getString("settings.config.baseuri");
         Permission_User = config.getString("settings.perms.user");
@@ -99,55 +103,4 @@ public class Configuration implements Serializable {
         return true;
     }
 
-//    public boolean saveData() {
-//        String filePath = "Settings.config";
-//        try {
-//            BukkitObjectOutputStream out = new BukkitObjectOutputStream(new FileOutputStream(filePath));
-//            out.writeObject(this);
-//            out.close();
-//            System.out.println("Saved settings config.");
-//            return true;
-//        } catch (IOException e) {
-//            System.out.println("Save fialed");
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
-//
-//    public boolean loadData() {
-//        String filePath = "Settings.config";
-//        try {
-//            BukkitObjectInputStream in = new BukkitObjectInputStream(new FileInputStream(filePath));
-//            Configuration data = (Configuration) in.readObject();
-//            in.close();
-//            if (data != null) {
-//                MaxClipboardSize = data.MaxClipboardSize;
-//                BaseUri = data.BaseUri;
-//
-//                Permission_User = data.Permission_User;
-//                Permission_Clear = data.Permission_Clear;
-//                Permission_ClearHistory = data.Permission_ClearHistory;
-//                Permission_Size = data.Permission_Size;
-//                Permission_Print = data.Permission_Print;
-//                Permission_Select = data.Permission_Select;
-//
-//                Permission_Editor = data.Permission_Editor;
-//                Permission_Copy = data.Permission_Copy;
-//                Permission_Delete = data.Permission_Delete;
-//                Permission_Distr = data.Permission_Distr;
-//                Permission_Paste = data.Permission_Paste;
-//                Permission_StripMine = data.Permission_StripMine;
-//                Permission_Undo = data.Permission_Undo;
-//                Permission_FileSystem = data.Permission_FileSystem;
-//            }
-//            return true;
-//        } catch (ClassNotFoundException | IOException e) {
-//            // TODO Auto-generated catch block
-//            //e.printStackTrace();
-//            System.out.println("Failed to find File.");
-//            return false;
-//        }
-//        
-//   }
 }

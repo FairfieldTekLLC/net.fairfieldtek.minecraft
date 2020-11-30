@@ -1,5 +1,6 @@
 package com.Blockelot.worldeditor.container;
 
+import com.Blockelot.Util.ServerUtil;
 import java.util.ArrayList;
 import java.util.*;
 import org.bukkit.entity.Player;
@@ -69,13 +70,12 @@ public class PlayerInfo {
     private boolean IsProcessing;
 
     public boolean getIsProcessing() {
-//        System.out.println("Checking Busy? " + IsProcessing);
         return this.IsProcessing;
     }
 
     public void setIsProcessing(boolean flag, String caller) {
         IsProcessing = flag;
-        System.out.println(caller + " is setting Busy: " + flag);
+        //ServerUtil.consoleLog(caller + " is setting Busy: " + flag);
     }
 
     public String getCurrentPath() {

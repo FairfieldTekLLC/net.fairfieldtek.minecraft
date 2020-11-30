@@ -47,7 +47,6 @@ public class PluginManager {
     public static Plugin Plugin;
     public static String Version;
     public static HashMap<Player, PlayerInfo> PlayerInfoList;
-    private static String WorldId;
     public static Configuration Config;
     
 
@@ -58,7 +57,7 @@ public class PluginManager {
     }
 
     public static String getWorldId() {
-        return WorldId;
+        return Config.WorldId;
     }
 
     public static boolean Initialize(Plugin plugin)  {
@@ -97,7 +96,8 @@ public class PluginManager {
         ServerUtil.consoleLog("No reason for concern, how do you think the cloud storage works?");
 
         try {
-            WorldId = Verify.Register(Plugin);
+            Verify.Register(Plugin);
+            
         } catch (Exception e) {
             ServerUtil.consoleLog("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             ServerUtil.consoleLog("!!   Warning, cannot reach www.Blockelot.com    !!");

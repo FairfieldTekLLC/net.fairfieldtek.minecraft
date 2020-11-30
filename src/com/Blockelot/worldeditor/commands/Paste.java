@@ -2,6 +2,7 @@ package com.Blockelot.worldeditor.commands;
 
 import com.Blockelot.PluginManager;
 import com.Blockelot.Util.PlayerUtils;
+import com.Blockelot.Util.ServerUtil;
 import com.Blockelot.worldeditor.commands.tasks.PasteTask;
 import com.Blockelot.worldeditor.container.PlayerInfo;
 import com.Blockelot.worldeditor.enumeration.Axis;
@@ -168,12 +169,12 @@ public class Paste
                 player.sendMessage("                             /fft.we.paste {Rotation} {Degrees}");
                 player.sendMessage("                             /fft.we.paste x y z");
                 player.sendMessage("                             /fft.we.paste x y z {Rotation} {Degrees}");
-                System.out.println(e.getLocalizedMessage());
-                System.out.println(e.getMessage());
+                ServerUtil.consoleLog(e.getLocalizedMessage());
+                ServerUtil.consoleLog(e.getMessage());
 
                 PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Paste");
-                System.out.println(e.getLocalizedMessage());
-                System.out.println(e.getMessage());
+                ServerUtil.consoleLog(e.getLocalizedMessage());
+                ServerUtil.consoleLog(e.getMessage());
 
             }
         }
