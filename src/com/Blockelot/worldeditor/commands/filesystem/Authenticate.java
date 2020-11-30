@@ -14,8 +14,10 @@ public class Authenticate
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
+        Player player;
+
+        if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_FileSystem) || player.isOp())) {
+
             try {
                 if (PluginManager.PlayerInfoList.get(player).getIsProcessing()) {
                     player.sendMessage("Please wait for last command to finish.");
@@ -25,7 +27,7 @@ public class Authenticate
                 PluginManager.PlayerInfoList.get(player).setIsProcessing(true, "Authenticate");
 
                 if (args.length == 1) {
-                    
+
                     PluginManager.PlayerInfoList.get(player).setLastAuth(args[0]);
 
                     player.sendMessage("Processing Login....");
@@ -44,9 +46,9 @@ public class Authenticate
 
             } catch (Exception e) {
                 PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Authenticate");
-                
+
                 System.out.println(e.getLocalizedMessage());
-                
+
                 System.out.println(e.getMessage());
             }
         }
