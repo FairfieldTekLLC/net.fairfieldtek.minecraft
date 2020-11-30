@@ -17,6 +17,7 @@
  */
 package com.Blockelot.worldeditor.container;
 
+import com.Blockelot.PluginManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -43,7 +44,12 @@ public class BlockCollection {
         this.Blocks = blocks;
     }
 
-    public BlockInfo AddBlock(Block sourceBlock, int offsetX, int offsetY, int offsetZ, BlockCollection undo) {
+    public BlockInfo AddBlock(Block sourceBlock, int offsetX, int offsetY, int offsetZ, BlockCollection undo) throws Exception {
+
+        if (Blocks.size() > PluginManager.Config.MaxClipboardSize) {
+            throw new Exception("Schematic size exceeds server max.");
+        }
+
         if (undo != null) {
             undo.AddBlock(sourceBlock, offsetX, offsetY, offsetZ, null);
         }
@@ -63,7 +69,10 @@ public class BlockCollection {
         return def;
     }
 
-    public BlockInfo AddBlock(BlockInfo blockDef, BlockCollection undo) {
+    public BlockInfo AddBlock(BlockInfo blockDef, BlockCollection undo) throws Exception {
+        if (Blocks.size() > PluginManager.Config.MaxClipboardSize) {
+            throw new Exception("Schematic size exceeds server max.");
+        }
         if (undo != null) {
             undo.AddBlock(blockDef, null);
         }
@@ -199,7 +208,8 @@ public class BlockCollection {
         return map;
     }
 
-    public void LoadResponse(SchematicDataDownloadResponse response) {
+    public void LoadResponse(SchematicDataDownloadResponse response) throws Exception {
+
         Blocks.clear();
         BlockTypePalette = new ArrayList<>();
         BlockDataPalette = new ArrayList<>();
@@ -217,6 +227,10 @@ public class BlockCollection {
 
         for (PaletteEntry pe : response.getBlockInvePalette()) {
             BlockInventoryPalette.add(pe.Clone());
+        }
+
+        if (response.getBlocks().length > PluginManager.Config.MaxClipboardSize) {
+            throw new Exception("Schematic size exceeds server max.");
         }
 
         for (BlockInfo ent : response.getBlocks()) {

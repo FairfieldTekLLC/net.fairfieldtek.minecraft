@@ -25,7 +25,7 @@ public class LsTaskResponse
             if (player == null) {
                 return;
             }
-            PluginManager.PlayerInfoList.get(player).setLastAuth(this.LsResponse.getLastAuth());
+            PluginManager.PlayerInfoList.get(player).setLastAuth(this.LsResponse.getAuth());
             player.sendMessage(ChatColor.WHITE + "Displaying Directory Contents");
 
             for (DirectoryElement element : this.LsResponse.getContents()) {

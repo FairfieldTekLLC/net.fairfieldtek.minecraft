@@ -25,13 +25,13 @@ public class LsTaskRequest
             PlayerInfo.setIsProcessing(true, "LS");
             Gson gson = new Gson();
             LsRequest lsRequest = new LsRequest();
-            lsRequest.setAuthToken(PlayerInfo.getLastAuth());
+            lsRequest.setAuth(PlayerInfo.getLastAuth());
             lsRequest.setCurrentDirectory(PlayerInfo.getCurrentPath());
             lsRequest.setUuid(PlayerInfo.getUUID());
             String body = gson.toJson(lsRequest);
-            LsResponse response = gson.fromJson(RequestHttp(PluginManager.BaseUri + "DirLs", body),
+            LsResponse response = gson.fromJson(RequestHttp(PluginManager.Config.BaseUri + "DirLs", body),
                     LsResponse.class);
-            PlayerInfo.setLastAuth(response.getLastAuth());
+            PlayerInfo.setLastAuth(response.getAuth());
             response.setUuid(PlayerInfo.getUUID());
             new LsTaskResponse(response).runTask((org.bukkit.plugin.Plugin) PluginManager.Plugin);
         } catch (Exception e) {

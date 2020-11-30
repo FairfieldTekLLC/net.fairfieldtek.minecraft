@@ -29,14 +29,18 @@ public class LoginTaskResponse
                 PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Login");
                 PlayerInfo pi = PluginManager.PlayerInfoList.get(player);
                 if (this.LoginResponse.getIsAuthorized()) {
-                    pi.setLastAuth(this.LoginResponse.getLastAuth());
+                    pi.setLastAuth(this.LoginResponse.getAuth());
                     pi.setCurrentPath(this.LoginResponse.getCurrentPath());
+                    if (LoginResponse.getMessage().length() > 0) {
+                        player.sendMessage(this.LoginResponse.getMessage());
+                    }
+                    player.sendMessage("Current Remote Directory: " + pi.getCurrentPath());
                 } else {
+                    player.sendMessage("Login Failed: Bad Auth Code.");
                     pi.setLastAuth("");
                     pi.setCurrentPath("");
                 }
-                player.sendMessage("Login: Message: " + this.LoginResponse.getMessage());
-                player.sendMessage("Current Remote Directory: " + pi.getCurrentPath());
+
             }
         } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());

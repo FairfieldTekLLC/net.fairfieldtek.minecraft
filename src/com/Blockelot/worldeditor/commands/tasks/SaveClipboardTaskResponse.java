@@ -28,7 +28,7 @@ public class SaveClipboardTaskResponse
                 PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "SaveClipboard");
             }
 
-            PluginManager.PlayerInfoList.get(player).setLastAuth(this.Response.getLastAuth());
+            PluginManager.PlayerInfoList.get(player).setLastAuth(this.Response.getAuth());
             if (!this.Response.getWasSuccessful()) {
                 player.sendMessage(ChatColor.YELLOW + "File not saved.");
                 if (!"".equals(Response.getMessage())) {

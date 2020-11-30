@@ -45,17 +45,18 @@ public class LoadClipboardTaskRequest
     public void run() {
         try {
             SchematicDataDownloadRequest req = new SchematicDataDownloadRequest();
-            req.setAuthToken(PlayerInfo.getLastAuth());
+            req.setAuth(PlayerInfo.getLastAuth());
             req.setCurrentDirectory(PlayerInfo.getCurrentPath());
             req.setFileName(this.Filename);
             req.setUuid(PlayerInfo.getUUID());
             Gson gson = new Gson();
             String body = gson.toJson(req);
 
-            SchematicDataDownloadResponse response = gson.fromJson(RequestHttp(PluginManager.BaseUri + "Load", body),
-                    SchematicDataDownloadResponse.class);
+            String json = RequestHttp(PluginManager.Config.BaseUri+ "Load", body);
+            SchematicDataDownloadResponse response = gson.fromJson(json, SchematicDataDownloadResponse.class);
+            //System.out.println(json);
 
-            PlayerInfo.setLastAuth(response.getLastAuth());
+            PlayerInfo.setLastAuth(response.getAuth());
             response.setUuid(PlayerInfo.getUUID());
 
             new LoadClipBoardTaskResponse(response).runTask((org.bukkit.plugin.Plugin) PluginManager.Plugin);

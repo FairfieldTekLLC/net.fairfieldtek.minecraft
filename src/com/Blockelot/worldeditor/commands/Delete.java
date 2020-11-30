@@ -14,7 +14,7 @@ public class Delete
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
-        if (player.hasPermission("fft.we.editor") || player.isOp()) {
+        if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_Delete) || (player = (Player) sender).hasPermission(PluginManager.Config.Permission_Editor) || player.isOp())) {
             try {
                 if (PluginManager.PlayerInfoList.get(player).getIsProcessing()) {
                     player.sendMessage("Please wait for last command to finish.");

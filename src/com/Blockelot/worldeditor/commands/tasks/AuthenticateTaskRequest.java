@@ -5,38 +5,41 @@ import com.Blockelot.PluginManager;
 import com.Blockelot.worldeditor.http.AuthenticateRequest;
 import com.Blockelot.worldeditor.http.AuthenticateResponse;
 import com.Blockelot.worldeditor.http.RegisterResponse;
+import com.Blockelot.worldeditor.container.PlayerInfo;
 import org.bukkit.entity.Player;
 
 public class AuthenticateTaskRequest
         extends HttpRequestor {
-
-    private final String Uuid;
-    private final Player Player;
-
-    public AuthenticateTaskRequest(Player player) {
-        this.Uuid = player.getUniqueId().toString();
-        Player=player;
+    
+    PlayerInfo PlayerInfo;
+    
+    public AuthenticateTaskRequest(PlayerInfo pi) {
+        this.PlayerInfo = pi;
     }
-
+    
     @Override
     public void run() {
         try {
-            PluginManager.PlayerInfoList.get(Player).setIsProcessing(true, "Authenticate");
+            PlayerInfo.setIsProcessing(true, "Authenticate");
             Gson gson = new Gson();
-            AuthenticateRequest authenticateRequest = new AuthenticateRequest();
-            authenticateRequest.setUuid(this.Uuid);
-            String body = gson.toJson(authenticateRequest);
-            String hr = RequestHttp(PluginManager.BaseUri + "Authenticate", body);
-            AuthenticateResponse response = gson.fromJson(
-                    hr,
-                    AuthenticateResponse.class);
+            AuthenticateRequest authenticateRequest = new AuthenticateRequest();            
+            authenticateRequest.setUuid(PlayerInfo.getUUID());            
+            authenticateRequest.SetWid(PluginManager.getWorldId());
+            
+            String hr = RequestHttp(PluginManager.Config.BaseUri + "Authenticate", gson.toJson(authenticateRequest));
+            AuthenticateResponse response = gson.fromJson(hr, AuthenticateResponse.class);      
+            //This shouldn't be here, cause really it shouldn't be.
+            PlayerInfo.setLastAuth(response.getAuth());
+            
+            response.setUuid(PlayerInfo.getUUID());
+            
             new AuthenticateTaskResponse(response).runTask((org.bukkit.plugin.Plugin) PluginManager.Plugin);
         } catch (Exception e) {
-            PluginManager.PlayerInfoList.get(Player).setIsProcessing(false, "Authenticate");
+            PlayerInfo.setIsProcessing(false, "Authenticate");
             RegisterResponse registerResponse = new RegisterResponse();
             registerResponse.setMessage("An Error has occurred.");
             registerResponse.setWasSuccessful(false);
-            registerResponse.setUuid(this.Uuid);
+            registerResponse.setUuid(PlayerInfo.getUUID());
             new RegisterTaskResponse(registerResponse).runTask((org.bukkit.plugin.Plugin) PluginManager.Plugin);
         }
     }

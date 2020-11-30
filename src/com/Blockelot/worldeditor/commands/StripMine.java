@@ -18,7 +18,7 @@ public class StripMine implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player;
-        if (sender instanceof Player && ((player = (Player) sender).hasPermission("fft.we.editor") || player.isOp())) {
+        if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_Editor) || (player = (Player) sender).hasPermission(PluginManager.Config.Permission_StripMine) || player.isOp())) {
 
             if (PluginManager.PlayerInfoList.get(player).getIsProcessing()) {
                 player.sendMessage("Please wait for last command to finish.");

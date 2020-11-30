@@ -25,7 +25,7 @@ public class RmTaskResponse
                     return;
                 }
 
-                PluginManager.PlayerInfoList.get(player).setLastAuth(this.RmResponse.getLastAuth());
+                PluginManager.PlayerInfoList.get(player).setLastAuth(this.RmResponse.getAuth());
                 PluginManager.PlayerInfoList.get(player).setCurrentPath(this.RmResponse.getDirectoryPath());
 
                 if (!this.RmResponse.getWasSuccessful()) {

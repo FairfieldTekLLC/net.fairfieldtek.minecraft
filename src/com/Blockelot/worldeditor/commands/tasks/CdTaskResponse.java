@@ -23,7 +23,7 @@ public class CdTaskResponse
             if (player == null) {
                 return;
             }            
-            PluginManager.PlayerInfoList.get(player).setLastAuth(this.CdResponse.getLastAuth());
+            PluginManager.PlayerInfoList.get(player).setLastAuth(this.CdResponse.getAuth());
             PluginManager.PlayerInfoList.get(player).setCurrentPath(this.CdResponse.getDirectoryPath());
             if (!this.CdResponse.getWasSuccessful()) {
                 player.sendMessage(ChatColor.RED + this.CdResponse.getMessage());

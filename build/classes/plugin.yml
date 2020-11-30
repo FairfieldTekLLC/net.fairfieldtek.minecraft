@@ -1,9 +1,10 @@
 name: Blockelot.com
-api-version: 1.16.3
+api-version: 1.16
 version: 1.0
-description: Test!
-author: TouchBar
-website: http://www.fairfieldtek.com
+description: A pluging to allow you to save, cut and paste across servers via
+             cloud storage.
+author: Chaplekeep
+website: http://www.Blockelot.com
 load: POSTWORLD
 
 softdepend:
@@ -13,94 +14,130 @@ main: com.Blockelot.Plugin
 commands:
    # Replace "kit" with the name of your command.
 commands:
-  fft.we.matlist:
-    description: Prints a list of the available materials available
-                 in the game.  It does not show magic numbers, the best way to 
-                 determine a magic number is to inspect (/fft.we.in) a block
-                 that you want a magic number for.
-    usage: /fft.we.matlist <Name or partial name>
-  fft.we.select:
-    description: Sets a selection point
-    usage: /fft.we.select
-           /fft.we.select X Y Z
-  fft.we.print:
-    description: Prints your selection start and selection end.
-    usage: /fft.we.print
-  fft.we.size:
-    description: Prints the dimensions of your selection
-    usage: /fft.we.size    
-  fft.we.clear:
+  b.we.clear:
     description: Clears the Selections and the Clipboard
-    usage: /fft.we.clear
-  fft.we.clearHistory:
-    description: Clears the undo history of you pastes.  use undo (/fft.we.undo)
+    permission: 
+                Blockelot.WorldEditor.User.Clear,
+                Blockelot.WorldEditor.User
+    usage: /b.we.clear
+  b.we.clearHistory:
+    description: Clears the undo history of you pastes.  use undo (/b.we.undo)
                  to undo a paste, delete of set.
-    usage: /fft.we.clearhistory
-  fft.we.paste:
-    description: Pastes your clipboard.
-    usage: /fft.we.paste
-           /fft.we.paste <Rotational Axis (X or Y or Z)> <Degrees (90 or 180 or 270)>
-           /fft.we.paste x y z
-           /fft.we.paste x y z <Rotational Axis (X or Y or Z)> <Degrees (90 or 180 or 270)>
-  fft.we.copy:
+    permission: 
+                Blockelot.WorldEditor.User.ClearHistory,
+                Blockelot.WorldEditor.User                 
+    usage: /b.we.clearhistory
+  b.we.size:
+    description: Prints the dimensions of your selection
+    permission: 
+                Blockelot.WorldEditor.User.Size,
+                Blockelot.WorldEditor.User    
+    usage: /b.we.size    
+  b.we.print:
+    description: Prints your selection start and selection end.
+    permission: 
+                Blockelot.WorldEditor.User.Print,
+                Blockelot.WorldEditor.User    
+    usage: /b.we.print
+  b.we.select:
+    description: Sets a selection point
+    permission: 
+                Blockelot.WorldEditor.User.Select,
+                Blockelot.WorldEditor.User    
+    usage: /b.we.select
+           /b.we.select X Y Z
+  b.we.copy:
     description: Copies your selection to the clipboard.
-    usage: /fft.we.copy    
-  fft.we.undo:
+    permission: 
+                Blockelot.WorldEditor.Editor,
+                Blockelot.WorldEditor.Editor.Copy
+    usage: /b.we.copy  
+  b.we.del:
+    description: Sets all blocks in your selection to Air.  Also removes all
+                 water sources.
+    permission: 
+                Blockelot.WorldEditor.Editor,
+                Blockelot.WorldEditor.Editor.Delete         
+    usage: /b.we.del    
+  b.we.delete:
+    description: Sets all blocks in your selection to Air.  Also removes all
+                 water sources.
+    permission: 
+                Blockelot.WorldEditor.Editor,
+                Blockelot.WorldEditor.Editor.Delete            
+    usage: /b.we.delete  
+  b.we.distr:
+    description: Gets the block distribution of the current clipboard
+    permission: 
+                Blockelot.WorldEditor.Editor,
+                Blockelot.WorldEditor.Editor.Distr
+    usage: /b.we.distr
+  b.we.paste:
+    description: Pastes your clipboard.
+    permission: 
+                Blockelot.WorldEditor.Editor,
+                Blockelot.WorldEditor.Editor.Paste
+    usage: /b.we.paste
+           /b.we.paste <Rotational Axis (X or Y or Z)> <Degrees (90 or 180 or 270)>
+           /b.we.paste x y z
+           /b.we.paste x y z <Rotational Axis (X or Y or Z)> <Degrees (90 or 180 or 270)>
+  b.we.stripmine:
+    description: strip mines the current chunk
+    permission: 
+                Blockelot.WorldEditor.Editor,
+                Blockelot.WorldEditor.Editor.StripMine  
+    usage: /b.strip   
+  b.we.undo:
     description: Will undo your last World Edit Command.
-    usage: /fft.we.undo        
-  fft.we.rot:
-    description: Rotates a single block, use /fft.we.paste with a rotation to
-                 rotate a large area.
-    usage: /fft.we.rot {Axis} {Degrees}
-           /fft.we.rot x y z {Axis} {degrees}
-  fft.we.rotate:
-    description: Rotates a single block, use /fft.we.paste with a rotation to
-                 rotate a large area.
-    usage: /fft.we.rotate
-           /fft.we.rotate {Axis} {Degrees}
-           /fft.we.rotate x y z {Axis} {degrees}
-  fft.we.del:
-    description: Sets all blocks in your selection to Air.  Also removes all
-                 water sources.
-    usage: /fft.we.del    
-  fft.we.delete:
-    description: Sets all blocks in your selection to Air.  Also removes all
-                 water sources.
-    usage: /fft.we.delete
-  fft.reg:
+    permission: 
+                Blockelot.WorldEditor.Editor,
+                Blockelot.WorldEditor.Editor.Undo
+    usage: /b.we.undo            
+  b.reg:
     description: Register Email to Minecraft Account.  You will recieve an
                  email with a five alpha-numeric authentication code
-    usage: /fft.reg <Email Address>
-  fft.auth:
+    permission: 
+                Blockelot.FileSystem.User
+    usage: /b.reg <Email Address>
+  b.auth:
     description: Send Authentication Code to Email or authenticates you against
                  the system if you provide the five alpha-numeric authentication
                  code
-    usage: /fft.auth 
-           /fft.auth <5 alpha-numeric Authentication code>
-  fft.ls:
+    permission: 
+                Blockelot.FileSystem.User
+    usage: /b.auth 
+           /b.auth <5 alpha-numeric Authentication code>
+  b.ls:
     description: Lists all Blueprints and Directories in the current Directory.
-    usage: /fft.ls
-  fft.cd:
+    permission: 
+               Blockelot.FileSystem.User 
+    usage: /b.ls
+  b.cd:
     description: Changes your current directory to the directory specified
-    usage: /fft.cd <Directory Name>
-  fft.rm:
+    permission: 
+                Blockelot.FileSystem.User
+    usage: /b.cd <Directory Name>
+  b.rm:
     description: Deletes the Directory or Blueprint
-    usage: /fft.rm <Folder or Blueprint Name>
-  fft.mk: 
+    permission: 
+                Blockelot.FileSystem.User
+    usage: /b.rm <Folder or Blueprint Name>
+  b.mk: 
     description: Creates a folder in the folder you are currently in
-    usage: /fft.mk <Folder Name>
-  fft.save: 
+    permission: 
+                Blockelot.FileSystem.User
+    usage: /b.mk <Folder Name>
+  b.save: 
     description: Saves the current clipboard as a BluePrint
-    usage: /fft.save <Blueprint Name>
-  fft.load:
+    permission: 
+                Blockelot.FileSystem.User
+    usage: /b.save <Blueprint Name>
+  b.load:
     description: Loads the Blueprint into your clipboard
-    usage: /fft.load <Blueprint Name>
-  fft.we.distr:
-    description: Gets the block distribution of the current clipboard
-    usage: /fft.we.distr
-  fft.we.MapTheWorld:
-    description: Generates the world
-    usage: /fft.we.MapTheWorld    
-  fft.strip:
-    description: strip mines the current chunk
-    usage: /fft.strip  
+    permission: 
+                Blockelot.FileSystem.User
+    usage: /b.load <Blueprint Name>
+ 
+ 
+     
+ 

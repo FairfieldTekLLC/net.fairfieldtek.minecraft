@@ -15,7 +15,7 @@ public class Copy
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player;
-        if (sender instanceof Player && ((player = (Player) sender).hasPermission("fft.we.editor") || player.isOp())) {
+        if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_Copy) || (player = (Player) sender).hasPermission(PluginManager.Config.Permission_Editor) || player.isOp())) {
 
             try {
 

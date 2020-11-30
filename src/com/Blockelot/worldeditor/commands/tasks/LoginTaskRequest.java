@@ -10,11 +10,13 @@ import org.bukkit.entity.Player;
 
 public class LoginTaskRequest
         extends HttpRequestor {
+
     private PlayerInfo PlayerInfo;
     private String Pass;
-    public LoginTaskRequest(PlayerInfo pi,String pass) {
+
+    public LoginTaskRequest(PlayerInfo pi, String pass) {
         PlayerInfo = pi;
-        Pass=pass;
+        Pass = pass;
     }
 
     @Override
@@ -22,15 +24,18 @@ public class LoginTaskRequest
         try {
             PlayerInfo.setIsProcessing(true, "Login");
             Gson gson = new Gson();
+
             LoginRequest loginRequest = new LoginRequest();
             loginRequest.setUuid(PlayerInfo.getUUID());
-            loginRequest.setAuthToken(Pass);
+            loginRequest.setAuth(Pass);
             String body = gson.toJson(loginRequest);
-            LoginResponse response = gson.fromJson(RequestHttp(PluginManager.BaseUri + "Login", body),
-                    LoginResponse.class);
-            PlayerInfo.setLastAuth(response.getLastAuth());
+            String page = RequestHttp(PluginManager.Config.BaseUri+ "Login", body);
+            LoginResponse response = gson.fromJson(page, LoginResponse.class);
+            PlayerInfo.setLastAuth(response.getAuth());
             response.setUuid(PlayerInfo.getUUID());
+            
             new LoginTaskResponse(response).runTask((org.bukkit.plugin.Plugin) PluginManager.Plugin);
+
         } catch (Exception e) {
             PlayerInfo.setIsProcessing(false, "Login");
             RegisterResponse registerResponse = new RegisterResponse();

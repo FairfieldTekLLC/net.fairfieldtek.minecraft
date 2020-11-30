@@ -28,16 +28,16 @@ public class CdTaskRequest
             PluginManager.PlayerInfoList.get(PlayerInfo.getPlayer()).setIsProcessing(true, "Cd");
             Gson gson = new Gson();
             CdRequest cdRequest = new CdRequest();
-            cdRequest.setAuthToken(PlayerInfo.getLastAuth());
+            cdRequest.setAuth(PlayerInfo.getLastAuth());
             cdRequest.setCurrentDirectory(PlayerInfo.getCurrentPath());
             cdRequest.setUuid(PlayerInfo.getUUID());
             cdRequest.setTargetDirectory(this.Target);
             String body = gson.toJson(cdRequest);
 
-            CdResponse response = gson.fromJson(RequestHttp(PluginManager.BaseUri + "DirCd", body),
+            CdResponse response = gson.fromJson(RequestHttp(PluginManager.Config.BaseUri + "DirCd", body),
                     CdResponse.class);
+            PlayerInfo.setLastAuth(response.getAuth());
             response.setUuid(PlayerInfo.getUUID());
-            PlayerInfo.setLastAuth(response.getLastAuth());
             
             new CdTaskResponse(response)
                     .runTask((org.bukkit.plugin.Plugin) PluginManager.Plugin);

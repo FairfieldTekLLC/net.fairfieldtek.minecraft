@@ -27,14 +27,14 @@ public class MkTaskRequest
             PlayerInfo.setIsProcessing(true, "MK");
             Gson gson = new Gson();
             MkRequest mkRequest = new MkRequest();
-            mkRequest.setAuthToken(PlayerInfo.getLastAuth());
+            mkRequest.setAuth(PlayerInfo.getLastAuth());
             mkRequest.setCurrentDirectory(PlayerInfo.getCurrentPath());
             mkRequest.setUuid(PlayerInfo.getUUID());
             mkRequest.setTargetDirectory(this.Target);
             String body = gson.toJson(mkRequest);
-            MkResponse response = gson.fromJson(RequestHttp(PluginManager.BaseUri + "DirMk", body),
+            MkResponse response = gson.fromJson(RequestHttp(PluginManager.Config.BaseUri+ "DirMk", body),
                     MkResponse.class);
-            PlayerInfo.setLastAuth(response.getLastAuth());
+            PlayerInfo.setLastAuth(response.getAuth());
             response.setUuid(PlayerInfo.getUUID());
             new MkTaskResponse(response)
                     .runTask((org.bukkit.plugin.Plugin) PluginManager.Plugin);

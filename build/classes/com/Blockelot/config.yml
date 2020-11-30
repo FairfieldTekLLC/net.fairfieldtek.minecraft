@@ -1,0 +1,19 @@
+settings:
+  config:
+    maxclipboardsize: 1000000000
+    BaseUri: https://www.blockelot.com/api/worldeditor/v1/
+  perms:
+    user: Blockelot.WorldEditor.User
+    clear: Blockelot.WorldEditor.User.Clear
+    clearhistory: Blockelot.WorldEditor.User.ClearHistory
+    size: Blockelot.WorldEditor.User.Size
+    print: Blockelot.WorldEditor.User.Print
+    select: Blockelot.WorldEditor.User.Select
+    editor: Blockelot.WorldEditor.Editor
+    copy: Blockelot.WorldEditor.Editor.Copy
+    delete: Blockelot.WorldEditor.Editor.Delete
+    distr: Blockelot.WorldEditor.Editor.Distr
+    paste: Blockelot.WorldEditor.Editor.Paste
+    stripmine: Blockelot.WorldEditor.Editor.StripMine
+    undo: Blockelot.WorldEditor.Editor.Undo
+    filesystem: Blockelot.FileSystem.User

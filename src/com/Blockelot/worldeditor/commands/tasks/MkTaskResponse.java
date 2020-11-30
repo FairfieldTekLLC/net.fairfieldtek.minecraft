@@ -25,7 +25,7 @@ public class MkTaskResponse
                 return;
             }
             
-            PluginManager.PlayerInfoList.get(player).setLastAuth(this.MkResponse.getLastAuth());
+            PluginManager.PlayerInfoList.get(player).setLastAuth(this.MkResponse.getAuth());
             PluginManager.PlayerInfoList.get(player).setCurrentPath(this.MkResponse.getDirectoryPath());
             if (!this.MkResponse.getWasSuccessful()) {
                 player.sendMessage(ChatColor.RED + this.MkResponse.getMessage());

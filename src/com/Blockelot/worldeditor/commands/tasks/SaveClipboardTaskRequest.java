@@ -72,7 +72,7 @@ public class SaveClipboardTaskRequest
                 
                 
                 
-                schematicDataRequest.setAuthToken(PlayerInfo.getLastAuth());
+                schematicDataRequest.setAuth(PlayerInfo.getLastAuth());
                 schematicDataRequest.setCurrentDirectory(PlayerInfo.getCurrentPath());
                 schematicDataRequest.setUuid(PlayerInfo.getUUID());
                 schematicDataRequest.setFileName(this.Filename);
@@ -81,11 +81,11 @@ public class SaveClipboardTaskRequest
 
                 schematicDataRequest.setSchematicId(schematicId);
                 String body = gson.toJson(schematicDataRequest);
-                response = gson.fromJson(RequestHttp(PluginManager.BaseUri + "Save", body), SchematicDataResponse.class);
+                response = gson.fromJson(RequestHttp(PluginManager.Config.BaseUri + "Save", body), SchematicDataResponse.class);
                 
                 response.setMessage("Saving... " + WorkArea.Size() + " blocks remaining of " + total);                
                 
-                PlayerInfo.setLastAuth(response.getLastAuth());
+                PlayerInfo.setLastAuth(response.getAuth());
                 
                 schematicId = response.getSchematicId();
                 

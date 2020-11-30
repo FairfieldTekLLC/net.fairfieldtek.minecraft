@@ -7,22 +7,22 @@ import org.bukkit.entity.Player;
 public class PlayerInfo {
 
     public PlayerInfo(Player player) {
-        Player=player;
+        Player = player;
         setUUID(player.getUniqueId().toString());
     }
 
     private String UUID;
-    
+
     private Player Player;
-    
-    public Player getPlayer(){
+
+    public Player getPlayer() {
         return Player;
     }
 
-    public void setPlayer(Player player){
-        Player=player;
+    public void setPlayer(Player player) {
+        Player = player;
     }
-    
+
     public String getUUID() {
         return UUID;
     }
@@ -69,7 +69,7 @@ public class PlayerInfo {
     private boolean IsProcessing;
 
     public boolean getIsProcessing() {
-        System.out.println("Checking Busy? " + IsProcessing);
+//        System.out.println("Checking Busy? " + IsProcessing);
         return this.IsProcessing;
     }
 

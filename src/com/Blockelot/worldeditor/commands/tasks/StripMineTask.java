@@ -11,6 +11,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.Location;
 import org.bukkit.block.Chest;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -45,7 +47,11 @@ public class StripMineTask extends BukkitRunnable {
             MaterialCount.put(mat, 0);
         }
         MaterialCount.put(mat, MaterialCount.get(mat) + 1);
-        Undo.AddBlock(changeBlock, 0, 0, 0, Undo);
+        try {
+            Undo.AddBlock(changeBlock, 0, 0, 0, Undo);
+        } catch (Exception ex) {
+            Logger.getLogger(StripMineTask.class.getName()).log(Level.SEVERE, null, ex);
+        }
         changeBlock.setType(material);
     }
 
@@ -56,7 +62,11 @@ public class StripMineTask extends BukkitRunnable {
             MaterialCount.put(mat, 0);
         }
         MaterialCount.put(mat, MaterialCount.get(mat) + 1);
-        Undo.AddBlock(new BlockInfo(changeBlock, Undo), Undo);
+        try {
+            Undo.AddBlock(new BlockInfo(changeBlock, Undo), Undo);
+        } catch (Exception ex) {
+            Logger.getLogger(StripMineTask.class.getName()).log(Level.SEVERE, null, ex);
+        }
         changeBlock.setType(material);
     }
 

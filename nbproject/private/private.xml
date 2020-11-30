@@ -2,6 +2,23 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/NetBeans/com.Blockelot/src/com/Blockelot/worldeditor/http/LoginRequest.java</file>
+            <file>file:/C:/NetBeans/com.Blockelot/src/com/Blockelot/worldeditor/http/DirectoryElement.java</file>
+            <file>file:/C:/NetBeans/com.Blockelot/src/com/Blockelot/worldeditor/http/SchematicDataDownloadResponse.java</file>
+            <file>file:/C:/NetBeans/com.Blockelot/src/com/Blockelot/worldeditor/http/MkResponse.java</file>
+            <file>file:/C:/NetBeans/com.Blockelot/src/com/Blockelot/worldeditor/http/SchematicDataResponse.java</file>
+            <file>file:/C:/NetBeans/com.Blockelot/src/com/Blockelot/worldeditor/http/RmRequest.java</file>
+            <file>file:/C:/NetBeans/com.Blockelot/src/com/Blockelot/worldeditor/http/CdResponse.java</file>
+            <file>file:/C:/NetBeans/com.Blockelot/src/com/Blockelot/worldeditor/http/BaseRequest.java</file>
+            <file>file:/C:/NetBeans/com.Blockelot/src/com/Blockelot/worldeditor/http/LoginResponse.java</file>
+            <file>file:/C:/NetBeans/com.Blockelot/src/com/Blockelot/worldeditor/http/AuthenticateResponse.java</file>
+            <file>file:/C:/NetBeans/com.Blockelot/src/com/Blockelot/worldeditor/http/DirLsResponse.java</file>
+            <file>file:/C:/NetBeans/com.Blockelot/src/com/Blockelot/worldeditor/commands/tasks/RmTaskRequest.java</file>
+            <file>file:/C:/NetBeans/com.Blockelot/src/com/Blockelot/worldeditor/http/RmResponse.java</file>
+            <file>file:/C:/NetBeans/com.Blockelot/src/com/Blockelot/worldeditor/http/BaseResponse.java</file>
+            <file>file:/C:/NetBeans/com.Blockelot/src/com/Blockelot/worldeditor/http/LsResponse.java</file>
+            <file>file:/C:/NetBeans/com.Blockelot/src/com/Blockelot/worldeditor/http/RegisterResponse.java</file>
+        </group>
     </open-files>
 </project-private>

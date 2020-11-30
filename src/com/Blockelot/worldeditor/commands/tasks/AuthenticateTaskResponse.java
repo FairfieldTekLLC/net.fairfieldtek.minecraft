@@ -21,7 +21,11 @@ public class AuthenticateTaskResponse
         try {
             
             if (player != null) {
-                player.sendMessage("Registration: Message: " + this.AuthenticateResponse.getMessage());
+                if (!AuthenticateResponse.getMessage().equalsIgnoreCase(""))
+                {
+                player.sendMessage("Registration: Message: " + this.AuthenticateResponse.getMessage());    
+                }
+                
             }
         } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());

@@ -35,7 +35,7 @@ public class ClearHistory
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player;
-        if (sender instanceof Player && ((player = (Player) sender).hasPermission("fft.we.editor") || player.isOp())) {
+        if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_ClearHistory) || (player = (Player) sender).hasPermission(PluginManager.Config.Permission_User) || player.isOp())) {
             if (PluginManager.PlayerInfoList.get(player).getIsProcessing()) {
                 player.sendMessage("Please wait for last command to finish.");
                 return true;

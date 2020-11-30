@@ -121,10 +121,8 @@ public final class BlockInfo {
         
         BlockState state = block.getState();
         if (state instanceof Container) {
-            System.out.println("-------------------------------------------------> Container!");
             ItemStack[] ContentsElements = ((Container) state).getInventory().getContents();
             ItemStack[] StorageElements = ((Container) state).getInventory().getStorageContents();
-
             contentsString = itemStackArrayToBase64(ContentsElements);
             storageString = itemStackArrayToBase64(StorageElements);
         }
@@ -133,7 +131,7 @@ public final class BlockInfo {
 
     }
 
-    public void EraseLiquid(Block changeBlock, int diameter, BlockCollection undoBuffer) {
+    public void EraseLiquid(Block changeBlock, int diameter, BlockCollection undoBuffer) throws Exception {
         if (diameter == 0) {
             return;
         }
@@ -199,7 +197,7 @@ public final class BlockInfo {
 
     }
 
-    public boolean ApplyBlockInfoToBlock(Block target, boolean eraseWater, BlockCollection undoBuffer) {
+    public boolean ApplyBlockInfoToBlock(Block target, boolean eraseWater, BlockCollection undoBuffer) throws Exception {
 
         
         if (!target.getChunk().isLoaded()) {
@@ -216,10 +214,8 @@ public final class BlockInfo {
             BlockState state = target.getState();
             Container chest = (Container) state;
             chest.update(true);
-
             chest.getInventory().clear();
             target.setType(Material.AIR);
-            //System.out.println("<>-------------------------------------------<>CHEST");
             return false;
         } catch (Exception e) {
         }
@@ -234,12 +230,9 @@ public final class BlockInfo {
                 
 
                 if (this.getInventoryContentsString() != "") {
-                    System.out.println("<>-------------------------------------------Setting Contents");
                     ((Container) target.getState()).getInventory().setContents(com.Blockelot.Util.Inventory.itemStackArrayFromBase64(this.getInventoryContentsString()));
-                    
                 }
                 if (this.getInventoryStorageString() != "") {
-                    System.out.println("<>-------------------------------------------Setting Storage");
                     ((Container) target.getState()).getInventory().setStorageContents(com.Blockelot.Util.Inventory.itemStackArrayFromBase64(this.getInventoryStorageString()));
                 }
             } catch (IOException ex) {
@@ -261,7 +254,7 @@ public final class BlockInfo {
     }
 
     public void setInventoryContentsString(String inv) {
-        System.out.println("----------------------------------------------------->Setting Inventory String = '" + inv + "'");
+//        System.out.println("----------------------------------------------------->Setting Inventory String = '" + inv + "'");
         this.BlockContentsIndex = BlockCollection.addBlockInventoryPalette(inv);
     }
 

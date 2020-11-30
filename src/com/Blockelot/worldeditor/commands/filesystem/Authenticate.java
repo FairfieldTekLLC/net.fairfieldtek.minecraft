@@ -25,6 +25,8 @@ public class Authenticate
                 PluginManager.PlayerInfoList.get(player).setIsProcessing(true, "Authenticate");
 
                 if (args.length == 1) {
+                    
+                    PluginManager.PlayerInfoList.get(player).setLastAuth(args[0]);
 
                     player.sendMessage("Processing Login....");
 
@@ -34,7 +36,7 @@ public class Authenticate
 
                 }
 
-                new AuthenticateTaskRequest(player).runTaskAsynchronously((org.bukkit.plugin.Plugin) PluginManager.Plugin);
+                new AuthenticateTaskRequest(PluginManager.PlayerInfoList.get(player)).runTaskAsynchronously((org.bukkit.plugin.Plugin) PluginManager.Plugin);
 
                 player.sendMessage("Requesting Authenticating against Library...");
 

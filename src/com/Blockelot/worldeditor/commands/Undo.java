@@ -14,7 +14,7 @@ public class Undo
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player;
-        if (sender instanceof Player && ((player = (Player) sender).hasPermission("fft.we.editor") || player.isOp())) {
+        if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_Undo) || (player = (Player) sender).hasPermission(PluginManager.Config.Permission_Editor) || player.isOp())) {
 
             if (PluginManager.PlayerInfoList.get(player).getIsProcessing()) {
                 player.sendMessage("Please wait for last command to finish.");

@@ -25,14 +25,14 @@ public class RmTaskRequest
             PlayerInfo.setIsProcessing(true, "RM");
             Gson gson = new Gson();
             RmRequest rmRequest = new RmRequest();
-            rmRequest.setAuthToken(PlayerInfo.getLastAuth());
+            rmRequest.setAuth(PlayerInfo.getLastAuth());
             rmRequest.setCurrentDirectory(PlayerInfo.getCurrentPath());
             rmRequest.setUuid(PlayerInfo.getUUID());
             rmRequest.setTargetDirectory(this.Target);
             String body = gson.toJson(rmRequest);
-            RmResponse response = gson.fromJson(RequestHttp(PluginManager.BaseUri + "DirRm", body),
+            RmResponse response = gson.fromJson(RequestHttp(PluginManager.Config.BaseUri+ "DirRm", body),
                     RmResponse.class);
-            PlayerInfo.setLastAuth(response.getLastAuth());
+            PlayerInfo.setLastAuth(response.getAuth());
             response.setUuid(PlayerInfo.getUUID());
             new RmTaskResponse(response).runTask((org.bukkit.plugin.Plugin) PluginManager.Plugin);
         } catch (Exception e) {

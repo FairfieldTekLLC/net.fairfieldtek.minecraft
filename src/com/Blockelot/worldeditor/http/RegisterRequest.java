@@ -1,9 +1,27 @@
 package com.Blockelot.worldeditor.http;
 
-public class RegisterRequest {
+public class RegisterRequest  {
 
-    private String Uuid;
+    
     private String EmailAddress;
+        private String Uuid;
+    
+    private String Auth;
+
+    public String getUuid() {
+        return this.Uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.Uuid = uuid;
+    }
+    
+    public String getAuth(){
+        return Auth;
+    }
+    public void setAuth(String auth){
+        Auth = auth;
+    }
 
     public String getEmailAddress() {
         return this.EmailAddress;
@@ -13,11 +31,5 @@ public class RegisterRequest {
         this.EmailAddress = emailAddress;
     }
 
-    public String getUuid() {
-        return this.Uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.Uuid = uuid;
-    }
+    
 }
