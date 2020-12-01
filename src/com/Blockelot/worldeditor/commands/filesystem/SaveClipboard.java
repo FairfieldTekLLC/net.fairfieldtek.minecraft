@@ -28,17 +28,16 @@ public class SaveClipboard
                     return true;
                 }
                 PluginManager.PlayerInfoList.get(player).setIsProcessing(true, "SaveClipboard");
-                
+
                 PlayerInfo pi = PluginManager.PlayerInfoList.get(player);
-                
-                if (pi.ClipSchematic.IsEmpty())
-                {
+
+                if (pi.ClipSchematic.IsEmpty()) {
                     player.sendMessage("No blocks in Clipboard.");
                     PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "SaveClipboard");
                 }
-                
+
                 player.sendMessage(ChatColor.RED + "Requesting schematic save...");
-                new SaveClipboardTaskRequest(pi,args[0]).runTaskAsynchronously((org.bukkit.plugin.Plugin) PluginManager.Plugin);
+                new SaveClipboardTaskRequest(pi, args[0]).runTaskAsynchronously((org.bukkit.plugin.Plugin) PluginManager.Plugin);
             } catch (Exception e) {
                 PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "SaveClipboard");
                 ServerUtil.consoleLog(e.getLocalizedMessage());

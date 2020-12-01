@@ -22,25 +22,9 @@ import com.Blockelot.worldeditor.commands.filesystem.RM;
 import com.Blockelot.worldeditor.commands.filesystem.Register;
 import com.Blockelot.worldeditor.commands.filesystem.SaveClipboard;
 import com.Blockelot.worldeditor.container.PlayerInfo;
-import java.util.HashMap;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.util.io.BukkitObjectInputStream;
-import org.bukkit.util.io.BukkitObjectOutputStream;
-
 
 public class PluginManager {
 
@@ -48,7 +32,6 @@ public class PluginManager {
     public static String Version;
     public static HashMap<Player, PlayerInfo> PlayerInfoList;
     public static Configuration Config;
-    
 
     static {
         PlayerInfoList = new HashMap<>();
@@ -60,10 +43,9 @@ public class PluginManager {
         return Config.WorldId;
     }
 
-    public static boolean Initialize(Plugin plugin)  {
+    public static boolean Initialize(Plugin plugin) {
         Plugin = plugin;
-        if (!plugin.getDataFolder().exists())
-        {
+        if (!plugin.getDataFolder().exists()) {
             plugin.getDataFolder().mkdir();
             plugin.saveDefaultConfig();
         }
@@ -80,7 +62,7 @@ public class PluginManager {
         plugin.getCommand("b.we.paste").setExecutor((CommandExecutor) new Paste());
         plugin.getCommand("b.we.stripmine").setExecutor((CommandExecutor) new StripMine());
         plugin.getCommand("b.we.undo").setExecutor((CommandExecutor) new Undo());
-        
+
         plugin.getCommand("b.reg").setExecutor((CommandExecutor) new Register());
         plugin.getCommand("b.auth").setExecutor((CommandExecutor) new Authenticate());
         plugin.getCommand("b.ls").setExecutor((CommandExecutor) new LS());
@@ -89,7 +71,6 @@ public class PluginManager {
         plugin.getCommand("b.mk").setExecutor((CommandExecutor) new MK());
         plugin.getCommand("b.save").setExecutor((CommandExecutor) new SaveClipboard());
         plugin.getCommand("b.load").setExecutor((CommandExecutor) new LoadClipboard());
-        
 
         ServerUtil.consoleLog("Calling home... no really, I am.");
 
@@ -97,7 +78,7 @@ public class PluginManager {
 
         try {
             Verify.Register(Plugin);
-            
+
         } catch (Exception e) {
             ServerUtil.consoleLog("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             ServerUtil.consoleLog("!!   Warning, cannot reach www.Blockelot.com    !!");

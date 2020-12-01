@@ -29,11 +29,11 @@ public class LoginTaskRequest
             loginRequest.setUuid(PlayerInfo.getUUID());
             loginRequest.setAuth(Pass);
             String body = gson.toJson(loginRequest);
-            String page = RequestHttp(PluginManager.Config.BaseUri+ "Login", body);
+            String page = RequestHttp(PluginManager.Config.BaseUri + "Login", body);
             LoginResponse response = gson.fromJson(page, LoginResponse.class);
             PlayerInfo.setLastAuth(response.getAuth());
             response.setUuid(PlayerInfo.getUUID());
-            
+
             new LoginTaskResponse(response).runTask((org.bukkit.plugin.Plugin) PluginManager.Plugin);
 
         } catch (Exception e) {

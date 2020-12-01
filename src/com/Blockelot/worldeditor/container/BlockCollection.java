@@ -1,20 +1,3 @@
-/*
- * Copyright (C) 2020 geev
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- */
 package com.Blockelot.worldeditor.container;
 
 import com.Blockelot.PluginManager;
@@ -24,13 +7,9 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.Blockelot.worldeditor.http.SchematicDataDownloadResponse;
-import java.util.Collections;
 import org.bukkit.Chunk;
-import org.bukkit.Material.*;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import java.util.*;
-import java.util.function.Consumer;
 import org.bukkit.Material;
 import org.bukkit.block.data.Bisected.Half;
 import org.bukkit.block.data.type.Door;
@@ -49,11 +28,9 @@ public class BlockCollection {
 
     public static ArrayList<BlockInfo> BlocksGetForY(ArrayList<BlockInfo> toSort, int y) {
         ArrayList<BlockInfo> Result = new ArrayList<>();
-        for (BlockInfo pe : toSort) {
-            if (pe.getY() == y) {
-                Result.add(pe);
-            }
-        }
+        toSort.stream().filter(pe -> (pe.getY() == y)).forEachOrdered(pe -> {
+            Result.add(pe);
+        });
         return Result;
     }
 
@@ -75,7 +52,7 @@ public class BlockCollection {
         for (int i = minY; i <= maxY; i++) {
             ArrayList<BlockInfo> d = BlocksGetForY(toSort, i);
             result.addAll(d);
-        }       
+        }
 
         return result;
     }
@@ -356,7 +333,7 @@ public class BlockCollection {
     public boolean Validate() {
         Blocks.forEach((BlockInfo def) -> {
             if (def.getBlockData() == null) {
-               ServerUtil.consoleLog("------------------------------------->NULL BLOCk data");
+                ServerUtil.consoleLog("------------------------------------->NULL BLOCk data");
             }
             if (def.getBlockMaterial() == null) {
                 ServerUtil.consoleLog("------------------------------------->NULL BLOCk Material");

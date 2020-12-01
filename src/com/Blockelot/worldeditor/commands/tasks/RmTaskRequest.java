@@ -10,7 +10,6 @@ import com.Blockelot.worldeditor.container.PlayerInfo;
 public class RmTaskRequest
         extends HttpRequestor {
 
-    
     private final String Target;
     private PlayerInfo PlayerInfo;
 
@@ -30,7 +29,7 @@ public class RmTaskRequest
             rmRequest.setUuid(PlayerInfo.getUUID());
             rmRequest.setTargetDirectory(this.Target);
             String body = gson.toJson(rmRequest);
-            RmResponse response = gson.fromJson(RequestHttp(PluginManager.Config.BaseUri+ "DirRm", body),
+            RmResponse response = gson.fromJson(RequestHttp(PluginManager.Config.BaseUri + "DirRm", body),
                     RmResponse.class);
             PlayerInfo.setLastAuth(response.getAuth());
             response.setUuid(PlayerInfo.getUUID());

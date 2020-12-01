@@ -43,7 +43,6 @@ public class CopyTask
         try {
 
             PlayerInfo pi = PluginManager.PlayerInfoList.get(player);
-            
 
             if (player == null) {
                 PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Copy");
@@ -58,7 +57,7 @@ public class CopyTask
 
                         this.SchematicToPaste.AddBlock(world.getBlockAt(this.cx, this.cy, this.cz), this.sbx, this.sby, this.sbz, null);
                         ++this.cz;
-                        if (++counter > 16000) {
+                        if (++counter > PluginManager.Config.MaxBlocksReadPerTick) {
                             try {
                                 player.sendMessage("Copied " + this.SchematicToPaste.Size() + " blocks so far.. waiting..");
                             } catch (Exception e) {

@@ -45,7 +45,7 @@ public class Plugin extends JavaPlugin {
 //        try {
         this.getServer().getPluginManager().registerEvents((Listener) new PlayerJoinListener(), (org.bukkit.plugin.Plugin) this);
         if (!PluginManager.Initialize(this)) {
-            
+
             getServer().getPluginManager().disablePlugin(this);
         }
 //        } catch (Exception ex) {

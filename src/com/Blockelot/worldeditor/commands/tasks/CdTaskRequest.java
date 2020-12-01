@@ -10,15 +10,12 @@ import com.Blockelot.worldeditor.http.RegisterResponse;
 public class CdTaskRequest
         extends HttpRequestor {
 
-    
-    
-    
     private final String Target;
     PlayerInfo PlayerInfo;
 
     public CdTaskRequest(PlayerInfo pi, String target) {
         PlayerInfo = pi;
-        
+
         this.Target = target;
     }
 
@@ -38,7 +35,7 @@ public class CdTaskRequest
                     CdResponse.class);
             PlayerInfo.setLastAuth(response.getAuth());
             response.setUuid(PlayerInfo.getUUID());
-            
+
             new CdTaskResponse(response)
                     .runTask((org.bukkit.plugin.Plugin) PluginManager.Plugin);
         } catch (Exception e) {

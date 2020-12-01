@@ -1,8 +1,8 @@
 package com.Blockelot.worldeditor.http;
 
-public class RmRequest
-         {
-      private String TargetDirectory;
+public class RmRequest {
+
+    private String TargetDirectory;
     private String CurrentDirectory;
     private String Uuid;
     private String Auth;

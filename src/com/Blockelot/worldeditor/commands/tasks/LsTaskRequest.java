@@ -11,10 +11,7 @@ import com.Blockelot.worldeditor.container.PlayerInfo;
 public class LsTaskRequest
         extends HttpRequestor {
 
-//    private final String Uuid;
-//    private final String AuthToken;
-//    private final String Path;
-    private PlayerInfo PlayerInfo;
+    private final PlayerInfo PlayerInfo;
 
     public LsTaskRequest(PlayerInfo pi) {
         PlayerInfo = pi;

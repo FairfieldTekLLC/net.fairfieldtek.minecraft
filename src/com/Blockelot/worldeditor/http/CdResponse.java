@@ -1,13 +1,12 @@
 package com.Blockelot.worldeditor.http;
 
 public class CdResponse {
-    private boolean IsAuthorized = false;
+
     private String Auth;
     private String Message;
     private String Uuid;
     private boolean WasSuccessful = false;
     private String DirectoryPath;
-   
 
     public Boolean getWasSuccessful() {
         return this.WasSuccessful;
@@ -24,6 +23,7 @@ public class CdResponse {
     public void setMessage(String msg) {
         this.Message = msg;
     }
+
     public String getUuid() {
         return this.Uuid;
     }
@@ -39,7 +39,6 @@ public class CdResponse {
     public void setAuth(String auth) {
         Auth = auth;
     }
-    
 
     public String getDirectoryPath() {
         return this.DirectoryPath;

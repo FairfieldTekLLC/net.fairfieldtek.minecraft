@@ -20,11 +20,11 @@ public class MkTaskResponse
     public void run() {
         Player player = PluginManager.Plugin.getServer().getPlayer(UUID.fromString(this.MkResponse.getUuid()));
         try {
-            
+
             if (player == null) {
                 return;
             }
-            
+
             PluginManager.PlayerInfoList.get(player).setLastAuth(this.MkResponse.getAuth());
             PluginManager.PlayerInfoList.get(player).setCurrentPath(this.MkResponse.getDirectoryPath());
             if (!this.MkResponse.getWasSuccessful()) {
@@ -37,8 +37,7 @@ public class MkTaskResponse
 
         }
         PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "MK");
-        this.cancel();    
+        this.cancel();
     }
-    
-    
+
 }

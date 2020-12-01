@@ -38,7 +38,7 @@ public class SaveClipboardTaskResponse
                 player.sendMessage(ChatColor.GREEN + "File Saved.");
                 if (!"".equals(Response.getMessage())) {
                     player.sendMessage(ChatColor.GREEN + this.Response.getMessage());
-                }                
+                }
             }
         } catch (Exception e) {
 

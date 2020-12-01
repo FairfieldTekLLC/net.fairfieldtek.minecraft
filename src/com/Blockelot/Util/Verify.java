@@ -1,20 +1,3 @@
-/*
- * Copyright (C) 2020 geev
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- */
 package com.Blockelot.Util;
 
 import com.Blockelot.Plugin;
@@ -30,13 +13,10 @@ public class Verify {
 
     public static void Register(Plugin Plugin) {
         String body = RequestHttp("http://www.blockelot.com/api/worldeditor/v1/Version?version='" + PluginManager.Version + "'"
-                + "&worldId=" + PluginManager.Config.WorldId 
+                + "&worldId=" + PluginManager.Config.WorldId
                 + "&serverName='" + Plugin.getServer().getName() + "'");
-                
+
         ServerUtil.consoleLog("#########################################################");
-        
-        //System.out.println(body);
-        
         String[] parts = body.split("\\|");
         String WorldId = parts[0];
         String MinimumVersion = parts[1];

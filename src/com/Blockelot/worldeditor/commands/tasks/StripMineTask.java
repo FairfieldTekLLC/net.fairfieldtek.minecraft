@@ -1,7 +1,6 @@
 package com.Blockelot.worldeditor.commands.tasks;
 
 import java.util.HashMap;
-import java.util.UUID;
 import com.Blockelot.PluginManager;
 import com.Blockelot.Util.ServerUtil;
 import com.Blockelot.worldeditor.container.PlayerInfo;
@@ -26,6 +25,7 @@ import org.bukkit.inventory.ItemStack;
  * @author geev
  */
 public class StripMineTask extends BukkitRunnable {
+
     private PlayerInfo PlayerInfo;
     private HashMap<Material, Integer> MaterialCount = new HashMap<>();
     private ChestManager ChestManager = null;
@@ -75,7 +75,7 @@ public class StripMineTask extends BukkitRunnable {
         //Clear chunk
         int maxHeight = 0;
         for (int x = 0; x <= 15; x++) {
-            for (int y = 2; y <= 255; y++) {
+            for (int y = 4; y <= 255; y++) {
                 for (int z = 0; z <= 15; z++) {
                     if (chunk.getBlock(x, y, z).getType() != Material.AIR) {
                         if (y > maxHeight) {
@@ -93,7 +93,7 @@ public class StripMineTask extends BukkitRunnable {
 
         //Put dorite around edges
         for (int x = 0; x <= 15; x++) {
-            int y = 3;
+            int y = 5;
             int z = 0;
             SetBlock(chunk, x, y, z, Material.POLISHED_DIORITE);
             SetBlock(chunk, x, y, z + 15, Material.POLISHED_DIORITE);
@@ -101,7 +101,7 @@ public class StripMineTask extends BukkitRunnable {
         //Put dorite around edges
         int x = 0;
         for (int z = 0; z <= 15; z++) {
-            int y = 3;
+            int y = 5;
             SetBlock(chunk, x, y, z, Material.POLISHED_DIORITE);
             SetBlock(chunk, x + 15, y, z, Material.POLISHED_DIORITE);
 
@@ -110,7 +110,7 @@ public class StripMineTask extends BukkitRunnable {
 
     public void LayLava(Chunk chunk) {
         for (int x = 0; x <= 15; x++) {
-            int y = 2;
+            int y = 4;
             for (int z = 0; z <= 15; z++) {
                 SetBlock(chunk, x, y, z, Material.LAVA);
             }
@@ -121,7 +121,7 @@ public class StripMineTask extends BukkitRunnable {
         Block b = chunk.getBlock(0, 3, 0);
         int tx = b.getX();
         int tz = b.getZ();
-        for (int y = 4; y <= mh; y++) {
+        for (int y = 5; y <= mh; y++) {
             for (int z = tz; z < tz + 16; z++) {
 
                 Location loc = new Location(world, (double) tx - 1, (double) y, (double) z);
@@ -156,7 +156,7 @@ public class StripMineTask extends BukkitRunnable {
         //Clear chunk
         for (int x = 1; x <= 14; x++) {
             {
-                int y = 3;
+                int y = 5;
                 if (x % 2 == 0) {
                     SetBlock(chunk, x, y, 1, Material.POLISHED_DIORITE);
                     SetBlock(chunk, x, y, 3, Material.POLISHED_DIORITE);
@@ -197,7 +197,7 @@ public class StripMineTask extends BukkitRunnable {
     private class ChestManager {
 
         private int cx = 1;
-        private int cy = 5;
+        private int cy = 7;
         private int cz = 1;
         int CurrentSlot = 0;
         Chest Chest = null;

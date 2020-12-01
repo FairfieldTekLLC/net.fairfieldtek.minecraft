@@ -20,13 +20,12 @@ public class AuthenticateTaskResponse
     public void run() {
         Player player = PluginManager.Plugin.getServer().getPlayer(UUID.fromString(this.AuthenticateResponse.getUuid()));
         try {
-            
+
             if (player != null) {
-                if (!AuthenticateResponse.getMessage().equalsIgnoreCase(""))
-                {
-                player.sendMessage("Registration: Message: " + this.AuthenticateResponse.getMessage());    
+                if (!AuthenticateResponse.getMessage().equalsIgnoreCase("")) {
+                    player.sendMessage("Registration: Message: " + this.AuthenticateResponse.getMessage());
                 }
-                
+
             }
         } catch (Exception e) {
             ServerUtil.consoleLog(e.getLocalizedMessage());

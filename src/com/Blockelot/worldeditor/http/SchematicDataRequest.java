@@ -1,11 +1,10 @@
 package com.Blockelot.worldeditor.http;
 
-import com.Blockelot.worldeditor.container.BlockInfo;
 import com.Blockelot.worldeditor.container.PaletteEntry;
 
-public class SchematicDataRequest
-         {
-     private String CurrentDirectory;
+public class SchematicDataRequest {
+
+    private String CurrentDirectory;
     private String Uuid;
     private String Auth;
 
@@ -39,13 +38,13 @@ public class SchematicDataRequest
     private PaletteEntry[] BlockDataPalette;
     private PaletteEntry[] BlockTypePalette;
     public PaletteEntry[] BlockInvePalette;
-    
-    public PaletteEntry[] getBlockInvePalette(){
+
+    public PaletteEntry[] getBlockInvePalette() {
         return BlockInvePalette;
     }
-    
-    public void setBlockInvePalette(PaletteEntry[] palette){
-        this.BlockInvePalette =palette;
+
+    public void setBlockInvePalette(PaletteEntry[] palette) {
+        this.BlockInvePalette = palette;
     }
 
     public PaletteEntry[] getBlockDataPalette() {
@@ -59,8 +58,6 @@ public class SchematicDataRequest
     public PaletteEntry[] getBlockTypePalette() {
         return BlockTypePalette;
     }
-    
-    
 
     public void setBlockTypePalette(PaletteEntry[] palette) {
         BlockTypePalette = palette;

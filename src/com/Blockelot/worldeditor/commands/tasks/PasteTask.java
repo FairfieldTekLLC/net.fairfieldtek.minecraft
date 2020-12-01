@@ -11,6 +11,8 @@ import com.Blockelot.worldeditor.container.PlayerInfo;
 import com.Blockelot.worldeditor.enumeration.Axis;
 import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -93,7 +95,7 @@ public class PasteTask
                     break;
                 }
                 case Z: {
-                    
+
                     dx = (double) itm.getX() * Math.cos(radians) - (double) itm.getY() * Math.sin(radians);
                     dy = (double) itm.getX() * Math.sin(radians) + (double) itm.getY() * Math.cos(radians);
                     if (itm.getBlockFaceCode().equals("")) {
@@ -153,148 +155,164 @@ public class PasteTask
     @Override
     public void run() {
         Player player = PluginManager.Plugin.getServer().getPlayer(this.PlayerId);
-        try {
-            PlayerInfo pi = PluginManager.PlayerInfoList.get(player);
-            if (pi.CancelLastAction) {
-                pi.CancelLastAction = false;
-                this.cancel();
-            }
-            if (player == null) {
-                this.cancel();
-            }
-            double radians = Math.toRadians(this.Degrees);
+//        try {
+        PlayerInfo pi = PluginManager.PlayerInfoList.get(player);
+        if (pi.CancelLastAction) {
+            pi.CancelLastAction = false;
+            this.cancel();
+        }
+        if (player == null) {
+            this.cancel();
+        }
+        double radians = Math.toRadians(this.Degrees);
 
-            int counter = 0;
+        int counter = 0;
 
-            ListIterator<BlockInfo> iter = this.SchematicClipboard.getBlocks().listIterator();
-            while (iter.hasNext()) {
-                if (++counter > 8000) {
-                    try {
-                        player.sendMessage("Buffering... " + this.SchematicClipboard.getBlocks().size() + " left.");
-                    } catch (Exception e) {
-                        this.cancel();
-                    }
-                    return;
+        ListIterator<BlockInfo> iter = this.SchematicClipboard.getBlocks().listIterator();
+        while (iter.hasNext()) {
+            if (++counter > PluginManager.Config.MaxBlocksWritePerTick) {
+                try {
+                    player.sendMessage("Buffering... " + this.SchematicClipboard.getBlocks().size() + " left.");
+                } catch (Exception e) {
+                    this.cancel();
                 }
+                return;
+            }
 
-                BlockInfo itm = iter.next();
-                itm = Process(itm, radians);
+            BlockInfo itm = iter.next();
+            itm = Process(itm, radians);
+            try {
                 this.RotatedSchematicClipboard.AddBlock(itm, null);
-                iter.remove();
-
+            } catch (Exception ex) {
+                Logger.getLogger(PasteTask.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-            if (this.SchematicClipboard.Size() == 0 && !FinishedRotation) {
-                FinishedRotation = true;
-                XYZ finalOffset = GetFinalOffset(this.RotatedSchematicClipboard.getBlocks(), this.X, this.Y, this.Z);
-                finalOffsetX = finalOffset.X;
-                finalOffsetY = finalOffset.Y;
-                finalOffsetZ = finalOffset.Z;
-            }
-
-            counter = 0;
-
-            iter = this.RotatedSchematicClipboard.getBlocks().listIterator();
-
-            while (iter.hasNext()) {
-                if (++counter > 8000) {
-                    try {
-                        player.sendMessage("Buffering... " + this.RotatedSchematicClipboard.getBlocks().size() + " left.");
-                    } catch (Exception e) {
-                        this.cancel();
-                    }
-                    return;
-                }
-                BlockInfo itm = iter.next();
-                int foz = finalOffsetZ;
-                int fox = finalOffsetX;
-                int foy = finalOffsetY;
-
-                try {
-                    switch (PlayerBlockFace) {
-                        case WEST:
-                        case NORTH_WEST:
-                            foz = finalOffsetZ - (maxZ - minZ);
-                            fox = finalOffsetX - (maxX - minX);
-                            break;
-                        case SOUTH:
-                        case SOUTH_WEST:
-                            fox = finalOffsetX - (maxX - minX);
-                            break;
-                        case NORTH:
-                        case NORTH_EAST:
-                            foz = finalOffsetZ - (maxZ - minZ);
-                            break;
-                        case SOUTH_EAST:
-                            break;
-                    }
-                } catch (Exception e) {
-                    ServerUtil.consoleLog("Cannot determine facing.");
-                }
-
-                int x = itm.getX() + fox;
-                int y = itm.getY() + foy + 1;
-                int z = itm.getZ() + foz;
-
-                if (!itm.IsDoor()) {
-                    itm.ApplyBlockInfoToBlock(player.getWorld().getBlockAt(x, y, z), false, this.SchematicUndo);
-                } else {
-                    ApplyLast.add(itm);
-                }
-
-                iter.remove();
-            }
-
-            counter = 0;
-
-            //Now we place door's stairs and such.
-            iter = BlockCollection.SortYAscending(ApplyLast).listIterator();
-            while (iter.hasNext()) {
-                BlockInfo itm = iter.next();
-                int foz = finalOffsetZ;
-                int fox = finalOffsetX;
-                int foy = finalOffsetY;
-                try {
-                    switch (PlayerBlockFace) {
-                        case WEST:
-                        case NORTH_WEST:
-                            foz = finalOffsetZ - (maxZ - minZ);
-                            fox = finalOffsetX - (maxX - minX);
-                            break;
-                        case SOUTH:
-                        case SOUTH_WEST:
-                            fox = finalOffsetX - (maxX - minX);
-                            break;
-                        case NORTH:
-                        case NORTH_EAST:
-                            foz = finalOffsetZ - (maxZ - minZ);
-                            break;
-                        case SOUTH_EAST:
-                            break;
-                    }
-                } catch (Exception e) {
-                    ServerUtil.consoleLog("Cannot determine facing.");
-                }
-                int x = itm.getX() + fox;
-                int y = itm.getY() + foy + 1;
-                int z = itm.getZ() + foz;
-
-                if ((this.Axis == Axis.Z) && (this.Degrees == 180)) {
-                    
-                    itm.ApplyBlockInfoToBlock(player.getWorld().getBlockAt(x, y - 1, z), false, this.SchematicUndo);
-                } else {
-                    
-                    itm.ApplyBlockInfoToBlock(player.getWorld().getBlockAt(x, y, z), false, SchematicUndo, true);
-                }
-
-                iter.remove();
-            }
-            player.sendMessage("Blocks Pasted (" + this.SchematicUndo.Size() + ")");
-        } catch (Exception e) {
-            ServerUtil.consoleLog(e.getLocalizedMessage());
-            ServerUtil.consoleLog(e.getMessage());
+            iter.remove();
 
         }
+
+        if (this.SchematicClipboard.Size() == 0 && !FinishedRotation) {
+            FinishedRotation = true;
+            XYZ finalOffset = GetFinalOffset(this.RotatedSchematicClipboard.getBlocks(), this.X, this.Y, this.Z);
+            finalOffsetX = finalOffset.X;
+            finalOffsetY = finalOffset.Y;
+            finalOffsetZ = finalOffset.Z;
+        }
+
+        counter = 0;
+
+        iter = this.RotatedSchematicClipboard.getBlocks().listIterator();
+
+        while (iter.hasNext()) {
+            if (++counter > 10000) {
+                try {
+                    player.sendMessage("Buffering... " + this.RotatedSchematicClipboard.getBlocks().size() + " left.");
+                } catch (Exception e) {
+                    this.cancel();
+                }
+                return;
+            }
+            BlockInfo itm = iter.next();
+            int foz = finalOffsetZ;
+            int fox = finalOffsetX;
+            int foy = finalOffsetY;
+
+            try {
+                switch (PlayerBlockFace) {
+                    case WEST:
+                    case NORTH_WEST:
+                        foz = finalOffsetZ - (maxZ - minZ);
+                        fox = finalOffsetX - (maxX - minX);
+                        break;
+                    case SOUTH:
+                    case SOUTH_WEST:
+                        fox = finalOffsetX - (maxX - minX);
+                        break;
+                    case NORTH:
+                    case NORTH_EAST:
+                        foz = finalOffsetZ - (maxZ - minZ);
+                        break;
+                    case SOUTH_EAST:
+                        break;
+                }
+            } catch (Exception e) {
+                ServerUtil.consoleLog("Cannot determine facing.");
+            }
+
+            int x = itm.getX() + fox;
+            int y = itm.getY() + foy + 1;
+            int z = itm.getZ() + foz;
+
+            if (!itm.IsDoor()) {
+                try {
+                    itm.ApplyBlockInfoToBlock(player.getWorld().getBlockAt(x, y, z), false, this.SchematicUndo);
+                } catch (Exception ex) {
+                    Logger.getLogger(PasteTask.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                ApplyLast.add(itm);
+            }
+
+            iter.remove();
+        }
+
+        counter = 0;
+
+        //Now we place door's stairs and such.
+        iter = BlockCollection.SortYAscending(ApplyLast).listIterator();
+        while (iter.hasNext()) {
+            BlockInfo itm = iter.next();
+            int foz = finalOffsetZ;
+            int fox = finalOffsetX;
+            int foy = finalOffsetY;
+            try {
+                switch (PlayerBlockFace) {
+                    case WEST:
+                    case NORTH_WEST:
+                        foz = finalOffsetZ - (maxZ - minZ);
+                        fox = finalOffsetX - (maxX - minX);
+                        break;
+                    case SOUTH:
+                    case SOUTH_WEST:
+                        fox = finalOffsetX - (maxX - minX);
+                        break;
+                    case NORTH:
+                    case NORTH_EAST:
+                        foz = finalOffsetZ - (maxZ - minZ);
+                        break;
+                    case SOUTH_EAST:
+                        break;
+                }
+            } catch (Exception e) {
+                ServerUtil.consoleLog("Cannot determine facing.");
+            }
+            int x = itm.getX() + fox;
+            int y = itm.getY() + foy + 1;
+            int z = itm.getZ() + foz;
+
+            if ((this.Axis == Axis.Z) && (this.Degrees == 180)) {
+
+                try {
+                    itm.ApplyBlockInfoToBlock(player.getWorld().getBlockAt(x, y - 1, z), false, this.SchematicUndo);
+                } catch (Exception ex) {
+                    // Logger.getLogger(PasteTask.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+
+                try {
+                    itm.ApplyBlockInfoToBlock(player.getWorld().getBlockAt(x, y, z), false, SchematicUndo, true);
+                } catch (Exception ex) {
+                    //Logger.getLogger(PasteTask.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            iter.remove();
+        }
+        player.sendMessage("Blocks Pasted (" + this.SchematicUndo.Size() + ")");
+//        } catch (Exception e) {
+//            ServerUtil.consoleLog(e.getLocalizedMessage());
+//            ServerUtil.consoleLog(e.getMessage());
+//
+//        }
 
         PluginManager.PlayerInfoList.get(player)
                 .setIsProcessing(false, "Paste");

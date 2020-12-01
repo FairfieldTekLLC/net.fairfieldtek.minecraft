@@ -83,7 +83,7 @@ public class DeleteTask
             while (this.Y >= this.ey) {
                 while (this.X >= this.ex) {
                     while (this.Z >= this.ez) {
-                        if (++counter > 4000) {
+                        if (++counter > PluginManager.Config.MaxBlocksWritePerTick) {
                             try {
                                 player.sendMessage("Buffering... " + this.X + " " + this.Y + " " + this.Z);
                             } catch (Exception e) {
@@ -104,7 +104,7 @@ public class DeleteTask
                 this.X = this.sx;
                 --this.Y;
             }
-            
+
             player.sendMessage("Finished Deleting Blocks.");
         } catch (Exception e) {
             ServerUtil.consoleLog(e.getLocalizedMessage());

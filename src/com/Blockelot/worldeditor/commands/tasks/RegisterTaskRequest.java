@@ -16,7 +16,7 @@ public class RegisterTaskRequest
     public RegisterTaskRequest(Player player, String emailAddress) {
         this.Uuid = player.getUniqueId().toString();
         this.EmailAddress = emailAddress;
-        Player=player;
+        Player = player;
     }
 
     @Override
@@ -28,10 +28,10 @@ public class RegisterTaskRequest
             registerRequest.setEmailAddress(this.EmailAddress);
             registerRequest.setUuid(this.Uuid);
             String body = gson.toJson(registerRequest);
-            RegisterResponse registerResponse = gson.fromJson(RequestHttp(PluginManager.Config.BaseUri+ "Register", body),
+            RegisterResponse registerResponse = gson.fromJson(RequestHttp(PluginManager.Config.BaseUri + "Register", body),
                     RegisterResponse.class);
             PluginManager.PlayerInfoList.get(Player).setLastAuth(registerResponse.getAuth());
-            
+
             new RegisterTaskResponse(registerResponse).runTask((org.bukkit.plugin.Plugin) PluginManager.Plugin);
         } catch (Exception e) {
             PluginManager.PlayerInfoList.get(Player).setIsProcessing(false, "Register");

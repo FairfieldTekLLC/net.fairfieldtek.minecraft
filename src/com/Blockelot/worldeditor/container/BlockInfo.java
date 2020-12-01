@@ -1,27 +1,9 @@
-/*
- * Copyright (C) 2020 geev
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- */
 package com.Blockelot.worldeditor.container;
 
+import com.Blockelot.PluginManager;
 import java.io.IOException;
-import com.Blockelot.Util.Inventory;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import com.Blockelot.Util.Base64Coder;
 import com.Blockelot.Util.EnumHelper;
 import static com.Blockelot.Util.Inventory.itemStackArrayToBase64;
 import com.Blockelot.Util.MaterialUtil;
@@ -34,10 +16,8 @@ import org.bukkit.block.Container;
 import org.bukkit.Material;
 import org.bukkit.block.data.Directional;
 import org.bukkit.*;
-import org.bukkit.block.*;
 import org.bukkit.block.data.Bisected.Half;
 import org.bukkit.block.data.type.Door;
-import org.bukkit.block.data.type.Stairs;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 
@@ -245,16 +225,18 @@ public final class BlockInfo {
 
             target.getState().update();
 
-            if (target.getState() instanceof Container) {
-                try {
-                    if (this.getInventoryContentsString() != "") {
-                        ((Container) target.getState()).getInventory().setContents(com.Blockelot.Util.Inventory.itemStackArrayFromBase64(this.getInventoryContentsString()));
+            if (PluginManager.Config.IncludeInventoryWhenPasting) {
+                if (target.getState() instanceof Container) {
+                    try {
+                        if (!"".equals(this.getInventoryContentsString())) {
+                            ((Container) target.getState()).getInventory().setContents(com.Blockelot.Util.Inventory.itemStackArrayFromBase64(this.getInventoryContentsString()));
+                        }
+                        if (!"".equals(this.getInventoryStorageString())) {
+                            ((Container) target.getState()).getInventory().setStorageContents(com.Blockelot.Util.Inventory.itemStackArrayFromBase64(this.getInventoryStorageString()));
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(BlockInfo.class.getName()).log(Level.WARNING, null, ex);
                     }
-                    if (this.getInventoryStorageString() != "") {
-                        ((Container) target.getState()).getInventory().setStorageContents(com.Blockelot.Util.Inventory.itemStackArrayFromBase64(this.getInventoryStorageString()));
-                    }
-                } catch (IOException ex) {
-                    Logger.getLogger(BlockInfo.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -754,6 +736,7 @@ public final class BlockInfo {
                             y = 0;
                             z = -1;
                             this.Invert();
+                            break block0;
                         }
                         x = 0;
                         y = 0;

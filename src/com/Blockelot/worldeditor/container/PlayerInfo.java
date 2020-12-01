@@ -1,7 +1,5 @@
 package com.Blockelot.worldeditor.container;
 
-import com.Blockelot.Util.ServerUtil;
-import java.util.ArrayList;
 import java.util.*;
 import org.bukkit.entity.Player;
 
@@ -41,7 +39,7 @@ public class PlayerInfo {
 
     private BlockCollection UndoSchematic = new BlockCollection();
 
-    private Stack<BlockCollection> UndoHistory = new Stack<BlockCollection>();
+    private final Stack<BlockCollection> UndoHistory = new Stack<>();
 
     public BlockCollection NewUndo() {
         UndoHistory.push(UndoSchematic);

@@ -20,10 +20,10 @@ public class CdTaskResponse
     @Override
     public void run() {
         Player player = PluginManager.Plugin.getServer().getPlayer(UUID.fromString(this.CdResponse.getUuid()));
-        try {            
+        try {
             if (player == null) {
                 return;
-            }            
+            }
             PluginManager.PlayerInfoList.get(player).setLastAuth(this.CdResponse.getAuth());
             PluginManager.PlayerInfoList.get(player).setCurrentPath(this.CdResponse.getDirectoryPath());
             if (!this.CdResponse.getWasSuccessful()) {

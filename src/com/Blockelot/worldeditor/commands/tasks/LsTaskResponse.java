@@ -41,7 +41,7 @@ public class LsTaskResponse
             }
             player.sendMessage("Current Directory: " + this.LsResponse.getDirectoryPath());
         } catch (Exception e) {
-            
+
         }
         PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "LS");
         this.cancel();

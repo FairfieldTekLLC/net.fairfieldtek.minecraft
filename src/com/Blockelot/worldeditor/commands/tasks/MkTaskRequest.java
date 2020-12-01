@@ -10,9 +10,6 @@ import com.Blockelot.worldeditor.container.PlayerInfo;
 public class MkTaskRequest
         extends HttpRequestor {
 
-    
-    
-    
     private final String Target;
     private PlayerInfo PlayerInfo;
 
@@ -32,7 +29,7 @@ public class MkTaskRequest
             mkRequest.setUuid(PlayerInfo.getUUID());
             mkRequest.setTargetDirectory(this.Target);
             String body = gson.toJson(mkRequest);
-            MkResponse response = gson.fromJson(RequestHttp(PluginManager.Config.BaseUri+ "DirMk", body),
+            MkResponse response = gson.fromJson(RequestHttp(PluginManager.Config.BaseUri + "DirMk", body),
                     MkResponse.class);
             PlayerInfo.setLastAuth(response.getAuth());
             response.setUuid(PlayerInfo.getUUID());

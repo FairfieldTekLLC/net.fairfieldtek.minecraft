@@ -1,13 +1,12 @@
 package com.Blockelot.worldeditor.http;
 
-public class AuthenticateResponse
-         {
+public class AuthenticateResponse {
+
     private boolean IsAuthorized = false;
     private String Auth = "";
     private String Message;
     private String Uuid;
     private boolean WasSuccessful = false;
-    
 
     public Boolean getWasSuccessful() {
         return this.WasSuccessful;

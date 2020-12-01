@@ -32,20 +32,19 @@ public class CD
                 PluginManager.PlayerInfoList.get(player).setIsProcessing(true, "CD");
 
                 PlayerInfo pi = PluginManager.PlayerInfoList.get(player);
-                
+
                 player.sendMessage(ChatColor.RED + "Requesting directory change.");
-                
+
                 new CdTaskRequest(pi, args[0]).runTaskAsynchronously((org.bukkit.plugin.Plugin) PluginManager.Plugin);
-                
 
             } catch (Exception e) {
-                
+
                 PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "CD");
-                
+
                 ServerUtil.consoleLog(e.getLocalizedMessage());
-                
+
                 ServerUtil.consoleLog(e.getMessage());
-                
+
             }
         }
         return true;

@@ -23,6 +23,7 @@ public class LoginResponse {
     }
 
     private String Message;
+
     public String getMessage() {
         return this.Message;
     }
@@ -30,9 +31,9 @@ public class LoginResponse {
     public void setMessage(String msg) {
         this.Message = msg;
     }
-    
-    
+
     private String Uuid;
+
     public String getUuid() {
         return this.Uuid;
     }
@@ -40,9 +41,9 @@ public class LoginResponse {
     public void setUuid(String uuid) {
         this.Uuid = uuid;
     }
-    
-    
+
     private boolean WasSuccessful = false;
+
     public Boolean getWasSuccessful() {
         return this.WasSuccessful;
     }
@@ -60,5 +61,4 @@ public class LoginResponse {
         this.CurrentPath = path;
     }
 
-    
 }
