@@ -1,6 +1,9 @@
 package com.Blockelot;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class Configuration implements Serializable {
@@ -25,17 +28,18 @@ public class Configuration implements Serializable {
     public String Permission_Paste = "Blockelot.WorldEditor.Editor.Paste";
     public String Permission_StripMine = "Blockelot.WorldEditor.Editor.StripMine";
     public String Permission_Undo = "Blockelot.WorldEditor.Editor.Undo";
-
     public String Permission_FileSystem = "Blockelot.FileSystem.User";
     public Boolean IncludeInventoryWhenPasting = true;
-
     public int MaxBlocksWritePerTick = 10000;
     public int MaxBlocksReadPerTick = 20000;
     public int MaxBlocksUploadPerCall = 10000;
-
+    public String NonPastableBlocks ="IRON_BLOCK,GOLD_BLOCK,DIAMOND_BLOCK,BONE_BLOCK,COAL_BLOCK,DIAMOND_BLOCK,LAPIS_BLOCK,NETHERITE_BLOCK,QUART_BLOCK,SHULKER_BOX";
+    public ArrayList<Material> NonPastableBlockArray = new ArrayList<>();
+    
     public boolean SaveData() {
         FileConfiguration config = PluginManager.Plugin.getConfig();
         config.set("settings", "Blockelot.Com");
+        config.set("settings.Non-Pastable.Blocks", NonPastableBlocks);
 
         config.set("settings.Description", "A tool to allow players to cut and paste across servers.");
         config.set("settings.HomePage", "Http://www.Blockelot.com");
@@ -91,6 +95,16 @@ public class Configuration implements Serializable {
         MaxBlocksWritePerTick = config.getInt("settings.config.MaxBlocksWritePerTick");
         MaxBlocksWritePerTick = config.getInt("settings.config.MaxBlocksUploadPerCall");
         IncludeInventoryWhenPasting = config.getBoolean("IncludeInventoryWhenPasting");
+        NonPastableBlocks = config.getString("settings.Non-Pastable.Blocks");
+        
+        String[] split = NonPastableBlocks.split(",");
+        for(String s : split){            
+            Material mat = Material.getMaterial(s);
+            NonPastableBlockArray.add(mat);            
+        }
+        
+        
+                
         return true;
     }
 

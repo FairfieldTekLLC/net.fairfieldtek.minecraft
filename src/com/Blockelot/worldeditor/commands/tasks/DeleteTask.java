@@ -29,10 +29,11 @@ public class DeleteTask
     BlockInfo EmptyDef;
     BlockCollection EmptySchematic = new BlockCollection();
     Player player;
+    PlayerInfo pi;
 
     public DeleteTask(Player player) {
         this.PlayerId = player.getUniqueId();
-        PlayerInfo pi = PluginManager.PlayerInfoList.get(player);
+         pi = PluginManager.PlayerInfoList.get(player);
         if (pi.SelectEnd == null || pi.SelectStart == null) {
             this.Cancel = true;
         }
@@ -95,7 +96,7 @@ public class DeleteTask
                         this.EmptyDef.setY(this.Y);
                         this.EmptyDef.setZ(this.Z);
                         Block changeBlock = world.getBlockAt(this.X, this.Y, this.Z);
-                        EmptyDef.ApplyBlockInfoToBlock(changeBlock, true, undo);
+                        EmptyDef.ApplyBlockInfoToBlock(changeBlock, true, undo,pi);
                         --this.Z;
                     }
                     this.Z = this.sz;

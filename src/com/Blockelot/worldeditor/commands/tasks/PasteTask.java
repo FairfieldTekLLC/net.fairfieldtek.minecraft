@@ -10,11 +10,8 @@ import com.Blockelot.worldeditor.container.BlockInfo;
 import com.Blockelot.worldeditor.container.PlayerInfo;
 import com.Blockelot.worldeditor.enumeration.Axis;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -54,6 +51,7 @@ public class PasteTask
     int finalOffsetX = 0;
     int finalOffsetY = 0;
     int finalOffsetZ = 0;
+    PlayerInfo pi;
 
     public PasteTask(Player player, int x, int y, int z, Axis axis, double degrees) {
         this.PlayerId = player.getUniqueId();
@@ -62,7 +60,7 @@ public class PasteTask
         this.Z = z;
         this.Axis = axis;
         this.Degrees = degrees;
-        PlayerInfo pi = PluginManager.PlayerInfoList.get(player);
+        pi = PluginManager.PlayerInfoList.get(player);
         this.SchematicClipboard = pi.ClipSchematic.Clone();
         this.SchematicUndo = pi.NewUndo();
         this.SchematicUndo.Clear();
@@ -244,7 +242,7 @@ public class PasteTask
 
             if (!itm.IsDoor()) {
                 try {
-                    itm.ApplyBlockInfoToBlock(player.getWorld().getBlockAt(x, y, z), false, this.SchematicUndo);
+                    itm.ApplyBlockInfoToBlock(player.getWorld().getBlockAt(x, y, z), false, this.SchematicUndo,pi);
                 } catch (Exception ex) {
                     Logger.getLogger(PasteTask.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -292,14 +290,14 @@ public class PasteTask
             if ((this.Axis == Axis.Z) && (this.Degrees == 180)) {
 
                 try {
-                    itm.ApplyBlockInfoToBlock(player.getWorld().getBlockAt(x, y - 1, z), false, this.SchematicUndo);
+                    itm.ApplyBlockInfoToBlock(player.getWorld().getBlockAt(x, y - 1, z), false, this.SchematicUndo,pi);
                 } catch (Exception ex) {
                     // Logger.getLogger(PasteTask.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
 
                 try {
-                    itm.ApplyBlockInfoToBlock(player.getWorld().getBlockAt(x, y, z), false, SchematicUndo, true);
+                    itm.ApplyBlockInfoToBlock(player.getWorld().getBlockAt(x, y, z), false, SchematicUndo, true,pi);
                 } catch (Exception ex) {
                     //Logger.getLogger(PasteTask.class.getName()).log(Level.SEVERE, null, ex);
                 }

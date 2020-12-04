@@ -46,7 +46,7 @@ public class UndoTask
                     eraseWater = false;
                 }
 
-                if (!itm.ApplyBlockInfoToBlock(pi.getPlayer().getWorld().getBlockAt(itm.getX(), itm.getY(), itm.getZ()), eraseWater, null)) {
+                if (!itm.ApplyBlockInfoToBlock(pi.getPlayer().getWorld().getBlockAt(itm.getX(), itm.getY(), itm.getZ()), eraseWater, null,pi)) {
                     return;
                 }
 

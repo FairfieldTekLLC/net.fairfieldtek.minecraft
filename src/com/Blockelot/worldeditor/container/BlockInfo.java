@@ -181,11 +181,11 @@ public final class BlockInfo {
 
     }
 
-    public boolean ApplyBlockInfoToBlock(Block target, boolean eraseWater, BlockCollection undoBuffer) throws Exception {
-        return ApplyBlockInfoToBlock(target, eraseWater, undoBuffer, true);
+    public boolean ApplyBlockInfoToBlock(Block target, boolean eraseWater, BlockCollection undoBuffer, PlayerInfo pi) throws Exception {
+        return ApplyBlockInfoToBlock(target, eraseWater, undoBuffer, true, pi);
     }
 
-    public boolean ApplyBlockInfoToBlock(Block target, boolean eraseWater, BlockCollection undoBuffer, boolean applyPhysics) throws Exception {
+    public boolean ApplyBlockInfoToBlock(Block target, boolean eraseWater, BlockCollection undoBuffer, boolean applyPhysics, PlayerInfo pi) throws Exception {
 
         if (!target.getChunk().isLoaded()) {
             target.getChunk().load();
@@ -220,9 +220,13 @@ public final class BlockInfo {
             top.setBlockData(door, false);
 
         } else {
-            target.setType(getBlockMaterial(), applyPhysics);
-            target.setBlockData(getBlockData(), applyPhysics);
-
+            if (PluginManager.Config.NonPastableBlockArray.contains(getBlockMaterial())) {
+                pi.getPlayer().sendMessage("The schematic you are pasting contains materials blocked by your server administrator.  The Material was '" + getBlockMaterial().name() + "' and was replaced with 'STONE'.");
+                target.setType(Material.STONE, applyPhysics);
+            } else {
+                target.setType(getBlockMaterial(), applyPhysics);
+                target.setBlockData(getBlockData(), applyPhysics);
+            }
             target.getState().update();
 
             if (PluginManager.Config.IncludeInventoryWhenPasting) {
