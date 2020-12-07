@@ -3,11 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/NetBeans/com.Blockelot/src/com/Blockelot/worldeditor/http/RegisterRequest.java</file>
-            <file>file:/C:/NetBeans/com.Blockelot/src/com/Blockelot/PluginManager.java</file>
-            <file>file:/C:/NetBeans/com.Blockelot/src/com/Blockelot/worldeditor/commands/tasks/RegisterTaskRequest.java</file>
-            <file>file:/C:/NetBeans/com.Blockelot/src/com/Blockelot/Configuration.java</file>
-            <file>file:/C:/NetBeans/com.Blockelot/src/com/Blockelot/Util/Verify.java</file>
+            <file>file:/C:/NetBeans/com.Blockelot/src/plugin.yml</file>
         </group>
     </open-files>
 </project-private>

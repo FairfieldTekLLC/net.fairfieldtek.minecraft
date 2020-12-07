@@ -16,127 +16,113 @@ commands:
 commands:
   b.we.clear:
     description: Clears the Selections and the Clipboard
-    permission: 
-                Blockelot.WorldEditor.User.Clear,
-                Blockelot.WorldEditor.User
+    permission: Blockelot.WorldEditor.User.Clear
     usage: /b.we.clear
+    
   b.we.clearHistory:
     description: Clears the undo history of you pastes.  use undo (/b.we.undo)
                  to undo a paste, delete of set.
-    permission: 
-                Blockelot.WorldEditor.User.ClearHistory,
-                Blockelot.WorldEditor.User                 
+    permission: Blockelot.WorldEditor.User.ClearHistory,
     usage: /b.we.clearhistory
+    
   b.we.size:
     description: Prints the dimensions of your selection
-    permission: 
-                Blockelot.WorldEditor.User.Size,
-                Blockelot.WorldEditor.User    
+    permission: Blockelot.WorldEditor.User.Size                
     usage: /b.we.size    
+    
   b.we.print:
     description: Prints your selection start and selection end.
-    permission: 
-                Blockelot.WorldEditor.User.Print,
-                Blockelot.WorldEditor.User    
+    permission: Blockelot.WorldEditor.User.Print                
     usage: /b.we.print
+    
   b.we.select:
     description: Sets a selection point
-    permission: 
-                Blockelot.WorldEditor.User.Select,
-                Blockelot.WorldEditor.User    
+    permission: Blockelot.WorldEditor.User.Select
     usage: /b.we.select
            /b.we.select X Y Z
+           
   b.we.copy:
     description: Copies your selection to the clipboard.
-    permission: 
-                Blockelot.WorldEditor.Editor,
-                Blockelot.WorldEditor.Editor.Copy
+    permission: Blockelot.WorldEditor.Editor.Copy
     usage: /b.we.copy  
+    
   b.we.del:
     description: Sets all blocks in your selection to Air.  Also removes all
                  water sources.
-    permission: 
-                Blockelot.WorldEditor.Editor,
-                Blockelot.WorldEditor.Editor.Delete         
+    permission: Blockelot.WorldEditor.Editor.Delete         
     usage: /b.we.del    
+    
   b.we.delete:
     description: Sets all blocks in your selection to Air.  Also removes all
                  water sources.
-    permission: 
-                Blockelot.WorldEditor.Editor,
-                Blockelot.WorldEditor.Editor.Delete            
+    permission: Blockelot.WorldEditor.Editor.Delete            
     usage: /b.we.delete  
+    
   b.we.distr:
     description: Gets the block distribution of the current clipboard
-    permission: 
-                Blockelot.WorldEditor.Editor,
-                Blockelot.WorldEditor.Editor.Distr
+    permission: Blockelot.WorldEditor.Editor.Distr
     usage: /b.we.distr
+    
   b.we.paste:
     description: Pastes your clipboard.
-    permission: 
-                Blockelot.WorldEditor.Editor,
-                Blockelot.WorldEditor.Editor.Paste
+    permission: Blockelot.WorldEditor.Editor.Paste
     usage: /b.we.paste
-           /b.we.paste <Rotational Axis (X or Y or Z)> <Degrees (90 or 180 or 270)>
+           /b.we.paste [Rotational Axis X or Y or Z] [Degrees 90 180 270)]
            /b.we.paste x y z
-           /b.we.paste x y z <Rotational Axis (X or Y or Z)> <Degrees (90 or 180 or 270)>
+           /b.we.paste x y z [Rotational Axis X or Y or Z] [Degrees 90 180 270)]
+           
   b.we.stripmine:
     description: strip mines the current chunk
-    permission: 
-                Blockelot.WorldEditor.Editor,
-                Blockelot.WorldEditor.Editor.StripMine  
+    permission: Blockelot.WorldEditor.Editor.StripMine  
     usage: /b.strip   
+    
   b.we.undo:
     description: Will undo your last World Edit Command.
-    permission: 
-                Blockelot.WorldEditor.Editor,
-                Blockelot.WorldEditor.Editor.Undo
+    permission: Blockelot.WorldEditor.Editor.Undo
     usage: /b.we.undo            
+    
   b.reg:
     description: Register Email to Minecraft Account.  You will recieve an
                  email with a five alpha-numeric authentication code
-    permission: 
-                Blockelot.FileSystem.User
-    usage: /b.reg <Email Address>
+    permission: Blockelot.FileSystem.User
+    usage: /b.reg [Email Address]
+    
   b.auth:
     description: Send Authentication Code to Email or authenticates you against
                  the system if you provide the five alpha-numeric authentication
                  code
-    permission: 
-                Blockelot.FileSystem.User
+    permission: Blockelot.FileSystem.User
     usage: /b.auth 
-           /b.auth <5 alpha-numeric Authentication code>
+    
   b.ls:
     description: Lists all Blueprints and Directories in the current Directory.
-    permission: 
-               Blockelot.FileSystem.User 
+    permission: Blockelot.FileSystem.User 
     usage: /b.ls
+    
   b.cd:
     description: Changes your current directory to the directory specified
-    permission: 
-                Blockelot.FileSystem.User
-    usage: /b.cd <Directory Name>
+    permission: Blockelot.FileSystem.User
+    usage: /b.cd [Directory Name]
+    
   b.rm:
     description: Deletes the Directory or Blueprint
-    permission: 
-                Blockelot.FileSystem.User
-    usage: /b.rm <Folder or Blueprint Name>
+    permission: Blockelot.FileSystem.User
+    usage: /b.rm [Folder or Blueprint Name]
+    
   b.mk: 
     description: Creates a folder in the folder you are currently in
-    permission: 
-                Blockelot.FileSystem.User
-    usage: /b.mk <Folder Name>
+    permission: Blockelot.FileSystem.User
+    usage: /b.mk [Folder Name]
+    
   b.save: 
     description: Saves the current clipboard as a BluePrint
-    permission: 
-                Blockelot.FileSystem.User
-    usage: /b.save <Blueprint Name>
+    permission: Blockelot.FileSystem.User
+    usage: /b.save [Blueprint Name]
+    
   b.load:
     description: Loads the Blueprint into your clipboard
-    permission: 
-                Blockelot.FileSystem.User
-    usage: /b.load <Blueprint Name>
+    permission: Blockelot.FileSystem.User
+    usage: /b.load [Blueprint Name]
  
  
      
