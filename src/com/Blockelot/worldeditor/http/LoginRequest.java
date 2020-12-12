@@ -5,7 +5,16 @@ public class LoginRequest {
     private String Uuid;
 
     private String Auth;
+    
+    private String Wid;
+    
+    public String getWid(){
+        return Wid;
+    }
 
+    public void setWid(String g){
+        Wid = g;
+    }
     public String getUuid() {
         return this.Uuid;
     }

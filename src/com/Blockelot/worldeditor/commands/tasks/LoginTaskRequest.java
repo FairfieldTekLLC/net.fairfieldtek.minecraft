@@ -24,10 +24,10 @@ public class LoginTaskRequest
         try {
             PlayerInfo.setIsProcessing(true, "Login");
             Gson gson = new Gson();
-
             LoginRequest loginRequest = new LoginRequest();
             loginRequest.setUuid(PlayerInfo.getUUID());
             loginRequest.setAuth(Pass);
+            loginRequest.setWid(PluginManager.getWorldId());
             String body = gson.toJson(loginRequest);
             String page = RequestHttp(PluginManager.Config.BaseUri + "Login", body);
             LoginResponse response = gson.fromJson(page, LoginResponse.class);
