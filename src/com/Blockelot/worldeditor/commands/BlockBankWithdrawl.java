@@ -71,7 +71,7 @@ public class BlockBankWithdrawl implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player;
 
-        if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_Copy) || (player = (Player) sender).hasPermission(PluginManager.Config.Permission_Editor) || player.isOp())) {
+        if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_BlockelotBank) || player.isOp())) {
             try {
                 if (args.length < 2) {
                     player.sendMessage("Usage: /b.bbwd [Material] [amount]");
@@ -87,11 +87,17 @@ public class BlockBankWithdrawl implements CommandExecutor {
                 Material Mat = null;
 
                 try {
-                    Mat = Material.getMaterial(MaterialName);
+                    Mat = Material.getMaterial(MaterialName.toUpperCase().trim());
                 } catch (Exception e) {
                     player.sendMessage(ChatColor.RED + "Invalid material name.");
                     return true;
                 }
+
+                if (Mat == null) {
+                    player.sendMessage(ChatColor.RED + "Invalid material name.");
+                    return true;
+                }
+
                 PlayerInfo pi = PluginManager.PlayerInfoList.get(player);
                 if (!Mat.isBlock()) {
                     player.sendMessage(ChatColor.RED + "Only placeable materials can be deposited.");

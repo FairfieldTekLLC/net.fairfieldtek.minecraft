@@ -14,6 +14,16 @@ main: com.Blockelot.Plugin
 commands:
    # Replace "kit" with the name of your command.
 commands:
+  b.about:
+    description: Shows the about info.
+    permission:
+    usage: /b.help    
+    
+  b.help:
+    description: Shows the help info.
+    permission:
+    usage: /b.help
+    
   b.bbinv:
     description: Displays your block bank inventory.
     permission: Blockelot.Bank
@@ -89,7 +99,8 @@ commands:
   b.we.stripmine:
     description: strip mines the current chunk
     permission: Blockelot.WorldEditor.Editor.StripMine  
-    usage: /b.strip   
+    usage: /b.strip [boolean deposite in bank]
+           
     
   b.we.undo:
     description: Will undo your last World Edit Command.

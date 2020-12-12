@@ -55,12 +55,10 @@ package com.Blockelot.worldeditor.http;
  * @author geev
  */
 public class BlockBankInventoryRequest {
+
     private String Wid;
     private String Uuid;
     private String Auth;
-    
-  
-  
 
     public String getUuid() {
         return this.Uuid;

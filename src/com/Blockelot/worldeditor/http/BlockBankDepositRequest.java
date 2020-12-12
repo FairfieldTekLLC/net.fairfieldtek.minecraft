@@ -61,25 +61,15 @@ public class BlockBankDepositRequest {
     private String Wid;
     private String Uuid;
     private String Auth;
-     private String Material;
-    private int Amount;
-    
-    public String getMaterial(){
-        return Material;
+    private BlockBankInventoryItem[] ToDeposit;
+
+    public BlockBankInventoryItem[] getToDeposit() {
+        return ToDeposit;
     }
-    
-    public void setMaterial(String material){
-        Material=material;
+
+    public void setToDeposit(BlockBankInventoryItem[] itms) {
+        ToDeposit = itms;
     }
-    
-    public int getAmount(){
-        return Amount;
-    }
-    
-    public void setAmount(int amt){
-        Amount = amt;
-    }
-    
 
     public String getUuid() {
         return this.Uuid;

@@ -50,28 +50,40 @@
 //Blockelot and it's Cloud Storage is provided "as is", without warranties of any kind.
 package com.Blockelot.worldeditor.http;
 
+import org.bukkit.Material;
+
 /**
  *
  * @author geev
  */
 public class BlockBankInventoryItem {
-    
+
+    public BlockBankInventoryItem(Material mat, int count) {
+        MaterialName = mat.name();
+        Count = count;
+    }
+
+    public BlockBankInventoryItem(String mat, int count) {
+        MaterialName = mat;
+        Count = count;
+    }
+
     private String MaterialName;
     private int Count;
-    
-    public String getMaterialName(){
+
+    public String getMaterialName() {
         return MaterialName;
     }
-    
-    public void setMaterialName(String name){
-        MaterialName=name;
+
+    public void setMaterialName(String name) {
+        MaterialName = name;
     }
-    
-    public int getCount(){
+
+    public int getCount() {
         return Count;
     }
-    
-    public void setCount(int c){
-        Count=c;
+
+    public void setCount(int c) {
+        Count = c;
     }
 }

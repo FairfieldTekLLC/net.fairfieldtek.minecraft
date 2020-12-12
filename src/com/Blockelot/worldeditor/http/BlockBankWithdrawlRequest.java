@@ -55,30 +55,28 @@ package com.Blockelot.worldeditor.http;
  * @author geev
  */
 public class BlockBankWithdrawlRequest {
-      private String Wid;
+
+    private String Wid;
     private String Uuid;
     private String Auth;
     private String Material;
     private int Amount;
-    
-    public String getMaterial(){
+
+    public String getMaterial() {
         return Material;
     }
-    
-    public void setMaterial(String material){
-        Material=material;
+
+    public void setMaterial(String material) {
+        Material = material;
     }
-    
-    public int getAmount(){
+
+    public int getAmount() {
         return Amount;
     }
-    
-    public void setAmount(int amt){
+
+    public void setAmount(int amt) {
         Amount = amt;
     }
-    
-  
-  
 
     public String getUuid() {
         return this.Uuid;

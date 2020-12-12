@@ -56,12 +56,9 @@ package com.Blockelot.worldeditor.http;
  */
 public class BlockBankDepositResponse {
 
-
     private String Uuid;
     private String Auth;
     private Boolean Success;
-
-    
 
     public Boolean getSuccess() {
         return Success;
@@ -70,7 +67,6 @@ public class BlockBankDepositResponse {
     public void setSuccess(Boolean f) {
         Success = f;
     }
-
 
     public String getUuid() {
         return this.Uuid;

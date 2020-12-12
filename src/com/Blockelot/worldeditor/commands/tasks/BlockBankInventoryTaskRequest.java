@@ -60,6 +60,7 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import com.Blockelot.Util.MiscUtil;
 
 /**
  *
@@ -73,9 +74,6 @@ public class BlockBankInventoryTaskRequest extends HttpRequestor {
         this.PlayerInfo = pi;
     }
 
-    final String pounds = ChatColor.GOLD + "###################################################";
-    final String dots = "..................................................";
-
     @Override
     public void run() {
         try {
@@ -86,23 +84,40 @@ public class BlockBankInventoryTaskRequest extends HttpRequestor {
             com.Blockelot.worldeditor.http.BlockBankInventoryRequest request = new com.Blockelot.worldeditor.http.BlockBankInventoryRequest();
             request.setUuid(PlayerInfo.getUUID());
             request.SetWid(PluginManager.getWorldId());
+            request.setAuth(PlayerInfo.getLastAuth());
+
+            PlayerInfo.getPlayer().sendMessage(ChatColor.YELLOW + "Contacting Bank....");
 
             String hr = RequestHttp(PluginManager.Config.BaseUri + "BBIRQ", gson.toJson(request));
+
             com.Blockelot.worldeditor.http.BlockBankInventoryResponse response = gson.fromJson(hr, com.Blockelot.worldeditor.http.BlockBankInventoryResponse.class);
+
             PlayerInfo.setLastAuth(response.getAuth());
-            PlayerInfo.getPlayer().sendMessage(pounds);
+
+            ArrayList<String> lines = new ArrayList<>();
+
+            lines.add(ChatColor.BLUE + "----------------ACCOUNT BALANCE------------------");
+            lines.add(ChatColor.GOLD + "###################################################");
+
             if (response.getItems().length == 0) {
-                PlayerInfo.getPlayer().sendMessage(ChatColor.YELLOW + "Your block bank is empty!");
+                lines.add("Your block bank is empty!");
             } else {
+                int maxNumOfDigits = 0;
                 for (BlockBankInventoryItem itm : response.getItems()) {
-                    String count = ".........." + itm.getCount();
-                    int lc = count.length();
-                    count = count.substring(lc - 10);
-                    PlayerInfo.getPlayer().sendMessage(ChatColor.YELLOW + (itm.getMaterialName() + dots).substring(0, 40) + count);
+                    int c = itm.getCount();
+                    if ((c + "").length() > maxNumOfDigits) {
+                        maxNumOfDigits = (c + "").length();
+                    }
+                }
+                for (BlockBankInventoryItem itm : response.getItems()) {
+
+                    String c = MiscUtil.padLeft(itm.getCount() + "", maxNumOfDigits, "0");
+                    String l = MiscUtil.padRight(itm.getMaterialName(), (45 - maxNumOfDigits), "_");
+                    lines.add((l + c).trim());
+
                 }
             }
-            PlayerInfo.getPlayer().sendMessage(pounds);
-
+            PlayerInfo.SendBankMessageHeader(lines, true);
             PlayerInfo.setIsProcessing(false, "Block Bank Inventory");
             this.cancel();
 
