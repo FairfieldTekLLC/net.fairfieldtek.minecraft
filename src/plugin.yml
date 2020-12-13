@@ -17,7 +17,7 @@ commands:
   b.about:
     description: Shows the about info.
     permission:
-    usage: /b.help    
+    usage: /b.about    
     
   b.help:
     description: Shows the help info.

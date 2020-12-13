@@ -5,7 +5,7 @@ settings:
   Contact: Vince@Fairfieldtek.com
   config:
     maxclipboardsize: 1000000000
-    BaseUri: https://www.blockelot.com/api/worldeditor/v1/
+    BaseUri: http://Blockelot.com/api/worldeditor/v1/
   perms:
     user: Blockelot.WorldEditor.User
     clear: Blockelot.WorldEditor.User.Clear

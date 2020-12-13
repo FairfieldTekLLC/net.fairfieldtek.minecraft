@@ -348,12 +348,16 @@ public final class BlockInfo {
 
         BlockData newBlockData = this.getBlockData();
         if (newBlockData instanceof Directional) {
+            try {
+                ((Directional) newBlockData).setFacing(face);
+            } catch (Exception ex) {
+                //Logger.getLogger(BlockInfo.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-            ((Directional) newBlockData).setFacing(face);
             try {
                 setBlockData(newBlockData.getAsString());
             } catch (Exception ex) {
-                Logger.getLogger(BlockInfo.class.getName()).log(Level.SEVERE, null, ex);
+               // Logger.getLogger(BlockInfo.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

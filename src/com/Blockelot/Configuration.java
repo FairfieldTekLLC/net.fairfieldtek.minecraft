@@ -61,8 +61,8 @@ public class Configuration implements Serializable {
     private static transient final long serialVersionUID = -1681012206529286330L;
     public String WorldId = "NEWSERVER";
     public int MaxClipboardSize = 1000000000;
-    // public String BaseUri = "https://www.blockelot.com/api/worldeditor/v1/";
-    public String BaseUri = "http://localhost:31312/api/worldeditor/v1/";
+    public String BaseUri = "http://Blockelot.com/api/worldeditor/v1/";
+    //public String BaseUri = "https://localhost:31312/api/worldeditor/v1/";
 
     public String Permission_User = "Blockelot.WorldEditor.User";
     public String Permission_Clear = "Blockelot.WorldEditor.User.Clear";

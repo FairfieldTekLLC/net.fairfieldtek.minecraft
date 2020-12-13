@@ -68,6 +68,7 @@ public class About    implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player;
         if (sender instanceof Player) {
+            player = (Player)sender;
             ArrayList<String> lines = new ArrayList<>();
             lines.add(ChatColor.BLUE + "-----------------BLOCKELOT-ABOUT---------------------");
             lines.add(ChatColor.YELLOW + "BLOCKELOT");

@@ -68,10 +68,10 @@ public class Verify {
                 + "&worldId=" + PluginManager.Config.WorldId
                 + "&serverName='" + Plugin.getServer().getName() + "'";
 
-        //ServerUtil.consoleLog("Calling... '" + uri + "'");
+        ServerUtil.consoleLog("Calling... '" + uri + "'");
         String body = RequestHttp(uri);
 
-        //ServerUtil.consoleLog("Response: " + body );
+        ServerUtil.consoleLog("Response: " + body );
         ServerUtil.consoleLog("#########################################################");
         String[] parts = body.split("\\|");
         String WorldId = parts[0];

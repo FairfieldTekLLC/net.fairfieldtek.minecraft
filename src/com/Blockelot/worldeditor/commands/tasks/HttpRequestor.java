@@ -72,8 +72,8 @@ public abstract class HttpRequestor extends BukkitRunnable {
         try {
 
             LocalDate start = LocalDate.now();
-//            System.out.println("!!HTTP REQUEST!!  " + uri);
-//             ServerUtil.consoleLog("!!HTTP REQUEST!!  " + uri);
+            System.out.println("!!HTTP REQUEST!!  " + uri);
+            ServerUtil.consoleLog("!!HTTP REQUEST!!  " + uri);
             CloseableHttpClient httpClient = HttpClientBuilder.create().build();
             HttpPost request = new HttpPost(uri);
             StringEntity params = new StringEntity(postBody);
