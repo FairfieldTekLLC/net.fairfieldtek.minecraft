@@ -51,6 +51,8 @@
 package com.Blockelot.Util;
 
 import org.bukkit.Material;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
 
 public class MiscUtil {
 
@@ -165,6 +167,27 @@ public class MiscUtil {
 
         return true;
 
+    }
+
+    public static final byte[] intToByteArray(int value) {
+        return new byte[]{
+            (byte) (value >>> 24),
+            (byte) (value >>> 16),
+            (byte) (value >>> 8),
+            (byte) value};
+    }
+
+    public static final int ByteArrayToInt(byte[] bytes) {
+        return ByteBuffer.wrap(bytes).getInt();
+    }
+
+    public static byte[] toByteArray(ArrayList<Byte> in) {
+        final int n = in.size();
+        byte ret[] = new byte[n];
+        for (int i = 0; i < n; i++) {
+            ret[i] = in.get(i);
+        }
+        return ret;
     }
 
 }

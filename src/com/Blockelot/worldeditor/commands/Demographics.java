@@ -67,6 +67,10 @@ public class Demographics implements CommandExecutor {
 
         Player player;
         if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_Distr) || (player = (Player) sender).hasPermission(PluginManager.Config.Permission_Editor) || player.isOp())) {
+             if ("".equals(PluginManager.PlayerInfoList.get(player).getLastAuth())) {
+                player.sendMessage("Please use /b.reg [email] first.");
+                return true;
+            }
             if (PluginManager.PlayerInfoList.get(player).getIsProcessing()) {
                 player.sendMessage("Please wait for last command to finish.");
                 return true;

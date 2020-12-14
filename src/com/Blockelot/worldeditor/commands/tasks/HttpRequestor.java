@@ -72,8 +72,8 @@ public abstract class HttpRequestor extends BukkitRunnable {
         try {
 
             LocalDate start = LocalDate.now();
-            System.out.println("!!HTTP REQUEST!!  " + uri);
-            ServerUtil.consoleLog("!!HTTP REQUEST!!  " + uri);
+            //System.out.println("!!HTTP REQUEST!!  " + uri);
+            //ServerUtil.consoleLog("!!HTTP REQUEST!!  " + uri);
             CloseableHttpClient httpClient = HttpClientBuilder.create().build();
             HttpPost request = new HttpPost(uri);
             StringEntity params = new StringEntity(postBody);
@@ -85,8 +85,10 @@ public abstract class HttpRequestor extends BukkitRunnable {
             LocalDate end = LocalDate.now();
 
             Duration diff = Duration.between(start.atStartOfDay(), end.atStartOfDay());
-            ServerUtil.consoleLog("Webserver responed in " + diff.toMillis() + " ms.");
-            return EntityUtils.toString(result.getEntity(), "UTF-8");
+            //ServerUtil.consoleLog("Webserver responed in " + diff.toMillis() + " ms.");
+            String r = EntityUtils.toString(result.getEntity(), "UTF-8");
+            //ServerUtil.consoleLog(r);
+            return r;
         } catch (Exception e) {
             ServerUtil.consoleLog(e.getLocalizedMessage());
             ServerUtil.consoleLog(e.getMessage());

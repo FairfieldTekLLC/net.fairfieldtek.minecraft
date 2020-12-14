@@ -67,7 +67,10 @@ public class LoadClipboard implements CommandExecutor {
         Player player;
 
         if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_FileSystem) || player.isOp())) {
-
+            if ("".equals(PluginManager.PlayerInfoList.get(player).getLastAuth())) {
+                player.sendMessage("Please use /b.reg [email] first.");
+                return true;
+            }
             try {
                 if (args.length != 1) {
                     player.sendMessage("Usage: /fft.load <Schematic Name>");

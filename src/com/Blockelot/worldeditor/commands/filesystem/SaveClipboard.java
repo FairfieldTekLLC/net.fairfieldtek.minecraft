@@ -69,6 +69,10 @@ public class SaveClipboard
 
         if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_FileSystem) || player.isOp())) {
             try {
+                if ("".equals(PluginManager.PlayerInfoList.get(player).getLastAuth())) {
+                    player.sendMessage("Please use /b.reg [email] first.");
+                    return true;
+                }
                 if (args.length != 1) {
                     player.sendMessage("Usage: /fft.Save <Schematic Name>");
                     return true;

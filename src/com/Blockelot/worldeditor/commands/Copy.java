@@ -67,7 +67,10 @@ public class Copy
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player;
         if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_Copy) || (player = (Player) sender).hasPermission(PluginManager.Config.Permission_Editor) || player.isOp())) {
-
+ if ("".equals(PluginManager.PlayerInfoList.get(player).getLastAuth())) {
+                player.sendMessage("Please use /b.reg [email] first.");
+                return true;
+            }
             try {
 
                 if (PluginManager.PlayerInfoList.get(player).getIsProcessing()) {

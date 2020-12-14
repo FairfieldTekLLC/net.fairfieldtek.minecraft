@@ -69,7 +69,10 @@ public class LS
 
         if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_FileSystem) || player.isOp())) {
             try {
-
+                if ("".equals(PluginManager.PlayerInfoList.get(player).getLastAuth())) {
+                    player.sendMessage("Please use /b.reg [email] first.");
+                    return true;
+                }
                 if (PluginManager.PlayerInfoList.get(player).getIsProcessing()) {
                     player.sendMessage("Please wait for last command to finish.");
                     return true;

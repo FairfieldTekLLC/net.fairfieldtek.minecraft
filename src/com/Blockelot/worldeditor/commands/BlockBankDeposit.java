@@ -76,6 +76,10 @@ public class BlockBankDeposit
         String MatName = "";
         if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_BlockelotBank) || player.isOp())) {
             {
+                if ("".equals(PluginManager.PlayerInfoList.get(player).getLastAuth())) {
+                    player.sendMessage("Please use /b.reg [email] first.");
+                    return true;
+                }
                 MiscUtil.DumpStringArray(args);
 
                 int Amount = 0;

@@ -57,7 +57,12 @@ import java.util.logging.Logger;
 import com.Blockelot.Util.EnumHelper;
 import static com.Blockelot.Util.Inventory.itemStackArrayToBase64;
 import com.Blockelot.Util.MaterialUtil;
+import static com.Blockelot.Util.MiscUtil.ByteArrayToInt;
+import static com.Blockelot.Util.MiscUtil.intToByteArray;
 import com.Blockelot.Util.ServerUtil;
+import com.sun.tools.javac.util.Pair;
+import java.util.ArrayList;
+import java.util.Arrays;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.*;
 import org.bukkit.block.BlockState;
@@ -357,7 +362,7 @@ public final class BlockInfo {
             try {
                 setBlockData(newBlockData.getAsString());
             } catch (Exception ex) {
-               // Logger.getLogger(BlockInfo.class.getName()).log(Level.SEVERE, null, ex);
+                // Logger.getLogger(BlockInfo.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -883,7 +888,142 @@ public final class BlockInfo {
         return this.BlockTypeIndex;
     }
 
+    private static PassParam GetInt(byte[] data) {
+        int counter = -1;
+        byte[] num = new byte[4];
+
+        for (byte b : data) {
+            counter = counter + 1;
+            num[counter] = b;
+            if (counter == 3) {
+                int number = ByteArrayToInt(num);
+                byte[] dat = new byte[0];
+                if (data.length > 4) {
+                    dat = Arrays.copyOfRange(data, 4, data.length - 4);
+                }
+
+                PassParam ret = new PassParam(number, dat);
+                return ret;
+            }
+        }
+        return new PassParam(0, null);
+    }
+
+    public static Pair<Integer, char[]> GetInt(char[] feed) {
+        String number = "";
+        for (int i = 0; i < feed.length; i++) {
+            if (feed[i] == '|') {
+                int v = Integer.parseInt(number);
+                char[] part = new char[0];
+                if (feed.length > i + 1) {
+                    part = Arrays.copyOfRange(feed, i + 1, feed.length - i + 1);
+                }
+                return new Pair<>(v, part);
+            } else {
+                number = number + feed[i];
+            }
+        }
+        return new Pair<>(0, new char[0]);
+    }
+
+    public static Pair<BlockInfo, char[]> fromXferString(char[] data) {
+        BlockInfo block = new BlockInfo(null);
+
+        Pair<Integer, char[]> dat = GetInt(data);
+        block.X = dat.fst;
+        dat = GetInt(dat.snd);
+        block.Y = (dat.fst);
+        dat = GetInt(dat.snd);
+        block.Z = (dat.fst);
+
+        dat = GetInt(dat.snd);
+        block.BlockTypeIndex = dat.fst;
+
+        dat = GetInt(dat.snd);
+        block.BlockDataIndex = dat.fst;
+
+        dat = GetInt(dat.snd);
+        block.BlockContentsIndex = dat.fst;
+
+        dat = GetInt(dat.snd);
+        block.BlockStorageIndex = dat.fst;
+
+        return new Pair<BlockInfo, char[]>(block, dat.snd);
+    }
+
+    public static Pair<BlockInfo, byte[]> fromXferBytes(byte[] data) {
+
+        BlockInfo block = new BlockInfo(null);
+
+        PassParam dat = GetInt(data);
+        block.X = dat.Value;
+
+        dat = GetInt(dat.Stream);
+        block.Y = (dat.Value);
+
+        dat = GetInt(dat.Stream);
+        block.Z = (dat.Value);
+
+        dat = GetInt(dat.Stream);
+        block.BlockTypeIndex = dat.Value;
+
+        dat = GetInt(dat.Stream);
+        block.BlockDataIndex = dat.Value;
+
+        dat = GetInt(dat.Stream);
+        block.BlockContentsIndex = dat.Value;
+
+        dat = GetInt(dat.Stream);
+        block.BlockStorageIndex = dat.Value;
+
+        return new Pair<BlockInfo, byte[]>(block, dat.Stream);
+
+    }
+
+    public byte[] toXferBytes() {
+
+        try {
+
+            ArrayList<byte[]> data = new ArrayList<byte[]>();
+
+            data.add(intToByteArray(X));
+
+            data.add(intToByteArray(Y));
+
+            data.add(intToByteArray(Z));
+
+            data.add(intToByteArray(BlockTypeIndex));
+
+            data.add(intToByteArray(BlockDataIndex));
+
+            data.add(intToByteArray(BlockContentsIndex));
+
+            data.add(intToByteArray(BlockStorageIndex));
+
+            byte[] result = new byte[(data.size() * 4) + 1];
+
+            int counter = 0;
+            for (byte[] ent : data) {
+                for (byte b : ent) {
+                    {
+                        result[counter] = b;
+                        counter++;
+                    }
+                }
+            }
+            return result;
+        } catch (Exception e) {
+            ServerUtil.consoleLog("ERROR");
+            ServerUtil.consoleLog(e.getLocalizedMessage());
+            ServerUtil.consoleLog(e.getMessage());
+            ServerUtil.consoleLog(e);
+        }
+        return null;
+
+    }
+
     public String toXferString() {
+
         return Integer.toString(X) + "|"
                 + Integer.toString(Y) + "|"
                 + Integer.toString(Z) + "|"

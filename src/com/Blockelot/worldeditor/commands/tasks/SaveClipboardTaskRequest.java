@@ -54,6 +54,8 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.ListIterator;
 import com.Blockelot.PluginManager;
+import com.Blockelot.Util.Base64Coder;
+import com.Blockelot.Util.MiscUtil;
 import com.Blockelot.Util.ServerUtil;
 import com.Blockelot.worldeditor.container.BlockInfo;
 import com.Blockelot.worldeditor.container.PaletteEntry;
@@ -61,6 +63,7 @@ import com.Blockelot.worldeditor.http.SchematicDataRequest;
 import com.Blockelot.worldeditor.http.SchematicDataResponse;
 import com.Blockelot.worldeditor.container.BlockCollection;
 import com.Blockelot.worldeditor.container.PlayerInfo;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class SaveClipboardTaskRequest
@@ -70,11 +73,14 @@ public class SaveClipboardTaskRequest
     private PlayerInfo PlayerInfo;
     private boolean FirstPass = true;
     private BlockCollection WorkArea;
+    private int TotalNumberOfBlocks = 0;
 
     public SaveClipboardTaskRequest(PlayerInfo pi, String filename) {
         PlayerInfo = pi;
         WorkArea = pi.ClipSchematic.Clone();
         this.Filename = filename;
+        TotalNumberOfBlocks= WorkArea.Size();
+        
     }
 
     @Override
@@ -84,23 +90,21 @@ public class SaveClipboardTaskRequest
             int total = WorkArea.Size();
             SchematicDataResponse response = new SchematicDataResponse();
             while (WorkArea.Size() > 0) {
-                //int maxBlocks = 10000;
-                ArrayList<String> tmp = new ArrayList<>(PluginManager.Config.MaxBlocksUploadPerCall);
                 ListIterator<BlockInfo> iter = WorkArea.getBlocks().listIterator();
                 int blockCounter = 0;
+                String blocks = "";
                 while (iter.hasNext()) {
                     BlockInfo itm = iter.next();
-                    tmp.add(itm.toXferString());
+                    blocks = blocks.concat(itm.toXferString());
                     iter.remove();
                     if (++blockCounter < PluginManager.Config.MaxBlocksUploadPerCall) {
                         continue;
                     }
                     break;
                 }
-
-                String[] blocks = new String[tmp.size()];
-                tmp.toArray(blocks);
-
+                
+                PlayerInfo.getPlayer().sendMessage(ChatColor.YELLOW + "Save in progress, " + WorkArea.Size() +" left to send..." );
+                
                 SchematicDataRequest schematicDataRequest = new SchematicDataRequest();
 
                 if (FirstPass) {
@@ -123,16 +127,15 @@ public class SaveClipboardTaskRequest
                 schematicDataRequest.setCurrentDirectory(PlayerInfo.getCurrentPath());
                 schematicDataRequest.setUuid(PlayerInfo.getUUID());
                 schematicDataRequest.setFileName(this.Filename);
-
                 schematicDataRequest.setBlocks(blocks);
-
                 schematicDataRequest.setSchematicId(schematicId);
+                schematicDataRequest.setTotalNumberOfBlocks(total);
                 String body = gson.toJson(schematicDataRequest);
                 response = gson.fromJson(RequestHttp(PluginManager.Config.BaseUri + "Save", body), SchematicDataResponse.class);
 
-                if (WorkArea.Size() > 0) {
-                    response.setMessage("Saving... " + WorkArea.Size() + " blocks remaining of " + total);
-                }
+//                if (WorkArea.Size() > 0) {
+//                    response.setMessage("Saving... " + WorkArea.Size() + " blocks remaining of " + total);
+//                }
 
                 PlayerInfo.setLastAuth(response.getAuth());
 

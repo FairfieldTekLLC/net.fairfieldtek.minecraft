@@ -73,6 +73,10 @@ public class BlockBankWithdrawl implements CommandExecutor {
 
         if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_BlockelotBank) || player.isOp())) {
             try {
+                if ("".equals(PluginManager.PlayerInfoList.get(player).getLastAuth())) {
+                    player.sendMessage("Please use /b.reg [email] first.");
+                    return true;
+                }
                 if (args.length < 2) {
                     player.sendMessage("Usage: /b.bbwd [Material] [amount]");
                     return false;

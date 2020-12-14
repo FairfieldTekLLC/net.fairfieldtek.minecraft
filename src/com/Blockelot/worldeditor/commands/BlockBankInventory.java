@@ -73,6 +73,10 @@ public class BlockBankInventory implements CommandExecutor {
         Player player;
         if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_BlockelotBank) || player.isOp())) {
             {
+                if ("".equals(PluginManager.PlayerInfoList.get(player).getLastAuth())) {
+                    player.sendMessage("Please use /b.reg [email] first.");
+                    return true;
+                }
                 try {
                     if (PluginManager.PlayerInfoList.get(player).getIsProcessing()) {
                         player.sendMessage(ChatColor.RED + "Please wait for last command to finish.");

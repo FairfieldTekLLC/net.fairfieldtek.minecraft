@@ -51,12 +51,15 @@
 package com.Blockelot.worldeditor.container;
 
 import com.Blockelot.PluginManager;
+import com.Blockelot.Util.Base64Coder;
+import static com.Blockelot.Util.MiscUtil.ByteArrayToInt;
 import com.Blockelot.Util.ServerUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.Blockelot.worldeditor.http.SchematicDataDownloadResponse;
+import com.sun.tools.javac.util.Pair;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -319,16 +322,40 @@ public class BlockCollection {
         for (PaletteEntry pe : response.getBlockInvePalette()) {
             BlockInventoryPalette.add(pe.Clone());
         }
-
-        if (response.getBlocks().length > PluginManager.Config.MaxClipboardSize) {
-            throw new Exception("Schematic size exceeds server max.");
+        
+        
+        char[] data = response.getBlocks().toCharArray(); 
+        
+        while (data.length>0){
+            
+             Pair<BlockInfo,char[]> r = BlockInfo.fromXferString(data);
+             
+             r.fst.setBlockCollection(this);
+             
+             Blocks.add(r.fst);
+             
+             data = r.snd;
         }
-
-        for (BlockInfo ent : response.getBlocks()) {
-            ent.setBlockCollection(this);
-            Blocks.add(ent);
-        }
-
+        
+//        
+//        byte[] data = Base64Coder.decode(response.getBlocks());
+//
+//        if (data.length > PluginManager.Config.MaxClipboardSize) {
+//            throw new Exception("Schematic size exceeds server max.");
+//        }
+//        
+//        try {
+//            while (data.length > 0) {
+//                Pair<BlockInfo, byte[]> r = BlockInfo.fromXferBytes(data);
+//                Blocks.add(r.fst);
+//                data = r.snd;
+//            }
+//        } catch (Exception e) {
+//            ServerUtil.consoleLog("Problem Loading Response!");
+//            ServerUtil.consoleLog(e.getLocalizedMessage());
+//            ServerUtil.consoleLog(e.getMessage());
+//            ServerUtil.consoleLog(e);
+//        }
     }
 
     public int Size() {
