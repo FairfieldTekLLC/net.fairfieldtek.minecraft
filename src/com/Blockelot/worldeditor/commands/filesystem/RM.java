@@ -68,7 +68,7 @@ public class RM
         Player player;
 
         if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_FileSystem) || player.isOp())) {
-            if ("".equals(PluginManager.PlayerInfoList.get(player).getLastAuth())) {
+            if ("".equals(PluginManager.GetPlayerInfo(player.getUniqueId()).getLastAuth())) {
                 player.sendMessage("Please use /b.reg [email] first.");
                 return true;
             }
@@ -78,16 +78,16 @@ public class RM
                     player.sendMessage("Usage: /fft.rm <Directory>");
                     return true;
                 }
-                if (PluginManager.PlayerInfoList.get(player).getIsProcessing()) {
+                if (PluginManager.GetPlayerInfo(player.getUniqueId()).getIsProcessing()) {
                     player.sendMessage("Please wait for last command to finish.");
                     return true;
                 }
-                PluginManager.PlayerInfoList.get(player).setIsProcessing(true, "Rm");
-                PlayerInfo pi = PluginManager.PlayerInfoList.get(player);
+                PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(true, "Rm");
+                PlayerInfo pi = PluginManager.GetPlayerInfo(player.getUniqueId());
                 player.sendMessage(ChatColor.RED + "Requesting directory removal.");
-                new RmTaskRequest(PluginManager.PlayerInfoList.get(player), args[0]).runTaskAsynchronously((org.bukkit.plugin.Plugin) PluginManager.Plugin);
+                new RmTaskRequest(PluginManager.GetPlayerInfo(player.getUniqueId()), args[0]).runTaskAsynchronously((org.bukkit.plugin.Plugin) PluginManager.Plugin);
             } catch (Exception e) {
-                PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Rm");
+                PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "Rm");
                 ServerUtil.consoleLog(e.getLocalizedMessage());
                 ServerUtil.consoleLog(e.getMessage());
             }

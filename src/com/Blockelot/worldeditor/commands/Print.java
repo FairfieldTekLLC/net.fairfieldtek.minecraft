@@ -64,12 +64,12 @@ public class Print
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player;
         if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_Print) || (player = (Player) sender).hasPermission(PluginManager.Config.Permission_User) || player.isOp())) {
-             if ("".equals(PluginManager.PlayerInfoList.get(player).getLastAuth())) {
+             if ("".equals(PluginManager.GetPlayerInfo(player.getUniqueId()).getLastAuth())) {
                 player.sendMessage("Please use /b.reg [email] first.");
                 return true;
             }
-            PlayerInfo info = PluginManager.PlayerInfoList.get(player);
-            if (PluginManager.PlayerInfoList.get(player).getIsProcessing()) {
+            PlayerInfo info = PluginManager.GetPlayerInfo(player.getUniqueId());
+            if (PluginManager.GetPlayerInfo(player.getUniqueId()).getIsProcessing()) {
                 player.sendMessage("Please wait for last command to finish.");
                 return true;
             }

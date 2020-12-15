@@ -75,8 +75,8 @@ public class MkTaskResponse
                 return;
             }
 
-            PluginManager.PlayerInfoList.get(player).setLastAuth(this.MkResponse.getAuth());
-            PluginManager.PlayerInfoList.get(player).setCurrentPath(this.MkResponse.getDirectoryPath());
+            PluginManager.GetPlayerInfo(player.getUniqueId()).setLastAuth(this.MkResponse.getAuth());
+            PluginManager.GetPlayerInfo(player.getUniqueId()).setCurrentPath(this.MkResponse.getDirectoryPath());
             if (!this.MkResponse.getWasSuccessful()) {
                 player.sendMessage(ChatColor.RED + this.MkResponse.getMessage());
             } else {
@@ -86,7 +86,7 @@ public class MkTaskResponse
         } catch (Exception e) {
 
         }
-        PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "MK");
+        PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "MK");
         this.cancel();
     }
 

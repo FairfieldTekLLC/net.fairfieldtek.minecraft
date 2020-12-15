@@ -69,7 +69,7 @@ public class MK
 
         if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_FileSystem) || player.isOp())) {
             try {
-                if ("".equals(PluginManager.PlayerInfoList.get(player).getLastAuth())) {
+                if ("".equals(PluginManager.GetPlayerInfo(player.getUniqueId()).getLastAuth())) {
                     player.sendMessage("Please use /b.reg [email] first.");
                     return true;
                 }
@@ -77,16 +77,16 @@ public class MK
                     player.sendMessage("Usage: /fft.mk <Directory>");
                     return true;
                 }
-                if (PluginManager.PlayerInfoList.get(player).getIsProcessing()) {
+                if (PluginManager.GetPlayerInfo(player.getUniqueId()).getIsProcessing()) {
                     player.sendMessage("Please wait for last command to finish.");
                     return true;
                 }
-                PluginManager.PlayerInfoList.get(player).setIsProcessing(true, "Mk");
-                PlayerInfo pi = PluginManager.PlayerInfoList.get(player);
+                PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(true, "Mk");
+                PlayerInfo pi = PluginManager.GetPlayerInfo(player.getUniqueId());
                 player.sendMessage(ChatColor.RED + "Requesting directory creation.");
-                new MkTaskRequest(PluginManager.PlayerInfoList.get(player), args[0]).runTaskAsynchronously((org.bukkit.plugin.Plugin) PluginManager.Plugin);
+                new MkTaskRequest(PluginManager.GetPlayerInfo(player.getUniqueId()), args[0]).runTaskAsynchronously((org.bukkit.plugin.Plugin) PluginManager.Plugin);
             } catch (Exception e) {
-                PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Mk");
+                PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "Mk");
                 ServerUtil.consoleLog(e.getLocalizedMessage());
                 ServerUtil.consoleLog(e.getMessage());
             }

@@ -80,7 +80,7 @@ public class About    implements CommandExecutor {
             lines.add(ChatColor.YELLOW + "Blockelot and it's Cloud Storage is provided \"as is\", without warranties of any kind.");
             lines.add(ChatColor.YELLOW + "");
             
-            PluginManager.PlayerInfoList.get(player).SendBankMessageHeader(lines, true, false);
+            PluginManager.GetPlayerInfo(player.getUniqueId()).SendBankMessageHeader(lines, true, false);
         }
         return true;
     }

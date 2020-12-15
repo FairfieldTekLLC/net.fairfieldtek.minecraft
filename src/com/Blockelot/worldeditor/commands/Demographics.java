@@ -67,16 +67,16 @@ public class Demographics implements CommandExecutor {
 
         Player player;
         if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_Distr) || (player = (Player) sender).hasPermission(PluginManager.Config.Permission_Editor) || player.isOp())) {
-             if ("".equals(PluginManager.PlayerInfoList.get(player).getLastAuth())) {
+             if ("".equals(PluginManager.GetPlayerInfo(player.getUniqueId()).getLastAuth())) {
                 player.sendMessage("Please use /b.reg [email] first.");
                 return true;
             }
-            if (PluginManager.PlayerInfoList.get(player).getIsProcessing()) {
+            if (PluginManager.GetPlayerInfo(player.getUniqueId()).getIsProcessing()) {
                 player.sendMessage("Please wait for last command to finish.");
                 return true;
             }
-            PluginManager.PlayerInfoList.get(player).setIsProcessing(true, "Demographics");
-            PlayerInfo pi = PluginManager.PlayerInfoList.get(player);
+           PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(true, "Demographics");
+            PlayerInfo pi = PluginManager.GetPlayerInfo(player.getUniqueId());
             if (pi.ClipSchematic.Size() > 0) {
                 player.sendMessage("Materials in your clipboard are:");
                 player.sendMessage("================================");
@@ -91,7 +91,7 @@ public class Demographics implements CommandExecutor {
                 player.sendMessage("===========Finished=============");
             }
 
-            PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Demographics");
+            PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "Demographics");
         }
         return true;
     }

@@ -77,8 +77,8 @@ public class LoginTaskResponse
             }
 
             if (player != null) {
-                PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Login");
-                PlayerInfo pi = PluginManager.PlayerInfoList.get(player);
+                PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "Login");
+                PlayerInfo pi = PluginManager.GetPlayerInfo(player.getUniqueId());
                 if (this.LoginResponse.getIsAuthorized()) {
                     pi.setLastAuth(this.LoginResponse.getAuth());
                     pi.setCurrentPath(this.LoginResponse.getCurrentPath());
@@ -97,7 +97,7 @@ public class LoginTaskResponse
             ServerUtil.consoleLog(e.getLocalizedMessage());
             ServerUtil.consoleLog(e.getMessage());
         }
-        PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Login");
+        PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "Login");
         this.cancel();
     }
 }

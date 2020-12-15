@@ -51,6 +51,7 @@
 package com.Blockelot.worldeditor.listeners;
 
 import com.Blockelot.PluginManager;
+import com.Blockelot.Util.ServerUtil;
 import com.Blockelot.worldeditor.commands.tasks.AuthenticateTaskRequest;
 import com.Blockelot.worldeditor.commands.tasks.LoginTaskRequest;
 import com.Blockelot.worldeditor.container.PlayerInfo;
@@ -66,19 +67,30 @@ public class PlayerJoinListener
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        if (!PluginManager.PlayerInfoList.containsKey(player)) {
-            System.out.print("Adding Player " + player.getUniqueId().toString() + " - joined.  ");
-            PluginManager.PlayerInfoList.put(player, new PlayerInfo(player));
-            new AuthenticateTaskRequest(PluginManager.PlayerInfoList.get(player)).runTaskAsynchronously((org.bukkit.plugin.Plugin) PluginManager.Plugin);
+        if (!PluginManager.HasPlayer(player)) {
+
+            ServerUtil.consoleLog("Adding Player " + player.getUniqueId().toString() + " - joined.  ");
+
+            PluginManager.AddPlayerInfo(new PlayerInfo(player));
+
+            new AuthenticateTaskRequest(PluginManager.GetPlayerInfo(player.getUniqueId())).runTaskAsynchronously((org.bukkit.plugin.Plugin) PluginManager.Plugin);
+
         }
     }
 
     @EventHandler
     public void onPlayerQuitEvent(PlayerQuitEvent event) {
+
         Player player = event.getPlayer();
-        if (PluginManager.PlayerInfoList.containsKey(player)) {
-            System.out.print("Removing Player " + player.getUniqueId().toString() + " - left.  ");
-            PluginManager.PlayerInfoList.remove(player);
+
+        if (PluginManager.HasPlayer(player)) {
+
+            ServerUtil.consoleLog("Removing Player " + player.getUniqueId().toString() + " - left.  ");
+
+            PluginManager.RemovePlayer(player);
+
+        } else {
+            ServerUtil.consoleLog("Couldn't find player...");
         }
     }
 

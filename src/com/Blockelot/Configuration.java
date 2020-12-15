@@ -61,8 +61,8 @@ public class Configuration implements Serializable {
     private static transient final long serialVersionUID = -1681012206529286330L;
     public String WorldId = "NEWSERVER";
     public int MaxClipboardSize = 1000000000;
-    //public String BaseUri = "http://Blockelot.com/api/worldeditor/v1/";
-    public String BaseUri = "http://localhost:31312/api/worldeditor/v1/";
+    public String BaseUri = "http://Blockelot.com/api/worldeditor/v1/";
+    //public String BaseUri = "http://localhost:31312/api/worldeditor/v1/";
 
     public String Permission_User = "Blockelot.WorldEditor.User";
     public String Permission_Clear = "Blockelot.WorldEditor.User.Clear";
@@ -83,7 +83,7 @@ public class Configuration implements Serializable {
     public String Permission_FileSystem = "Blockelot.FileSystem.User";
     public Boolean IncludeInventoryWhenPasting = true;
     public int MaxBlocksWritePerTick = 5000;
-    public int MaxBlocksReadPerTick = 10000;
+    public int MaxBlocksReadPerTick = 5000;
     public int MaxBlocksUploadPerCall = 20000;
     public String NonPastableBlocks = "IRON_BLOCK,GOLD_BLOCK,DIAMOND_BLOCK,BONE_BLOCK,COAL_BLOCK,DIAMOND_BLOCK,LAPIS_BLOCK,NETHERITE_BLOCK,QUART_BLOCK,SHULKER_BOX";
     public ArrayList<Material> NonPastableBlockArray = new ArrayList<>();

@@ -75,7 +75,7 @@ public class LsTaskResponse
             if (player == null) {
                 return;
             }
-            PluginManager.PlayerInfoList.get(player).setLastAuth(this.LsResponse.getAuth());
+            PluginManager.GetPlayerInfo(player.getUniqueId()).setLastAuth(this.LsResponse.getAuth());
             player.sendMessage(ChatColor.WHITE + "Displaying Directory Contents");
 
             for (DirectoryElement element : this.LsResponse.getContents()) {
@@ -93,7 +93,7 @@ public class LsTaskResponse
         } catch (Exception e) {
 
         }
-        PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "LS");
+        PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "LS");
         this.cancel();
     }
 }

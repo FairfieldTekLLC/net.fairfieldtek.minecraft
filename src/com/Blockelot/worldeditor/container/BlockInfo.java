@@ -288,11 +288,28 @@ public final class BlockInfo {
                 if (target.getState() instanceof Container) {
                     try {
                         if (!"".equals(this.getInventoryContentsString())) {
-                            ((Container) target.getState()).getInventory().setContents(com.Blockelot.Util.Inventory.itemStackArrayFromBase64(this.getInventoryContentsString()));
+
+                            ArrayList<ItemStack> list = new ArrayList<>();
+                            ItemStack[] itms = com.Blockelot.Util.Inventory.itemStackArrayFromBase64(this.getInventoryContentsString());
+                            int counter = 0;
+                            for (ItemStack stack : itms) {
+                                if (stack != null) {
+                                    list.add(stack);
+                                }
+                                if (counter >= 27) {
+                                    break;
+                                }
+                                counter++;
+                            }
+
+                            ItemStack[] g = new ItemStack[list.size()];
+                            list.toArray(g);                           
+
+                            ((Container) target.getState()).getInventory().setContents(g);
                         }
-                        if (!"".equals(this.getInventoryStorageString())) {
-                            ((Container) target.getState()).getInventory().setStorageContents(com.Blockelot.Util.Inventory.itemStackArrayFromBase64(this.getInventoryStorageString()));
-                        }
+//                        if (!"".equals(this.getInventoryStorageString())) {
+//                            ((Container) target.getState()).getInventory().setStorageContents(com.Blockelot.Util.Inventory.itemStackArrayFromBase64(this.getInventoryStorageString()));
+//                        }
                     } catch (IOException ex) {
                         Logger.getLogger(BlockInfo.class.getName()).log(Level.WARNING, null, ex);
                     }
@@ -977,6 +994,25 @@ public final class BlockInfo {
         block.BlockStorageIndex = dat.Value;
 
         return new Pair<BlockInfo, byte[]>(block, dat.Stream);
+
+    }
+
+    public static BlockInfo fromXferStream(int[] data) {
+        BlockInfo block = new BlockInfo(null);
+        block.X = data[0];
+        block.Y = data[1];
+        block.Z = data[2];
+        block.BlockTypeIndex = data[3];
+        block.BlockDataIndex = data[4];
+        block.BlockContentsIndex = data[5];
+        block.BlockStorageIndex = data[6];
+
+//        int[] remainder = new int[0];
+//        if (data.length >= 14) {
+//            remainder = Arrays.copyOfRange(data, 7, data.length - 7 + 1);
+//        }
+
+        return block;
 
     }
 

@@ -52,9 +52,11 @@ package com.Blockelot.worldeditor.commands.tasks;
 
 import com.google.gson.Gson;
 import com.Blockelot.PluginManager;
+import com.Blockelot.Util.ServerUtil;
 import com.Blockelot.worldeditor.http.SchematicDataDownloadRequest;
 import com.Blockelot.worldeditor.http.SchematicDataDownloadResponse;
 import com.Blockelot.worldeditor.container.PlayerInfo;
+import java.util.concurrent.CompletableFuture;
 
 /**
  *
@@ -67,6 +69,10 @@ public class LoadClipboardTaskRequest
 
     private final String Filename;
 
+    private boolean MadeRequest = false;
+
+    Thread Sender = null;
+
     public LoadClipboardTaskRequest(PlayerInfo playerInfo, String filename) {
 
         this.Filename = filename;
@@ -74,27 +80,33 @@ public class LoadClipboardTaskRequest
 
     }
 
+    StringObject result = new StringObject();
+
     @Override
     public void run() {
         try {
-            SchematicDataDownloadRequest req = new SchematicDataDownloadRequest();
-            req.setAuth(PlayerInfo.getLastAuth());
-            req.setCurrentDirectory(PlayerInfo.getCurrentPath());
-            req.setFileName(this.Filename);
-            req.setUuid(PlayerInfo.getUUID());
+            if (!MadeRequest) {
+                Sender = new Thread(new ThreadAlive(PlayerInfo, Filename, result));
+                Sender.start();
+                MadeRequest = true;
+            }
+            PlayerInfo.getPlayer().sendMessage("Waiting for response....");
+            if (Sender.isAlive()) {
+                return;
+            }
+            PlayerInfo.getPlayer().sendMessage("Reading response....");
             Gson gson = new Gson();
-            String body = gson.toJson(req);
-
-            String json = RequestHttp(PluginManager.Config.BaseUri + "Load", body);
-            SchematicDataDownloadResponse response = gson.fromJson(json, SchematicDataDownloadResponse.class);
-            //System.out.println(json);
-
+            SchematicDataDownloadResponse response = gson.fromJson(result.getString(), SchematicDataDownloadResponse.class);
             PlayerInfo.setLastAuth(response.getAuth());
             response.setUuid(PlayerInfo.getUUID());
 
-            new LoadClipBoardTaskResponse(response).runTask((org.bukkit.plugin.Plugin) PluginManager.Plugin);
+            LoadClipBoardTaskResponse ct = new LoadClipBoardTaskResponse(response);
+            ct.runTaskTimer((org.bukkit.plugin.Plugin) PluginManager.Plugin, 2, 15);
+
         } catch (Exception e) {
             PlayerInfo.setIsProcessing(false, "LoadClipboard");
+            ServerUtil.consoleLog(e.getLocalizedMessage());
+            ServerUtil.consoleLog(e.getMessage());
             SchematicDataDownloadResponse resp = new SchematicDataDownloadResponse();
             resp.setFileName(this.Filename);
             resp.setWasSuccessful(false);
@@ -102,5 +114,6 @@ public class LoadClipboardTaskRequest
             resp.setMessage("Unknown Error.");
             new LoadClipBoardTaskResponse(resp).runTask((org.bukkit.plugin.Plugin) PluginManager.Plugin);
         }
+        cancel();
     }
 }

@@ -69,7 +69,16 @@ public class SchematicDataDownloadResponse {
     private PaletteEntry[] BlockDataPalette = null;
     private PaletteEntry[] BlockTypePalette = null;
     private PaletteEntry[] BlockInvePalette = null;
-    private String Blocks = null;
+    private int[] Blocks = null;
+    private int TotalNumberOfBlocks;
+    
+    public int getTotalNumberOfBlocks(){
+        return TotalNumberOfBlocks;
+    }
+    
+    public void setTotalNumberOfBlocks(int i){
+        TotalNumberOfBlocks = i;
+    }
 
     public boolean getIsAuthorized() {
         return this.IsAuthorized;
@@ -151,11 +160,11 @@ public class SchematicDataDownloadResponse {
         BlockInvePalette = palette;
     }
 
-    public String getBlocks() {
+    public int[] getBlocks() {
         return this.Blocks;
     }
 
-    public void setBlocks(String blocks) {
+    public void setBlocks(int[] blocks) {
         this.Blocks = blocks;
     }
 }

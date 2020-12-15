@@ -76,8 +76,8 @@ public class RmTaskResponse
                     return;
                 }
 
-                PluginManager.PlayerInfoList.get(player).setLastAuth(this.RmResponse.getAuth());
-                PluginManager.PlayerInfoList.get(player).setCurrentPath(this.RmResponse.getDirectoryPath());
+                PluginManager.GetPlayerInfo(player.getUniqueId()).setLastAuth(this.RmResponse.getAuth());
+                PluginManager.GetPlayerInfo(player.getUniqueId()).setCurrentPath(this.RmResponse.getDirectoryPath());
 
                 if (!this.RmResponse.getWasSuccessful()) {
                     player.sendMessage(ChatColor.RED + this.RmResponse.getMessage());
@@ -92,7 +92,7 @@ public class RmTaskResponse
             ServerUtil.consoleLog(e.getMessage());
         }
 
-        PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Rm");
+        PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "Rm");
         this.cancel();
     }
 }

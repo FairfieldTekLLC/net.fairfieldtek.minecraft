@@ -53,6 +53,7 @@ package com.Blockelot.worldeditor.commands.tasks;
 import com.Blockelot.Util.ServerUtil;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.concurrent.CompletableFuture;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -60,6 +61,10 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.asynchttpclient.AsyncHttpClient;
+import org.asynchttpclient.DefaultAsyncHttpClient;
+import org.asynchttpclient.Response;
+import org.asynchttpclient.request.body.multipart.StringPart;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
@@ -67,13 +72,20 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @author geev
  */
 public abstract class HttpRequestor extends BukkitRunnable {
+//
+//    CompletableFuture<String> AccessTheWebAsync(String uri, String postBody) {
+//        AsyncHttpClient asyncHttpClient = new DefaultAsyncHttpClient();
+//        return asyncHttpClient
+//                .prepareGet(uri)
+//                .addBodyPart(new StringPart("",postBody))
+//                .execute()
+//                .toCompletableFuture()
+//                .thenApply(Response::getResponseBody);
+//
+//    }
 
     public String RequestHttp(String uri, String postBody) {
         try {
-
-            LocalDate start = LocalDate.now();
-            //System.out.println("!!HTTP REQUEST!!  " + uri);
-            //ServerUtil.consoleLog("!!HTTP REQUEST!!  " + uri);
             CloseableHttpClient httpClient = HttpClientBuilder.create().build();
             HttpPost request = new HttpPost(uri);
             StringEntity params = new StringEntity(postBody);
@@ -82,13 +94,7 @@ public abstract class HttpRequestor extends BukkitRunnable {
             RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(120000).setConnectTimeout(120000).setConnectionRequestTimeout(120000).build();
             request.setConfig(requestConfig);
             CloseableHttpResponse result = httpClient.execute(request);
-            LocalDate end = LocalDate.now();
-
-            Duration diff = Duration.between(start.atStartOfDay(), end.atStartOfDay());
-            //ServerUtil.consoleLog("Webserver responed in " + diff.toMillis() + " ms.");
-            String r = EntityUtils.toString(result.getEntity(), "UTF-8");
-            //ServerUtil.consoleLog(r);
-            return r;
+            return EntityUtils.toString(result.getEntity(), "UTF-8");
         } catch (Exception e) {
             ServerUtil.consoleLog(e.getLocalizedMessage());
             ServerUtil.consoleLog(e.getMessage());

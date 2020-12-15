@@ -69,32 +69,32 @@ public class Authenticate
         if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_FileSystem) || player.isOp())) {
 
             try {
-                if (PluginManager.PlayerInfoList.get(player).getIsProcessing()) {
+                if (PluginManager.GetPlayerInfo(player.getUniqueId()).getIsProcessing()) {
                     player.sendMessage("Please wait for last command to finish.");
                     return true;
                 }
 
-                PluginManager.PlayerInfoList.get(player).setIsProcessing(true, "Authenticate");
+                PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(true, "Authenticate");
 
                 if (args.length == 1) {
 
-                    PluginManager.PlayerInfoList.get(player).setLastAuth(args[0]);
+                    PluginManager.GetPlayerInfo(player.getUniqueId()).setLastAuth(args[0]);
 
                     player.sendMessage("Processing Login....");
 
-                    new LoginTaskRequest(PluginManager.PlayerInfoList.get(player), args[0]).runTaskAsynchronously((org.bukkit.plugin.Plugin) PluginManager.Plugin);
+                    new LoginTaskRequest(PluginManager.GetPlayerInfo(player.getUniqueId()), args[0]).runTaskAsynchronously((org.bukkit.plugin.Plugin) PluginManager.Plugin);
 
                     return true;
 
                 }
 
-                new AuthenticateTaskRequest(PluginManager.PlayerInfoList.get(player)).runTaskAsynchronously((org.bukkit.plugin.Plugin) PluginManager.Plugin);
+                new AuthenticateTaskRequest(PluginManager.GetPlayerInfo(player.getUniqueId())).runTaskAsynchronously((org.bukkit.plugin.Plugin) PluginManager.Plugin);
 
                 player.sendMessage("Requesting Authenticating against Library...");
 
                 //player.sendMessage("After email use: " + ChatColor.YELLOW + "'/fft.auth <Auth Token>'" + ChatColor.WHITE + " to login.");
             } catch (Exception e) {
-                PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Authenticate");
+                PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "Authenticate");
 
                 ServerUtil.consoleLog(e.getLocalizedMessage());
 

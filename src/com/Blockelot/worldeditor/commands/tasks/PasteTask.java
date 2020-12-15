@@ -110,7 +110,7 @@ public class PasteTask
         this.Z = z;
         this.Axis = axis;
         this.Degrees = degrees;
-        pi = PluginManager.PlayerInfoList.get(player);
+        pi = PluginManager.GetPlayerInfo(player.getUniqueId());
         this.SchematicClipboard = pi.ClipSchematic.Clone();
         this.SchematicUndo = pi.NewUndo();
         this.SchematicUndo.Clear();
@@ -204,7 +204,7 @@ public class PasteTask
     public void run() {
         Player player = PluginManager.Plugin.getServer().getPlayer(this.PlayerId);
 //        try {
-        PlayerInfo pi = PluginManager.PlayerInfoList.get(player);
+        PlayerInfo pi = PluginManager.GetPlayerInfo(player.getUniqueId());
         if (pi.CancelLastAction) {
             pi.CancelLastAction = false;
             this.cancel();
@@ -362,7 +362,7 @@ public class PasteTask
 //
 //        }
 
-        PluginManager.PlayerInfoList.get(player)
+        PluginManager.GetPlayerInfo(player.getUniqueId())
                 .setIsProcessing(false, "Paste");
 
         this.cancel();

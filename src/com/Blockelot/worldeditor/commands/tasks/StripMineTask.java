@@ -380,14 +380,14 @@ public class StripMineTask extends BukkitRunnable {
                     PlayerInfo.getPlayer().sendMessage(ChatColor.RED + "Nothing to deposit in bank.");
                 }
                 PlayerInfo.getPlayer().sendMessage(ChatColor.RED + "Stripmining is complete.");
-                PluginManager.PlayerInfoList.get(PlayerInfo.getPlayer()).setIsProcessing(false, "StripMine");
+                PluginManager.GetPlayerInfo(PlayerInfo.getPlayer().getUniqueId()).setIsProcessing(false, "StripMine");
                 this.cancel();
             }
         } catch (IllegalStateException e) {
             ServerUtil.consoleLog(e.getLocalizedMessage());
             ServerUtil.consoleLog(e.getMessage());
             ServerUtil.consoleLog(e);
-            PluginManager.PlayerInfoList.get(PlayerInfo.getPlayer()).setIsProcessing(false, "StripMine");
+            PluginManager.GetPlayerInfo(PlayerInfo.getPlayer().getUniqueId()).setIsProcessing(false, "StripMine");
             this.cancel();
         }
     }

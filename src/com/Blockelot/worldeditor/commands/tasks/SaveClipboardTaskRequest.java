@@ -74,20 +74,20 @@ public class SaveClipboardTaskRequest
     private boolean FirstPass = true;
     private BlockCollection WorkArea;
     private int TotalNumberOfBlocks = 0;
+    int schematicId = -1;
 
     public SaveClipboardTaskRequest(PlayerInfo pi, String filename) {
         PlayerInfo = pi;
         WorkArea = pi.ClipSchematic.Clone();
         this.Filename = filename;
-        TotalNumberOfBlocks= WorkArea.Size();
-        
+        TotalNumberOfBlocks = pi.ClipSchematic.Size();
+
     }
 
     @Override
     public void run() {
         try {
-            int schematicId = -1;
-            int total = WorkArea.Size();
+
             SchematicDataResponse response = new SchematicDataResponse();
             while (WorkArea.Size() > 0) {
                 ListIterator<BlockInfo> iter = WorkArea.getBlocks().listIterator();
@@ -102,9 +102,9 @@ public class SaveClipboardTaskRequest
                     }
                     break;
                 }
-                
-                PlayerInfo.getPlayer().sendMessage(ChatColor.YELLOW + "Save in progress, " + WorkArea.Size() +" left to send..." );
-                
+
+                PlayerInfo.getPlayer().sendMessage(ChatColor.YELLOW + "Save in progress, " + WorkArea.Size() + " left to send...");
+
                 SchematicDataRequest schematicDataRequest = new SchematicDataRequest();
 
                 if (FirstPass) {
@@ -129,29 +129,22 @@ public class SaveClipboardTaskRequest
                 schematicDataRequest.setFileName(this.Filename);
                 schematicDataRequest.setBlocks(blocks);
                 schematicDataRequest.setSchematicId(schematicId);
-                schematicDataRequest.setTotalNumberOfBlocks(total);
+                schematicDataRequest.setTotalNumberOfBlocks(TotalNumberOfBlocks);
                 String body = gson.toJson(schematicDataRequest);
                 response = gson.fromJson(RequestHttp(PluginManager.Config.BaseUri + "Save", body), SchematicDataResponse.class);
-
-//                if (WorkArea.Size() > 0) {
-//                    response.setMessage("Saving... " + WorkArea.Size() + " blocks remaining of " + total);
-//                }
-
                 PlayerInfo.setLastAuth(response.getAuth());
-
                 schematicId = response.getSchematicId();
-
-                response.setFinal(false);
-
-                new SaveClipboardTaskResponse(response).runTask((org.bukkit.plugin.Plugin) PluginManager.Plugin);
-
-                if (response.getWasSuccessful()) {
-                    continue;
+                if (WorkArea.Size() > 1) {
+                    response.setMessage("Saving... " + WorkArea.Size() + " blocks remaining of " + TotalNumberOfBlocks);
+                    return;
                 }
+
+                PlayerInfo.setIsProcessing(false, "SaveClipboard");
+                PlayerInfo.getPlayer().sendMessage(ChatColor.GREEN + response.getMessage());
+                PlayerInfo.getPlayer().sendMessage(ChatColor.YELLOW + "File saved.");
                 this.cancel();
             }
-            response.setFinal(true);
-            new SaveClipboardTaskResponse(response).runTask((org.bukkit.plugin.Plugin) PluginManager.Plugin);
+            response.setFinal(true);          
             this.cancel();
 
         } catch (Exception e) {
@@ -160,12 +153,7 @@ public class SaveClipboardTaskRequest
             ServerUtil.consoleLog(e.getMessage());
             ServerUtil.consoleLog(e);
 
-            SchematicDataResponse response = new SchematicDataResponse();
-            response.setMessage("An Error has occurred. " + e.getMessage());
-            response.setWasSuccessful(false);
-            response.setUuid(PlayerInfo.getUUID());
-            this.cancel();
-            new SaveClipboardTaskResponse(response).runTask((org.bukkit.plugin.Plugin) PluginManager.Plugin);
         }
+        this.cancel();
     }
 }

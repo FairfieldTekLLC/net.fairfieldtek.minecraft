@@ -88,13 +88,36 @@ import net.milkbowl.vault.permission.Permission;
 import java.util.logging.Logger;
 
 import java.util.HashMap;
+import java.util.UUID;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class PluginManager {
 
     public static Plugin Plugin;
     public static String Version;
-    public static HashMap<Player, PlayerInfo> PlayerInfoList;
+    
+    private static HashMap<UUID, PlayerInfo> PlayerInfoList;
+    
+    public static PlayerInfo GetPlayerInfo(UUID key){
+        return PlayerInfoList.get(key);
+    }
+    
+    public static void AddPlayerInfo(PlayerInfo pi){
+        PlayerInfoList.put(pi.getPlayer().getUniqueId(), pi);
+    }
+    
+    public static boolean HasPlayer(Player player){
+        if (PlayerInfoList.containsKey(player.getUniqueId()))
+            return true;
+        return false;
+    }
+    
+    public static void RemovePlayer(Player player){
+        if (PlayerInfoList.containsKey(player.getUniqueId())){
+            PlayerInfoList.remove(player.getUniqueId());
+        }
+    }
+    
     public static Configuration Config;
     private static final Logger log = Logger.getLogger("Minecraft");
 
@@ -105,6 +128,11 @@ public class PluginManager {
         PlayerInfoList = new HashMap<>();
         Version = "1.0.0.0";
         Config = new Configuration();
+        try {
+            Config.LoadData();
+        } catch (Exception e) {
+
+        }
     }
 
     public static String getWorldId() {
@@ -144,8 +172,6 @@ public class PluginManager {
         plugin.getCommand("b.bbwd").setExecutor((CommandExecutor) new BlockBankWithdrawl());
         plugin.getCommand("b.help").setExecutor((CommandExecutor) new Help());
         plugin.getCommand("b.about").setExecutor((CommandExecutor) new About());
-        
-        
 
 //        if (!setupEconomy()) {
 //            log.severe(String.format("[%s] - Disabled due to no Vault dependency found!",plugin.getDescription().getName()));

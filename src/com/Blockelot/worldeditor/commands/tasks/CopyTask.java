@@ -95,10 +95,10 @@ public class CopyTask
         Player player = PluginManager.Plugin.getServer().getPlayer(this.PlayerId);
         try {
 
-            PlayerInfo pi = PluginManager.PlayerInfoList.get(player);
+            PlayerInfo pi = PluginManager.GetPlayerInfo(player.getUniqueId());
 
             if (player == null) {
-                PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Copy");
+                PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "Copy");
                 this.cancel();
             }
 
@@ -158,14 +158,14 @@ public class CopyTask
 
             pi.ClipSchematic = this.SchematicToPaste;
             player.sendMessage("Blocks Copied (" + pi.ClipSchematic.Size() + " blocks copied.)");
-            PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Copy");
+            PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "Copy");
             this.cancel();
         } catch (Exception e) {
             ServerUtil.consoleLog(e.getLocalizedMessage());
             ServerUtil.consoleLog(e.getMessage());
 
         }
-        PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Copy");
+        PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "Copy");
         this.cancel();
     }
 }

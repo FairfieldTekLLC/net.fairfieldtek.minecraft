@@ -66,21 +66,21 @@ public class Delete
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
         if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_Delete) || (player = (Player) sender).hasPermission(PluginManager.Config.Permission_Editor) || player.isOp())) {
-             if ("".equals(PluginManager.PlayerInfoList.get(player).getLastAuth())) {
+             if ("".equals(PluginManager.GetPlayerInfo(player.getUniqueId()).getLastAuth())) {
                 player.sendMessage("Please use /b.reg [email] first.");
                 return true;
             }
             try {
-                if (PluginManager.PlayerInfoList.get(player).getIsProcessing()) {
+                if (PluginManager.GetPlayerInfo(player.getUniqueId()).getIsProcessing()) {
                     player.sendMessage("Please wait for last command to finish.");
                     return true;
                 }
-                PluginManager.PlayerInfoList.get(player).setIsProcessing(true, "Delete");
+                PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(true, "Delete");
 
-                if (!PluginManager.PlayerInfoList.containsKey(player)) {
+                if (!PluginManager.HasPlayer(player)) {
                     player.sendMessage("Select something first!");
                 }
-                if (PluginManager.PlayerInfoList.get(player).SelectStart == null || PluginManager.PlayerInfoList.get(player).SelectEnd == null) {
+                if (PluginManager.GetPlayerInfo(player.getUniqueId()).SelectStart == null || PluginManager.GetPlayerInfo(player.getUniqueId()).SelectEnd == null) {
                     player.sendMessage("Select something with /fft.we.select");
                 }
                 player.sendMessage(ChatColor.RED + "Starting Delete Procedure...");
@@ -89,7 +89,7 @@ public class Delete
                 ut.runTaskTimer((org.bukkit.plugin.Plugin) PluginManager.Plugin, 1, 15);
 
             } catch (Exception e) {
-                PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Delete");
+               PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "Delete");
                 ServerUtil.consoleLog(e.getLocalizedMessage());
                 ServerUtil.consoleLog(e.getMessage());
             }

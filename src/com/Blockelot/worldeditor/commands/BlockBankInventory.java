@@ -73,26 +73,26 @@ public class BlockBankInventory implements CommandExecutor {
         Player player;
         if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_BlockelotBank) || player.isOp())) {
             {
-                if ("".equals(PluginManager.PlayerInfoList.get(player).getLastAuth())) {
+                if ("".equals(PluginManager.GetPlayerInfo(player.getUniqueId()).getLastAuth())) {
                     player.sendMessage("Please use /b.reg [email] first.");
                     return true;
                 }
                 try {
-                    if (PluginManager.PlayerInfoList.get(player).getIsProcessing()) {
+                    if (PluginManager.GetPlayerInfo(player.getUniqueId()).getIsProcessing()) {
                         player.sendMessage(ChatColor.RED + "Please wait for last command to finish.");
                         return true;
                     }
-                    PluginManager.PlayerInfoList.get(player).setIsProcessing(true, "Block Bank Inventory");
+                    PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(true, "Block Bank Inventory");
 
-                    if (PluginManager.PlayerInfoList.containsKey(player)) {
-                        PlayerInfo pi = PluginManager.PlayerInfoList.get(player);
+                    if (PluginManager.HasPlayer(player)) {
+                        PlayerInfo pi = PluginManager.GetPlayerInfo(player.getUniqueId());
 
                         BlockBankInventoryTaskRequest task = new BlockBankInventoryTaskRequest(pi);
                         task.runTaskTimer((org.bukkit.plugin.Plugin) PluginManager.Plugin, 2, 15);
                     }
 
                 } catch (Exception e) {
-                    PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "bbinv");
+                    PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "bbinv");
                     ServerUtil.consoleLog(e.getLocalizedMessage());
                     ServerUtil.consoleLog(e.getMessage());
                 }

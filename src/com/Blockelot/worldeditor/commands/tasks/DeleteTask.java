@@ -83,7 +83,7 @@ public class DeleteTask
 
     public DeleteTask(Player player) {
         this.PlayerId = player.getUniqueId();
-        pi = PluginManager.PlayerInfoList.get(player);
+        pi = PluginManager.GetPlayerInfo(player.getUniqueId());
         if (pi.SelectEnd == null || pi.SelectStart == null) {
             this.Cancel = true;
         }
@@ -126,7 +126,7 @@ public class DeleteTask
             if (player == null || this.Cancel) {
                 this.cancel();
             }
-            PlayerInfo pi = PluginManager.PlayerInfoList.get(player);
+            PlayerInfo pi = PluginManager.GetPlayerInfo(player.getUniqueId());
             BlockCollection undo = pi.NewUndo();
             player.sendMessage("starting...");
             World world = player.getWorld();
@@ -163,7 +163,7 @@ public class DeleteTask
             ServerUtil.consoleLog(e.getLocalizedMessage());
             ServerUtil.consoleLog(e.getMessage());
         }
-        PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Delete");
+        PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "Delete");
         this.cancel();
     }
 }

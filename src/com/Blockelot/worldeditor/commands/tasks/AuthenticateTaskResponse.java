@@ -81,7 +81,7 @@ public class AuthenticateTaskResponse
             ServerUtil.consoleLog(e.getLocalizedMessage());
             ServerUtil.consoleLog(e.getMessage());
         }
-        PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Authenticate");
+        PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "Authenticate");
         this.cancel();
     }
 }

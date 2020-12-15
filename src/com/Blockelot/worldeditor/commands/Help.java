@@ -100,7 +100,7 @@ public class Help
             lines.add(ChatColor.YELLOW + "/b.mk [Foldername] - Creates a new folder.");
             lines.add(ChatColor.YELLOW + "/b.save [Filename] - Saves the clipboard into the cloud, names file.");
             lines.add(ChatColor.YELLOW + "/b.load [Filename] - Loads the contents into your clipboard.");
-            PluginManager.PlayerInfoList.get(player).SendBankMessageHeader(lines, true, false);
+            PluginManager.GetPlayerInfo(player.getUniqueId()).SendBankMessageHeader(lines, true, false);
         }
         return true;
     }

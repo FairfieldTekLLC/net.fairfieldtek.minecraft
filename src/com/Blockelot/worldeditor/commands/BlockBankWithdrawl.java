@@ -73,7 +73,7 @@ public class BlockBankWithdrawl implements CommandExecutor {
 
         if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_BlockelotBank) || player.isOp())) {
             try {
-                if ("".equals(PluginManager.PlayerInfoList.get(player).getLastAuth())) {
+                if ("".equals(PluginManager.GetPlayerInfo(player.getUniqueId()).getLastAuth())) {
                     player.sendMessage("Please use /b.reg [email] first.");
                     return true;
                 }
@@ -102,7 +102,7 @@ public class BlockBankWithdrawl implements CommandExecutor {
                     return true;
                 }
 
-                PlayerInfo pi = PluginManager.PlayerInfoList.get(player);
+                PlayerInfo pi = PluginManager.GetPlayerInfo(player.getUniqueId());
                 if (!Mat.isBlock()) {
                     player.sendMessage(ChatColor.RED + "Only placeable materials can be deposited.");
                     return true;
@@ -111,7 +111,7 @@ public class BlockBankWithdrawl implements CommandExecutor {
                 task.runTaskTimer((org.bukkit.plugin.Plugin) PluginManager.Plugin, 2, 15);
 
             } catch (Exception e) {
-                PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Copy");
+               PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "Copy");
                 ServerUtil.consoleLog(e.getLocalizedMessage());
                 ServerUtil.consoleLog(e.getMessage());
             }

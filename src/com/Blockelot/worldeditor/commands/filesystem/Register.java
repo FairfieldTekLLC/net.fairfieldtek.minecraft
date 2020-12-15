@@ -73,15 +73,15 @@ public class Register
                     return true;
                 }
 
-                if (PluginManager.PlayerInfoList.get(player).getIsProcessing()) {
+                if (PluginManager.GetPlayerInfo(player.getUniqueId()).getIsProcessing()) {
                     player.sendMessage("Please wait for last command to finish.");
                     return true;
                 }
-                PluginManager.PlayerInfoList.get(player).setIsProcessing(true, "Register");
+                PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(true, "Register");
                 player.sendMessage(ChatColor.RED + "Starting Registration...");
                 new RegisterTaskRequest(player, args[0]).runTaskAsynchronously((org.bukkit.plugin.Plugin) PluginManager.Plugin);
             } catch (Exception e) {
-                PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Register");
+                PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "Register");
                 ServerUtil.consoleLog(e.getLocalizedMessage());
                 ServerUtil.consoleLog(e.getMessage());
             }

@@ -65,17 +65,17 @@ public class Undo
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player;
         if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_Undo) || (player = (Player) sender).hasPermission(PluginManager.Config.Permission_Editor) || player.isOp())) {
-            if ("".equals(PluginManager.PlayerInfoList.get(player).getLastAuth())) {
+            if ("".equals(PluginManager.GetPlayerInfo(player.getUniqueId()).getLastAuth())) {
                 player.sendMessage("Please use /b.reg [email] first.");
                 return true;
             }
-            if (PluginManager.PlayerInfoList.get(player).getIsProcessing()) {
+            if (PluginManager.GetPlayerInfo(player.getUniqueId()).getIsProcessing()) {
                 player.sendMessage("Please wait for last command to finish.");
                 return true;
             }
-            PluginManager.PlayerInfoList.get(player).setIsProcessing(true, "Undo");
+            PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(true, "Undo");
             player.sendMessage(ChatColor.RED + "Starting Undo, guess you really messed up, eh?");
-            UndoTask ut = new UndoTask(PluginManager.PlayerInfoList.get(player));
+            UndoTask ut = new UndoTask(PluginManager.GetPlayerInfo(player.getUniqueId()));
 
             ut.runTaskTimer((org.bukkit.plugin.Plugin) PluginManager.Plugin, 1, 16);
         }

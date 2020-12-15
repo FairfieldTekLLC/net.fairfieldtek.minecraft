@@ -98,7 +98,7 @@ public class Paste
     }
 
     private boolean CheckPlayerInfo(Player player) {
-        if (!PluginManager.PlayerInfoList.containsKey(player)) {
+        if (!PluginManager.HasPlayer(player)) {
             player.sendMessage("Select something first!");
             return false;
         }
@@ -106,7 +106,7 @@ public class Paste
     }
 
     private boolean CheckClipBoard(Player player) {
-        PlayerInfo pi = PluginManager.PlayerInfoList.get(player);
+        PlayerInfo pi =PluginManager.GetPlayerInfo(player.getUniqueId());
         if (pi.ClipSchematic.IsEmpty()) {
             player.sendMessage("Clipboard is empty.");
             return false;
@@ -149,21 +149,21 @@ public class Paste
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player;
         if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_Paste) || (player = (Player) sender).hasPermission(PluginManager.Config.Permission_Editor) || player.isOp())) {
-          if ("".equals(PluginManager.PlayerInfoList.get(player).getLastAuth())) {
+          if ("".equals(PluginManager.GetPlayerInfo(player.getUniqueId()).getLastAuth())) {
                 player.sendMessage("Please use /b.reg [email] first.");
                 return true;
             }
             try {
-                if (PluginManager.PlayerInfoList.get(player).getIsProcessing()) {
+                if (PluginManager.GetPlayerInfo(player.getUniqueId()).getIsProcessing()) {
                     player.sendMessage("Please wait for last command to finish.");
                     return true;
                 }
-                if (PluginManager.PlayerInfoList.get(player).ClipSchematic.IsEmpty()) {
+                if (PluginManager.GetPlayerInfo(player.getUniqueId()).ClipSchematic.IsEmpty()) {
                     player.sendMessage("Nothing in clipboard.");
-                    PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Paste");
+                    PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "Paste");
                     return true;
                 }
-                PluginManager.PlayerInfoList.get(player).setIsProcessing(true, "Paste");
+                PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(true, "Paste");
 
                 Axis axis = Axis.N;
                 double degrees = 0.0;
@@ -207,7 +207,7 @@ public class Paste
                 }
                 Location tLoc = targetBlock.getLocation();
                 if (!(axis != Axis.X && axis != Axis.Z || force)) {
-                    PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Paste");
+                    PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "Paste");
                     player.sendMessage("WARNING!!! The ONLY SAFE rotation is on the Y axis, put an 'f' at the end to force the rotation.");
                     player.sendMessage("ABORTING COPY");
                     return true;
@@ -226,7 +226,7 @@ public class Paste
                 ServerUtil.consoleLog(e.getLocalizedMessage());
                 ServerUtil.consoleLog(e.getMessage());
 
-                PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Paste");
+                PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "Paste");
                 ServerUtil.consoleLog(e.getLocalizedMessage());
                 ServerUtil.consoleLog(e.getMessage());
 

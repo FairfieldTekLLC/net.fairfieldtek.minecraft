@@ -70,8 +70,8 @@ public class RegisterTaskResponse
     @Override
     public void run() {
         if (Player != null) {
-            PluginManager.PlayerInfoList.get(Player).setIsProcessing(false, "Register");
-            PluginManager.PlayerInfoList.get(Player).setLastAuth(RegisterResponse.getAuth());
+            PluginManager.GetPlayerInfo(Player.getUniqueId()).setIsProcessing(false, "Register");
+            PluginManager.GetPlayerInfo(Player.getUniqueId()).setLastAuth(RegisterResponse.getAuth());
             Player.sendMessage("Registration: Message: " + this.RegisterResponse.getMessage());
         }
         this.cancel();

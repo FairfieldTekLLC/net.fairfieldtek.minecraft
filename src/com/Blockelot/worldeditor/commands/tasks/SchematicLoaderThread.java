@@ -50,41 +50,71 @@
 //Blockelot and it's Cloud Storage is provided "as is", without warranties of any kind.
 package com.Blockelot.worldeditor.commands.tasks;
 
-import java.util.UUID;
 import com.Blockelot.PluginManager;
+import com.Blockelot.Util.MiscUtil;
 import com.Blockelot.Util.ServerUtil;
-import com.Blockelot.worldeditor.http.CdResponse;
+import com.Blockelot.worldeditor.container.BlockCollection;
+import com.Blockelot.worldeditor.container.BlockInfo;
+import com.Blockelot.worldeditor.container.PlayerInfo;
+import com.Blockelot.worldeditor.http.SchematicDataDownloadResponse;
+import com.sun.tools.javac.util.Pair;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
-public class CdTaskResponse
-        extends BukkitRunnable {
+/**
+ *
+ * @author geev
+ */
+public class SchematicLoaderThread implements Runnable {
 
-    public CdResponse CdResponse;
-
-    public CdTaskResponse(CdResponse cdResponse) {
-        this.CdResponse = cdResponse;
-    }
+    int[] Numbers = null;
+    ArrayList<BlockInfo> Blocks;
+    BlockCollection Working;
 
     @Override
     public void run() {
-        Player player = PluginManager.Plugin.getServer().getPlayer(UUID.fromString(this.CdResponse.getUuid()));
         try {
-            if (player == null) {
-                return;
+            int counter = 0;
+
+            int NumCounter = 0;
+
+            int[] Seven = new int[7];
+
+            for (int num : Numbers) {
+
+                Seven[NumCounter] = num;
+
+                NumCounter++;
+
+                if (NumCounter == 7) {
+
+                    BlockInfo block = BlockInfo.fromXferStream(Seven);
+
+                    block.setBlockCollection(Working);
+
+                    Blocks.add(block);
+
+                    counter++;
+
+                    Seven = new int[7];
+                    
+                    NumCounter = 0;
+
+                }
             }
-            PluginManager.GetPlayerInfo(player.getUniqueId()).setLastAuth(this.CdResponse.getAuth());
-            PluginManager.GetPlayerInfo(player.getUniqueId()).setCurrentPath(this.CdResponse.getDirectoryPath());
-            if (!this.CdResponse.getWasSuccessful()) {
-                player.sendMessage(ChatColor.RED + this.CdResponse.getMessage());
-            }
-            player.sendMessage("Current Directory: " + this.CdResponse.getDirectoryPath());
-        } catch (Exception e) {
-            ServerUtil.consoleLog(e.getLocalizedMessage());
-            ServerUtil.consoleLog(e.getMessage());
+        } catch (Exception ex) {
+            Logger.getLogger(BlockInfo.class.getName()).log(Level.WARNING, null, ex);
+            ServerUtil.consoleLog(ex.getLocalizedMessage());
+            ServerUtil.consoleLog(ex.getMessage());
+            ServerUtil.consoleLog(ex);
         }
-        PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "Cd");
-        this.cancel();
+    }
+
+    public SchematicLoaderThread(int[] numbers, ArrayList<BlockInfo> blocks, BlockCollection scheme) {
+        Working = scheme;
+        Numbers = numbers;
+        Blocks = blocks;
     }
 }

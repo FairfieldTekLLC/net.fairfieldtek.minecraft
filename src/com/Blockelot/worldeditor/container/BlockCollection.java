@@ -302,7 +302,7 @@ public class BlockCollection {
         return map;
     }
 
-    public void LoadResponse(SchematicDataDownloadResponse response) throws Exception {
+    public void LoadResponse(SchematicDataDownloadResponse response) {
 
         Blocks.clear();
         BlockTypePalette = new ArrayList<>();
@@ -324,38 +324,7 @@ public class BlockCollection {
         }
         
         
-        char[] data = response.getBlocks().toCharArray(); 
-        
-        while (data.length>0){
-            
-             Pair<BlockInfo,char[]> r = BlockInfo.fromXferString(data);
-             
-             r.fst.setBlockCollection(this);
-             
-             Blocks.add(r.fst);
-             
-             data = r.snd;
-        }
-        
-//        
-//        byte[] data = Base64Coder.decode(response.getBlocks());
-//
-//        if (data.length > PluginManager.Config.MaxClipboardSize) {
-//            throw new Exception("Schematic size exceeds server max.");
-//        }
-//        
-//        try {
-//            while (data.length > 0) {
-//                Pair<BlockInfo, byte[]> r = BlockInfo.fromXferBytes(data);
-//                Blocks.add(r.fst);
-//                data = r.snd;
-//            }
-//        } catch (Exception e) {
-//            ServerUtil.consoleLog("Problem Loading Response!");
-//            ServerUtil.consoleLog(e.getLocalizedMessage());
-//            ServerUtil.consoleLog(e.getMessage());
-//            ServerUtil.consoleLog(e);
-//        }
+       
     }
 
     public int Size() {

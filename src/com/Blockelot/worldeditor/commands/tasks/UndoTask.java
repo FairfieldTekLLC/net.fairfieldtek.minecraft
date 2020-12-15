@@ -109,7 +109,7 @@ public class UndoTask
             ServerUtil.consoleLog(e.getMessage());
         }
 
-        PluginManager.PlayerInfoList.get(pi.getPlayer()).setIsProcessing(false, "Undo");
+        PluginManager.GetPlayerInfo(pi.getPlayer().getUniqueId()).setIsProcessing(false, "Undo");
         this.cancel();
     }
 }

@@ -76,7 +76,7 @@ public class BlockBankDeposit
         String MatName = "";
         if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_BlockelotBank) || player.isOp())) {
             {
-                if ("".equals(PluginManager.PlayerInfoList.get(player).getLastAuth())) {
+                if ("".equals(PluginManager.GetPlayerInfo(player.getUniqueId()).getLastAuth())) {
                     player.sendMessage("Please use /b.reg [email] first.");
                     return true;
                 }
@@ -85,7 +85,7 @@ public class BlockBankDeposit
                 int Amount = 0;
                 String MaterialName = "";
                 try {
-                    if (PluginManager.PlayerInfoList.get(player).getIsProcessing()) {
+                    if (PluginManager.GetPlayerInfo(player.getUniqueId()).getIsProcessing()) {
                         player.sendMessage(ChatColor.RED + "Please wait for last command to finish.");
                         return true;
                     }
@@ -128,16 +128,16 @@ public class BlockBankDeposit
                         MatName = Mat.name();
                     }
 
-                    PluginManager.PlayerInfoList.get(player).setIsProcessing(true, "Block Bank Withdrawl");
+                    PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(true, "Block Bank Withdrawl");
 
-                    if (PluginManager.PlayerInfoList.containsKey(player)) {
-                        PlayerInfo pi = PluginManager.PlayerInfoList.get(player);
+                    if (PluginManager.HasPlayer(player)) {
+                        PlayerInfo pi = PluginManager.GetPlayerInfo(player.getUniqueId());
                         BlockBankDepositTaskRequest task = new BlockBankDepositTaskRequest(pi, MatName, Amount);
                         task.runTaskTimer((org.bukkit.plugin.Plugin) PluginManager.Plugin, 2, 15);
                     }
 
                 } catch (Exception e) {
-                    PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Copy");
+                    PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "Copy");
                     ServerUtil.consoleLog(e.getLocalizedMessage());
                     ServerUtil.consoleLog(e.getMessage());
                     ServerUtil.consoleLog(e);

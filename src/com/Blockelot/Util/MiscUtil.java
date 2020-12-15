@@ -190,4 +190,23 @@ public class MiscUtil {
         return ret;
     }
 
+    public static int[] StringArrToIntArr(String[] s) {
+        int[] result = new int[s.length];
+
+        int counter = 0;
+        while (counter < s.length) {
+            try {
+                System.out.println(s[counter]);
+                result[counter] = Integer.parseInt(s[counter]);
+                counter++;
+            } catch (Exception ex) {
+                ServerUtil.consoleLog(ex.getLocalizedMessage());
+                ServerUtil.consoleLog(ex.getMessage());
+                ServerUtil.consoleLog(ex);
+            }
+        }
+
+        return result;
+    }
+
 }

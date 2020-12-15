@@ -67,11 +67,11 @@ public class Select
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player;
         if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_Select) || (player = (Player) sender).hasPermission(PluginManager.Config.Permission_User) || player.isOp())) {
-            if ("".equals(PluginManager.PlayerInfoList.get(player).getLastAuth())) {
+            if ("".equals(PluginManager.GetPlayerInfo(player.getUniqueId()).getLastAuth())) {
                 player.sendMessage("Please use /b.reg [email] first.");
                 return true;
             }
-            if (PluginManager.PlayerInfoList.get(player).getIsProcessing()) {
+            if (PluginManager.GetPlayerInfo(player.getUniqueId()).getIsProcessing()) {
                 player.sendMessage("Please wait for last command to finish.");
                 return true;
             }
@@ -111,13 +111,13 @@ public class Select
                 y = player.getWorld().getMaxHeight();
             }
             IPoint point = new IPoint(x, y, z);
-            if (PluginManager.PlayerInfoList.get(player).SelectStart == null) {
-                PluginManager.PlayerInfoList.get(player).SelectStart = point;
+            if (PluginManager.GetPlayerInfo(player.getUniqueId()).SelectStart == null) {
+                PluginManager.GetPlayerInfo(player.getUniqueId()).SelectStart = point;
                 player.sendMessage(ChatColor.YELLOW + "Selected Start Point " + point.toString());
                 return true;
             }
-            if (PluginManager.PlayerInfoList.get(player).SelectEnd == null) {
-                PluginManager.PlayerInfoList.get(player).SelectEnd = point;
+            if (PluginManager.GetPlayerInfo(player.getUniqueId()).SelectEnd == null) {
+                PluginManager.GetPlayerInfo(player.getUniqueId()).SelectEnd = point;
                 player.sendMessage(ChatColor.YELLOW + "Selected End Point " + point.toString());
                 return true;
             }

@@ -69,7 +69,7 @@ public class CD
 
         if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_FileSystem) || player.isOp())) {
 
-            if ("".equals(PluginManager.PlayerInfoList.get(player).getLastAuth())) {
+            if ("".equals(PluginManager.GetPlayerInfo(player.getUniqueId()).getLastAuth())) {
                 player.sendMessage("Please use /b.reg [email] first.");
                 return true;
             }
@@ -80,13 +80,13 @@ public class CD
                     player.sendMessage("Usage: /fft.cd <Directory>");
                     return true;
                 }
-                if (PluginManager.PlayerInfoList.get(player).getIsProcessing()) {
+                if (PluginManager.GetPlayerInfo(player.getUniqueId()).getIsProcessing()) {
                     player.sendMessage("Please wait for last command to finish.");
                     return true;
                 }
-                PluginManager.PlayerInfoList.get(player).setIsProcessing(true, "CD");
+                PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(true, "CD");
 
-                PlayerInfo pi = PluginManager.PlayerInfoList.get(player);
+                PlayerInfo pi = PluginManager.GetPlayerInfo(player.getUniqueId());
 
                 player.sendMessage(ChatColor.RED + "Requesting directory change.");
 
@@ -94,7 +94,7 @@ public class CD
 
             } catch (Exception e) {
 
-                PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "CD");
+                PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "CD");
 
                 ServerUtil.consoleLog(e.getLocalizedMessage());
 

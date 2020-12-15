@@ -67,30 +67,30 @@ public class Copy
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player;
         if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_Copy) || (player = (Player) sender).hasPermission(PluginManager.Config.Permission_Editor) || player.isOp())) {
- if ("".equals(PluginManager.PlayerInfoList.get(player).getLastAuth())) {
+ if ("".equals(PluginManager.GetPlayerInfo(player.getUniqueId()).getLastAuth())) {
                 player.sendMessage("Please use /b.reg [email] first.");
                 return true;
             }
             try {
 
-                if (PluginManager.PlayerInfoList.get(player).getIsProcessing()) {
+                if (PluginManager.GetPlayerInfo(player.getUniqueId()).getIsProcessing()) {
                     player.sendMessage("Please wait for last command to finish.");
                     return true;
                 }
 
-                PluginManager.PlayerInfoList.get(player).setIsProcessing(true, "Copy");
+                PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(true, "Copy");
 
-                if (PluginManager.PlayerInfoList.containsKey(player)) {
+                if ( PluginManager.HasPlayer(player)) {
                     int sbx;
                     int sez;
                     int sby;
                     int sex;
                     int sbz;
                     int sey;
-                    PlayerInfo pi = PluginManager.PlayerInfoList.get(player);
+                    PlayerInfo pi = PluginManager.GetPlayerInfo(player.getUniqueId());
                     if (pi.SelectStart == null || pi.SelectEnd == null) {
                         player.sendMessage("Starting and Ending Coordinates not set.  Use /fft.we.select x y z ");
-                        PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Copy");
+                        PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "Copy");
                         return true;
                     }
                     if (pi.SelectStart.X > pi.SelectEnd.X) {
@@ -123,7 +123,7 @@ public class Copy
                 }
 
             } catch (Exception e) {
-                PluginManager.PlayerInfoList.get(player).setIsProcessing(false, "Copy");
+               PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(false, "Copy");
                 ServerUtil.consoleLog(e.getLocalizedMessage());
                 ServerUtil.consoleLog(e.getMessage());
             }

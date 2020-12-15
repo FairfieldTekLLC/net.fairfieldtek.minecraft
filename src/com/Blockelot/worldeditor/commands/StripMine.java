@@ -70,18 +70,18 @@ public class StripMine implements CommandExecutor {
         Player player;
         boolean deposit = false;
         if (sender instanceof Player && ((player = (Player) sender).hasPermission(PluginManager.Config.Permission_Editor) || (player = (Player) sender).hasPermission(PluginManager.Config.Permission_StripMine) || player.isOp())) {
-            if ("".equals(PluginManager.PlayerInfoList.get(player).getLastAuth())) {
+            if ("".equals(PluginManager.GetPlayerInfo(player.getUniqueId()).getLastAuth())) {
                 player.sendMessage("Please use /b.reg [email] first.");
                 return true;
             }
-            if (PluginManager.PlayerInfoList.get(player).getIsProcessing()) {
+            if (PluginManager.GetPlayerInfo(player.getUniqueId()).getIsProcessing()) {
                 player.sendMessage("Please wait for last command to finish.");
                 return true;
             }
 
             if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("true")) {
-                    if (PluginManager.PlayerInfoList.get(player).getLastAuth().equalsIgnoreCase("")) {
+                    if (PluginManager.GetPlayerInfo(player.getUniqueId()).getLastAuth().equalsIgnoreCase("")) {
                         deposit = false;
                         player.sendMessage("Player not linked to Blockelot, canceling deposit.");
                     } else {
@@ -91,9 +91,9 @@ public class StripMine implements CommandExecutor {
                 }
             }
 
-            PluginManager.PlayerInfoList.get(player).setIsProcessing(true, "StripMine");
+            PluginManager.GetPlayerInfo(player.getUniqueId()).setIsProcessing(true, "StripMine");
 
-            StripMineTask ut = new StripMineTask(PluginManager.PlayerInfoList.get(player), deposit);
+            StripMineTask ut = new StripMineTask(PluginManager.GetPlayerInfo(player.getUniqueId()), deposit);
 
             ut.runTaskTimer((org.bukkit.plugin.Plugin) PluginManager.Plugin, 1, 15);
         }
