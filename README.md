@@ -1,4 +1,4 @@
-#Project Blockelot.Com
+# Project Blockelot.Com
 
 This program is a SpigotMc.org minecraft plug-in.
 
@@ -22,99 +22,99 @@ Tested on 1.16.4
 
 Ok, so Blockelot allows you to make schematics of things in minecraft and save them in the cloud. Then if you go to another server, you can just go into your cloud storage, download them and paste it in the new world.
 
-#About me and the Plugin,
+# About me and the Plugin,
 
 My name is Vincent Gee, I am the Vice President of Software Development at B. F. Saul Company, a large company in Bethesda Maryland. I developed this plugin in my free time and boredom due to Covid 19 under my own consulting company FairfieldTek L.L.C..
 
 
-##Feel free to email me at Vince at Fairfieldtek.com if you have any questions or problems.
+## Feel free to email me at Vince at Fairfieldtek.com if you have any questions or problems.
 
 
-##Also, your more than welcome to send me a friend request on Facebook, https://www.facebook.com/VincentGeeFairfield
+## Also, your more than welcome to send me a friend request on Facebook, https://www.facebook.com/VincentGeeFairfield
 
 
-##Or hop on my discord server at https://discord.gg/sKdSfjV
+## Or hop on my discord server at https://discord.gg/sKdSfjV
 
 Also, the plugin is big probably because of my ignorance of the details of java. I included the Google Json library and Apache http code to the jar cause it was the only way I could get it to run. Anyone that wants to help reduce the size is welcome.
 
 
 
-#Features
+# Features
 
-*A online Block Bank where you can deposit blocks into and withdrawal blocks from.
-*The Block Bank Storage is unique to each world.
-*A online Storage System where you can save and load Schematics from.
-*Schematics stored in your online account follow you server to server as long as the server operator has the plugin installed.
-*Block Copy - Copy anything in the world, default includes container items
-*Block Paste - Paste your designs on any world that has the plugin
-*Block Rotation - Rotate schematics on any axis at 90 180 or 270 degrees.
-*And much more!
+* A online Block Bank where you can deposit blocks into and withdrawal blocks from.
+* The Block Bank Storage is unique to each world.
+* A online Storage System where you can save and load Schematics from.
+* Schematics stored in your online account follow you server to server as long as the server operator has the plugin installed.
+* Block Copy - Copy anything in the world, default includes container items
+* Block Paste - Paste your designs on any world that has the plugin
+* Block Rotation - Rotate schematics on any axis at 90 180 or 270 degrees.
+* And much more!
 
-#What are the commands?
-##Help
-*/b.help Shows the help screen.
-*/b.about Provides Author information.
+# What are the commands?
+## Help
+* /b.help Shows the help screen.
+* /b.about Provides Author information. 
 
-##Banking
-*/b.bbinv Request a inventory report from bank.
-*/b.bbdep [Material] [Amount] Deposit material in bank.
-*/b.bbdep true Deposit all blocks in inventory in bank.
-*/b.bbwd [Material] [Amount] Withdrawal material from bank.
+## Banking
+* /b.bbinv Request a inventory report from bank.
+* /b.bbdep [Material] [Amount] Deposit material in bank.
+* /b.bbdep true Deposit all blocks in inventory in bank.
+* /b.bbwd [Material] [Amount] Withdrawal material from bank. 
 
-##World Editing
-*/b.we.clear Clears the Selections and the Clipboard.
-*/b.we.clearHistory Clears the undo history of you pastes.
-*/b.we.size Prints the dimensions of your selection
-*/b.we.print Prints your selection start and selection end.
-*/b.we.select Sets a selection point
-*/b.we.copy Copies your selection into your clipboard.
-*/b.we.del Set Selection into MINECRAFT:AIR
-*/b.we.delete Set Selection into MINECRAFT:AIR
-*/b.we.distr Gets the block distribution of the current clipboard.
-*/b.we.paste Pastes your clipboard to the world.
-*/b.we.paste X Y Z
-*/b.we.paste [Rotational Axis X or Y or Z] [Degrees 90 180 270)]
-*/b.we.paste x y z
-*/b.we.paste x y z [Rotational Axis X or Y or Z] [Degrees 90 180 270)]
-*/b.we.stripmine Clears the Chunk and puts all blocks in chests
-*/b.we.stripmine true Clears the chunk and deposits blocks in bank, leaves rest in chests
-*/b.we.undo Undoes your last action
+## World Editing
+* /b.we.clear Clears the Selections and the Clipboard.
+* /b.we.clearHistory Clears the undo history of you pastes.
+* /b.we.size Prints the dimensions of your selection
+* /b.we.print Prints your selection start and selection end.
+* /b.we.select Sets a selection point
+* /b.we.copy Copies your selection into your clipboard.
+* /b.we.del Set Selection into MINECRAFT:AIR
+* /b.we.delete Set Selection into MINECRAFT:AIR
+* /b.we.distr Gets the block distribution of the current clipboard.
+* /b.we.paste Pastes your clipboard to the world.
+* /b.we.paste X Y Z
+* /b.we.paste [Rotational Axis X or Y or Z] [Degrees 90 180 270)]
+* /b.we.paste x y z
+* /b.we.paste x y z [Rotational Axis X or Y or Z] [Degrees 90 180 270)]
+* /b.we.stripmine Clears the Chunk and puts all blocks in chests
+* /b.we.stripmine true Clears the chunk and deposits blocks in bank, leaves rest in chests
+* /b.we.undo Undoes your last action 
 
-##Registration - Registers your player to your email address.Forces a reconnection to the cloud storage.
-*/b.reg [EmailAddress]
-*/b.auth
-
-
-##File System
-*/b.ls - Directory Listing
-*/b.cd [Directory] -Change Directory
-*/b.rm [File] - Remove File
-*/b.rm [Folder] - Remove Folder
-*/b.mk [Folder] - Make Folder
-*/b.save [File] Saves the current clipboard to the file.
-*/b.load [File] Loads the file into the clipboard.
-
-##Permissions:
-
-*user: Blockelot.WorldEditor.User
-*clear: Blockelot.WorldEditor.User.Clear
-*clearhistory: Blockelot.WorldEditor.User.ClearHistory
-*size: Blockelot.WorldEditor.User.Size
-*print: Blockelot.WorldEditor.User.Print
-*select: Blockelot.WorldEditor.User.Select
-*editor: Blockelot.WorldEditor.Editor
-*copy: Blockelot.WorldEditor.Editor.Copy
-*delete: Blockelot.WorldEditor.Editor.Delete
-*distr: Blockelot.WorldEditor.Editor.Distr
-*paste: Blockelot.WorldEditor.Editor.Paste
-*stripmine: Blockelot.WorldEditor.Editor.StripMine
-*undo: Blockelot.WorldEditor.Editor.Undo
-*filesystem: Blockelot.FileSystem.User
-*bank: Blockelot.Bank
+## Registration - Registers your player to your email address.Forces a reconnection to the cloud storage.
+* /b.reg [EmailAddress]
+* /b.auth
 
 
+## File System
+* /b.ls - Directory Listing
+* /b.cd [Directory] -Change Directory
+* /b.rm [File] - Remove File
+* /b.rm [Folder] - Remove Folder
+* /b.mk [Folder] - Make Folder
+* /b.save [File] Saves the current clipboard to the file.
+* /b.load [File] Loads the file into the clipboard.
 
-##Where I want to go with it....
+## Permissions:
+
+* user: Blockelot.WorldEditor.User
+* clear: Blockelot.WorldEditor.User.Clear
+* clearhistory: Blockelot.WorldEditor.User.ClearHistory
+* size: Blockelot.WorldEditor.User.Size
+* print: Blockelot.WorldEditor.User.Print
+* select: Blockelot.WorldEditor.User.Select
+* editor: Blockelot.WorldEditor.Editor
+* copy: Blockelot.WorldEditor.Editor.Copy
+* delete: Blockelot.WorldEditor.Editor.Delete
+* distr: Blockelot.WorldEditor.Editor.Distr
+* paste: Blockelot.WorldEditor.Editor.Paste
+* stripmine: Blockelot.WorldEditor.Editor.StripMine
+* undo: Blockelot.WorldEditor.Editor.Undo
+* filesystem: Blockelot.FileSystem.User
+* bank: Blockelot.Bank 
+
+
+
+## Where I want to go with it....
 
 I want to add more world Building functions for spheres etc. in the plugin.
 
@@ -132,7 +132,7 @@ Of course, catch me on discord if you need any help.
 
 
 
-#License.
+# License.
 
 
 End-User License Agreement (EULA) of Blockelot
