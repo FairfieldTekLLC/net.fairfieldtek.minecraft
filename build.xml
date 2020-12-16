@@ -82,8 +82,8 @@
         <delete dir="${store.dir}"/>
         <mkdir dir="${store.dir}"/>
         <jar destfile="${store.dir}/temp_final.jar" filesetmanifest="skip">
-            <zipgroupfileset dir="dist" includes="*.jar"/>
-            <zipgroupfileset dir="dist/lib" includes="*.jar"/>
+            <zipgroupfileset dir="dist" includes="*.jar" excludes="spigot-1.16.4.jar"/>
+            <zipgroupfileset dir="dist/lib" includes="*.jar"  excludes="spigot-1.16.4.jar"/>
             <manifest>
                 <attribute name="Main-Class" value="${main.class}"/>
             </manifest>
